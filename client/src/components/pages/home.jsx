@@ -1,7 +1,5 @@
-import React from 'react';
-
 const Home = (props) => {
-  return <h1>Home</h1>;
+  return null;
 };
 
 export default Home;
