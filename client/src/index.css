@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 font-bold text-xs;
+  }
+
+  .btn-green {
+    @apply bg-green-90 text-white hover:bg-green-50;
+  }
+
+  .btn-red {
+    @apply bg-red text-white hover:bg-red;
+  }
+}
