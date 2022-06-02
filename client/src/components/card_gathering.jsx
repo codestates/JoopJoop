@@ -1,31 +1,48 @@
 import React from "react";
 
-const card_gathering = ({ gathering }) => {
+const cardgathering = ({
+  date,
+  time,
+  duration,
+  big,
+  small,
+  content,
+  img,
+  user,
+}) => {
   return (
     <>
-      <div className="rounded-2xl border-x-grey-50 border-2 drop-shadow-sm">
-        <div className="header">
-          <div className="datecontainer">
-            <div className="month-date">7월 13일</div>
+      <div className="w-[20.5rem] h-[12rem] p-4 m-2 rounded-2xl bg-white shadow-lg flex flex-col ease-linear duration-300">
+        <div className="h-full w-full basis-2/3 flex flex-row">
+          <div className="h-full w-full flex flex-row items-center">
+            <div className="m-2 pl-1 text-lg">{date}</div>
             <div className="spacer">|</div>
-            <div className="time">7:00 PM</div>
+            <div className="m-2 pl-1 text-lg">{time}</div>
           </div>
-          <div className="duration">3시간</div>
         </div>
-        <div className="body">
-          <div>강동구</div>
-          <div>논현동 학동공원</div>
-          <div>가볍게 줍깅하실 분 구해요!</div>
+        <div className="flex flex-col items-center m-2">
+          <div className="pl-1">{big}</div>
+          <div className="pl-1">{small}</div>
+          <div className="pl-1">{content}</div>
         </div>
-        <div>
-          <div>img</div>
-          <div>hound_bae</div>
+        <div className="flex flex-row place-content-center items-center m-2">
+          <div className="pl-1">{img}</div>
+          <div className="pl-1">{user}</div>
         </div>
       </div>
     </>
   );
 };
 
-card_gathering.defaultProps = {};
+cardgathering.defaultProps = {
+  date: "7월 13일",
+  time: "7:00 PM",
+  duration: "3시간",
+  big: "강남구",
+  small: "학동공원",
+  content: "가볍게 줍깅하실 분 구해요!",
+  img: "img",
+  user: "hound_bae",
+};
 
-export default card_gathering;
+export default cardgathering;
