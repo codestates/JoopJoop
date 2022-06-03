@@ -2,7 +2,7 @@
 [JOOPJOOP](https://www.joopjoop.site)
 
 ## Logo
-<img width="200" alt="image" src="https://user-images.githubusercontent.com/91773514/170958356-02d80940-03fe-4f0f-bc73-58eb80b0823b.png">
+![JOOP JOOP triming](https://user-images.githubusercontent.com/96028495/171679334-d5fdcc16-b7c4-4333-b12a-950a6ee4788d.png)
 
 ## About
 
