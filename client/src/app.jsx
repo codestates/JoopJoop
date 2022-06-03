@@ -11,6 +11,10 @@ import Search from "./components/search_gathering";
 import Footer from "./components/footer";
 import "./index.css";
 import Dropdown from "./components/dropdown";
+import ModalLg from "./components/modalLg";
+import ModalSm from "./components/modalSm";
+import ModalLogin from "./components/modalLogin";
+import ModalConfirmSignOut from "./components/modalConfirmSignOut";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);

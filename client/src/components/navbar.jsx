@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ toggle }) => {
+const Navbar = ({ toggle, loginId }) => {
   return (
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">
@@ -32,9 +32,9 @@ const Navbar = ({ toggle }) => {
         </ul>
       </nav>
       <div className="flex absolute right-12 p-4" onClick={toggle}>
-        <img className="w-5 h-5 mr-4" src="img/favicon.png" />
-        <div className="" onClick={toggle}>
-          유저아디
+        <img className="w-5 h-5 mr-4 cursor-pointer" src="img/favicon.png" />
+        <div className="cursor-pointer" onClick={toggle}>
+          {loginId}
         </div>
       </div>
     </header>
@@ -43,6 +43,7 @@ const Navbar = ({ toggle }) => {
 
 Navbar.defaultProps = {
   className: "btn btn-green",
+  loginId: "로그인 ID",
 };
 
 export default Navbar;
