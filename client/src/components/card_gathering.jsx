@@ -1,7 +1,7 @@
 import React from "react";
 import profileImg from "../profile.png";
 
-const card_gathering = ({ date, time, big, small, content, img, user }) => {
+const Card = ({ date, time, big, small, content, img, user }) => {
   return (
     <>
       <div className="w-80 h-60 m-2 rounded-2xl border-2 border-grey-50 bg-white shadow-lg flex flex-col">
@@ -26,7 +26,7 @@ const card_gathering = ({ date, time, big, small, content, img, user }) => {
   );
 };
 
-card_gathering.defaultProps = {
+Card.defaultProps = {
   date: "7월 13일",
   time: "7:00 PM",
   duration: "3시간",
@@ -37,4 +37,4 @@ card_gathering.defaultProps = {
   user: "hound_bae",
 };
 
-export default card_gathering;
+export default Card;

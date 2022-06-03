@@ -15,19 +15,18 @@ const Dropdown = ({ isOpen, toggle, profileImg, userId, alarm, url }) => {
       {/* <Link to={{ url }} className="p-4 shadow hover:bg-green-50">
         {alarm}
       </Link> */}
-      <Link to={{ url }} className="p-4 shadow hover:bg-green-50">
+      <Link to="/mypage" className="p-4 shadow hover:bg-green-50">
         {profileImg}
       </Link>
       <Link to="/logout" className="p-4 shadow hover:bg-green-50">
-        {userId}
+        로그아웃
       </Link>
     </div>
   );
 };
 
 Dropdown.defaultProps = {
-  profileImg: "MyPage",
-  userId: "접속 아이디",
+  profileImg: "마이페이지",
   url: "/mypage",
 };
 
