@@ -10,6 +10,11 @@ const gatheringsRoute = require('./routes/gatherings');
 const gaCommentsRoute = require('./routes/gatherings_comments');
 const categoriesRoute = require('./routes/categories');
 const multer = require('multer');
+const passportConfig = require('./passport');
+
+passportConfig(app);
+const userRouter = require('./routes/user');
+app.use('/user', [userRouter]);
 
 dotenv.config();
 app.use(express.json());
