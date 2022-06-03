@@ -5,11 +5,11 @@
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 font-bold text-xs;
+    @apply w-52 h-12 flex flex-row justify-center align-middle items-center rounded-3xl text-xl;
   }
 
   .btn-green {
-    @apply bg-green-90 text-white hover:bg-green-50;
+    @apply bg-green-90 text-white hover:bg-green-80;
   }
 
   .btn-red {
