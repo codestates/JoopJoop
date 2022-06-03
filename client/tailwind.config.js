@@ -27,6 +27,8 @@ module.exports = {
         50: "#DBDDD8",
       },
       red: "#F55C47",
+      blue: "#4285F4",
+      yellow: "#F7E600",
     }),
     columns: {
       auto: "auto",
@@ -92,6 +94,9 @@ module.exports = {
       72: "18rem",
       80: "20rem",
       96: "24rem",
+      367: "22.938rem",
+      500: "31.25rem",
+      647: "40.438rem",
     },
     animation: {
       none: "none",
