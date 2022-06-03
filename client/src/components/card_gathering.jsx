@@ -1,48 +1,40 @@
 import React from "react";
+import profileImg from "../profile.png";
 
-const cardgathering = ({
-  date,
-  time,
-  duration,
-  big,
-  small,
-  content,
-  img,
-  user,
-}) => {
+const card_gathering = ({ date, time, big, small, content, img, user }) => {
   return (
     <>
-      <div className="w-[20.5rem] h-[12rem] p-4 m-2 rounded-2xl bg-white shadow-lg flex flex-col ease-linear duration-300">
-        <div className="h-full w-full basis-2/3 flex flex-row">
-          <div className="h-full w-full flex flex-row items-center">
-            <div className="m-2 pl-1 text-lg">{date}</div>
-            <div className="spacer">|</div>
-            <div className="m-2 pl-1 text-lg">{time}</div>
+      <div className="w-80 h-60 m-2 rounded-2xl border-2 border-grey-50 bg-white shadow-lg flex flex-col">
+        <div className="pt-3 pl-5 flex flex-row">
+          <div className="h-full w-full flex flex-row items-center gap-2 text-sm text-grey-80">
+            <div>{date}</div>
+            <div>|</div>
+            <div>{time}</div>
           </div>
         </div>
-        <div className="flex flex-col items-center m-2">
-          <div className="pl-1">{big}</div>
-          <div className="pl-1">{small}</div>
-          <div className="pl-1">{content}</div>
+        <div className="h-full w-full flex flex-col items-center mt-7">
+          <div className="text-xl font-medium">{big}</div>
+          <div className="text-lg">{small}</div>
+          <div className="text-sm">{content}</div>
         </div>
-        <div className="flex flex-row place-content-center items-center m-2">
-          <div className="pl-1">{img}</div>
-          <div className="pl-1">{user}</div>
+        <div className="flex flex-row place-content-center gap-4 items-center m-2">
+          <img className="h-8 w-8" src={img} alt="err" />
+          <div className=" text-lg">{user}</div>
         </div>
       </div>
     </>
   );
 };
 
-cardgathering.defaultProps = {
+card_gathering.defaultProps = {
   date: "7월 13일",
   time: "7:00 PM",
   duration: "3시간",
   big: "강남구",
   small: "학동공원",
   content: "가볍게 줍깅하실 분 구해요!",
-  img: "img",
+  img: profileImg,
   user: "hound_bae",
 };
 
-export default cardgathering;
+export default card_gathering;
