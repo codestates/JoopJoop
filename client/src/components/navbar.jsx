@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = (props) => {
+const Navbar = props => {
   return (
     <nav className="flex items-center bg-green-90 h-12 ">
       <Link to="/" className="">
