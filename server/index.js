@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
@@ -18,6 +19,13 @@ app.use('/user', [userRouter]);
 
 dotenv.config();
 app.use(express.json());
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://localhost:5000'],
+    credentials: true,
+    method: ['GET', 'POST', 'DELETE', 'PUT'],
+  })
+);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 mongoose
   .connect(
