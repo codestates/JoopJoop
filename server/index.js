@@ -18,6 +18,7 @@ app.use('/user', [userRouter]);
 
 dotenv.config();
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 mongoose
   .connect(
     'mongodb+srv://mhp4718:1234@joopjoop.drpuz.mongodb.net/?retryWrites=true&w=majority',
