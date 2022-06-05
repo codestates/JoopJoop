@@ -12,7 +12,9 @@ router.post('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
-
+//CREATE POST COMMENT /:id
+//UPDATE POST COMMENT /:id
+//DELETE POST COMMENT /:id
 //UPDATE POST
 router.put('/:id', async (req, res) => {
   try {
