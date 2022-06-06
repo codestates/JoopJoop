@@ -23,14 +23,11 @@ app.use(
   }),
 );
 mongoose
-  .connect(
-    "mongodb+srv://mhp4718:1234@joopjoop.drpuz.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      //   useCreateIndex: true,
-    },
-  )
+  .connect(`${process.env.ATLAS}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    //   useCreateIndex: true,
+  })
   .then(console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
 

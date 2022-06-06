@@ -5,7 +5,7 @@ const Kakao = ({ oAuthLoginHandler }) => {
   return (
     <>
       <KaKaoLogin
-        token="4179010bb7949483bcc5126a62a97eaf"
+        token={process.env.REACT_APP_KAKAO_ID}
         buttonText="kakao"
         onSuccess={oAuthLoginHandler}
         onFail={console.error}
