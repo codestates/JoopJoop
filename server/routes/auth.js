@@ -1,54 +1,82 @@
 const router = require("express").Router();
 const User = require("../models/user");
-const bcrypt = require("bcrypt");
-const passport = require("passport");
+const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
+const passport = require('passport');
 
 //REGISTER
 router.post("/register", async (req, res) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(req.body.password, salt);
-    const newUser = new User({
-      email: req.body.email,
-      password: hashedPass,
-      nickname: req.body.nickname,
-    });
+  const newUser = new User({
+    nickname: req.body.nickname,
+    email: req.body.email,
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SEC
+    ).toString(),
+  });
 
-    const user = await newUser.save();
-    res.status(200).json(user);
+  try {
+    const savedUser = await newUser.save();
+    res.status(201).json(savedUser);
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 });
 
 //LOGIN
-router.post("/login", async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      res.status(400).json("유저를 찾을 수 없습니다.");
+
+router.post('/login', async (req, res) => {
+    try{
+        const user = await User.findOne(
+            {
+                email: req.body.email
+            }
+        );
+
+        !user && res.status(401).json("Wrong User email");
+
+        const hashedPassword = CryptoJS.AES.decrypt(
+            user.password,
+            process.env.PASS_SEC
+        );
+
+
+        const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
+
+        const inputPassword = req.body.password;
+        
+        originalPassword != inputPassword && 
+            res.status(401).json("Wrong Password");
+
+        const accessToken = jwt.sign(
+        {
+            id: user._id,
+            isAdmin: user.isAdmin,
+        },
+        process.env.JWT_SEC,
+            {expiresIn:"3d"}
+        );
+  
+        const { password, ...others } = user._doc;  
+        res.status(200).json({...others, accessToken});
+
+    }catch(err){
+        res.status(500).json(err);
     }
 
-    const validated = await bcrypt.compare(req.body.password, user.password);
-    if (!validated) {
-      res.status(400).json("비밀번호가 틀렸습니다.");
-    }
-    const { password, ...others } = user._doc;
-    res.status(200).json(others);
-  } catch (err) {
-    res.status(500).json(err);
-  }
 });
 
-router.get("/kakao", passport.authenticate("kakao"));
+// KAKAO LOGIN
+router.get('/kakao', passport.authenticate('kakao'));
 router.get(
-  "/kakao/callback",
-  passport.authenticate("kakao", {
-    failureRedirect: "/",
+  '/kakao/callback',
+  passport.authenticate('kakao', {
+    failureRedirect: '/',
   }),
   (req, res) => {
-    res.redirect("/");
-  },
+    res.redirect('/');
+  }
 );
 
 module.exports = router;
