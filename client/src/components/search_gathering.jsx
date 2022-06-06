@@ -1,5 +1,4 @@
 import React from "react";
-<<<<<<< HEAD
 import SearchLocation from "./select_location";
 import SearchDate from "./select_date";
 
@@ -64,13 +63,3 @@ const Search_gathering = props => {
 };
 
 export default Search_gathering;
-=======
-
-const search_gathering = ({}) => {
-  return <></>;
-};
-
-search_gathering.defaultProps = {};
-
-export default search_gathering;
->>>>>>> fix card_gathering, footer

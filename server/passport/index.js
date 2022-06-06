@@ -1,11 +1,11 @@
-const passport = require('passport');
-const KakaoStrategy = require('passport-kakao').Strategy;
-require('dotenv').config();
-const { User } = require('../models/user');
+const passport = require("passport");
+const KakaoStrategy = require("passport-kakao").Strategy;
+require("dotenv").config();
+const User = require("../models/user");
+const session = require("express-session");
 
-module.exports = (app) => {
+module.exports = app => {
   app.use(passport.initialize()); // passport를 초기화 하기 위해서 passport.initialize 미들웨어 사용
-  console.log(process.env.KAKAO_ID, 'helloworld');
   passport.use(
     new KakaoStrategy(
       {
@@ -31,7 +31,7 @@ module.exports = (app) => {
               email: profile._json && profile._json.kakao_account_email,
               nickname: profile.displayName,
               snsId: profile.id,
-              providerType: 'kakao',
+              providerType: "kakao",
             });
             done(null, newUser); // 회원가입하고 로그인 인증 완료
           }
@@ -39,8 +39,8 @@ module.exports = (app) => {
           console.error(error);
           done(error);
         }
-      }
-    )
+      },
+    ),
   );
   passport.serializeUser((user, done) => {
     done(null, user);
