@@ -2,7 +2,7 @@
 name: "\bErr Handling 템플릿"
 about: 작업효율 향상 및 원활한 의사소통을 위한 오류 처리 프로세스 공유
 title: "[FE or BE/EH] Err Summary"
-labels: ''
+labels: Err Handling
 assignees: ''
 
 ---
@@ -19,3 +19,5 @@ assignees: ''
 ### Solution
 - a
 - b
+
+### Reference
