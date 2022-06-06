@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
@@ -10,9 +11,22 @@ const gatheringsRoute = require('./routes/gatherings');
 const gaCommentsRoute = require('./routes/gatherings_comments');
 const categoriesRoute = require('./routes/categories');
 const multer = require('multer');
+const passportConfig = require('./passport');
+
+passportConfig(app);
+const userRouter = require('./routes/user');
+app.use('/user', [userRouter]);
 
 dotenv.config();
 app.use(express.json());
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://localhost:5000'],
+    credentials: true,
+    method: ['GET', 'POST', 'DELETE', 'PUT'],
+  })
+);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 mongoose
   .connect(
     'mongodb+srv://mhp4718:1234@joopjoop.drpuz.mongodb.net/?retryWrites=true&w=majority',

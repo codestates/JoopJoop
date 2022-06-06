@@ -5,7 +5,13 @@ import Community from "./components/pages/community";
 import Home from "./components/pages/home";
 import Schedule from "./components/pages/schedule";
 import Navbar from "./components/navbar";
+<<<<<<< HEAD
 import SearchGathering from "./components/search_gathering";
+=======
+import Button from "./components/button";
+import Card from "./components/card_gathering";
+import Search from "./components/search_gathering";
+>>>>>>> fix card_gathering, footer
 import Footer from "./components/footer";
 import "./index.css";
 import Dropdown from "./components/dropdown";
