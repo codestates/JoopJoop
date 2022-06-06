@@ -14,6 +14,7 @@ import ModalSm from "./components/modalSm";
 import ModalLogin from "./components/modalLogin";
 import ModalConfirmSignOut from "./components/modalConfirmSignOut";
 import ModalSignUp from "./components/modalSignUp";
+import Search_gathering from "./components/search_gathering";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
