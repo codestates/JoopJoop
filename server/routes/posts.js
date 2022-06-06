@@ -1,9 +1,14 @@
 const router = require('express').Router();
 const User = require('../models/user');
 const Post = require('../models/post');
+const {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
 
 //CREATE POST
-router.post('/', async (req, res) => {
+router.post('/', verifyTokenAndAuthorization, async (req, res) => {
   const newPost = new Post(req.body);
   try {
     const savedPost = await newPost.save();
@@ -15,8 +20,9 @@ router.post('/', async (req, res) => {
 //CREATE POST COMMENT /:id
 //UPDATE POST COMMENT /:id
 //DELETE POST COMMENT /:id
+
 //UPDATE POST
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.email === req.body.email) {
@@ -41,7 +47,7 @@ router.put('/:id', async (req, res) => {
 });
 
 //DELETE POST
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.email === req.body.email) {
@@ -60,7 +66,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 //GET POST
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyTokenAndAdmin, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     res.status(200).json(post);
@@ -70,7 +76,7 @@ router.get('/:id', async (req, res) => {
 });
 
 //GET ALL POSTS
-router.get('/', async (req, res) => {
+router.get('/', verifyTokenAndAdmin, async (req, res) => {
   const email = req.query.email;
   const cateName = req.query.cate;
   try {

@@ -1,54 +1,48 @@
-const router = require('express').Router();
-const User = require('../models/user');
-const Post = require('../models/post');
-const bcrypt = require('bcrypt');
+const User = require("../models/user")
+const CryptoJS = require("crypto-js")
+const {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
+
+const router = require("express").Router();
 
 //UPDATE
-router.put('/:id', async (req, res) => {
-  if (req.body.id === req.params.id) {
-    if (req.body.password) {
-      const salt = await bcrypt.genSalt(10);
-      req.body.password = await bcrypt.hash(req.body.password, salt);
-    }
-    try {
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true } // 수정한 정보로 보내기
-      );
-      res.status(200).json(updatedUser);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  } else {
-    res.status(401).json('자기 자신의 아이디만 정보 수정이 가능합니다.');
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  if (req.body.password) {
+    req.body.password = CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SEC
+    ).toString();
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
 //DELETE
-router.delete('/:id', async (req, res) => {
-  if (req.body.id === req.params.id) {
-    try {
-      const user = await User.findById(req.params.id);
-      try {
-        await Post.deleteMany({ email: user.email });
-        await User.findByIdAndDelete(req.params.id);
-        res.status(200).json('회원탈퇴 성공하셨습니다.');
-      } catch (err) {
-        res.status(500).json(err);
-      }
-    } catch (err) {
-      res.status(404).json('유저를 찾을 수 없습니다.');
-    }
-  } else {
-    res.status(401).json('자기 자신의 아이디만 회원탈퇴가 가능합니다.');
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json("User has been deleted...");
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
 //GET USER
-router.get('/:id', async (req, res) => {
+router.get("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const { password, ...others } = user._doc;
@@ -59,7 +53,7 @@ router.get('/:id', async (req, res) => {
 });
 
 //GET ALL USER
-router.get('/', async (req, res) => {
+router.get('/', verifyTokenAndAdmin, async (req, res) => {
   const email = req.query.email;
   try {
     let users;
@@ -73,4 +67,5 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 module.exports = router;

@@ -2,9 +2,14 @@ const router = require('express').Router();
 const User = require('../models/user');
 const Gathering = require('../models/gathering');
 const GaComment = require('../models/gathering_comment');
+const {
+  verifyToken,
+  verifyTokenAndAuthorization,
+  verifyTokenAndAdmin,
+} = require("./verifyToken");
 
 //CREATE GATHERING
-router.post('/', async (req, res) => {
+router.post('/', verifyTokenAndAuthorization, async (req, res) => {
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
@@ -14,7 +19,7 @@ router.post('/', async (req, res) => {
   }
 });
 //UPDATE GATHERING
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     if (gathering.creator.nickname === req.body.nickname) {
@@ -38,7 +43,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 //DELETE GATHERING
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     if (gathering.creator.nickname === req.body.nickname) {
@@ -56,7 +61,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 //GET GATHERING
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyTokenAndAdmin, async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     res.status(200).json(gathering);
@@ -65,7 +70,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 //GET ALL GATHERING
-router.get('/', async (req, res) => {
+router.get('/', verifyTokenAndAdmin, async (req, res) => {
   const nickname = req.query.nickname;
   try {
     let gatherings;
