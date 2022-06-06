@@ -2,6 +2,18 @@ import React from "react";
 import KakaoLogin from "../kakaoOauth";
 import Button from "../button";
 import { KAKAO_AUTH_URL } from "../auth/Oauth";
+import axios from "axios";
+
+const oAuthLoginHandler = async data => {
+  let request = {
+    oAuthId: data.profile.id,
+  };
+  console.log(request);
+  await axios.post("http://localhost:5000/auth/kakao", {
+    data: request,
+    withCredentials: true,
+  });
+};
 
 const Mypage = loginHandler => {
   return (
@@ -16,7 +28,10 @@ const Mypage = loginHandler => {
         <div>또는</div>
         <Button children={"이메일 회원가입"}></Button>
         <div>회원이신가요?</div>
-        <KakaoLogin children={"로그인"} href={KAKAO_AUTH_URL}></KakaoLogin>
+        <KakaoLogin
+          children={"로그인"}
+          oAuthLoginHandler={oAuthLoginHandler}
+        ></KakaoLogin>
         <Button children={"게스트 로그인"}></Button>
       </div>
     </div>

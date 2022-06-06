@@ -1,27 +1,19 @@
 import React from "react";
-import Button from "../components/button";
+import KaKaoLogin from "react-kakao-login";
 
-const button = ({ className, children, onClick, href }) => {
+const Kakao = ({ oAuthLoginHandler }) => {
   return (
     <>
-      <a
-        className={className}
-        href={href}
-        onClick={() => {
-          console.log({ href });
-        }}
+      <KaKaoLogin
+        token={process.env.REACT_APP_KAKAO_ID}
+        buttonText="kakao"
+        onSuccess={oAuthLoginHandler}
+        onFail={console.error}
+        onLogout={console.info}
       >
-        <span>{children}</span>
-      </a>
+        <div>카카오 계정으로 로그인</div>
+      </KaKaoLogin>
     </>
   );
 };
-
-button.defaultProps = {
-  className: "btn btn-green",
-  children: "button",
-  onClick: null,
-  href: null,
-};
-
-export default button;
+export default Kakao;
