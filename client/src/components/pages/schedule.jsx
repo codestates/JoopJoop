@@ -1,4 +1,6 @@
-const Schedule = (props) => {
+import React from "react";
+
+const Schedule = () => {
   return null;
 };
 

@@ -1,4 +1,6 @@
-const Chat = (props) => {
+import React from "react";
+
+const Chat = () => {
   return null;
 };
 

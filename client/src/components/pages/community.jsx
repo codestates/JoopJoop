@@ -1,4 +1,6 @@
-const Community = (props) => {
+import React from "react";
+
+const Community = () => {
   return null;
 };
 
