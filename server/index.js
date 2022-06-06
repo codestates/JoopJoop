@@ -24,16 +24,12 @@ dotenv.config();
 // );
 
 mongoose
-  .connect(
-    process.env.MongoDB_Atlas,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      //   useCreateIndex: true,
-    }
-  )
-  .then(console.log('Connected to MongoDB'))
-  .catch((err) => console.log(err));
+  .connect(`${process.env.ATLAS}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
