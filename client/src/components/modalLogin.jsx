@@ -13,7 +13,7 @@ const ModalLogin = () => {
         <input
           type="email"
           className="w-80 h-12 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
-          placeholder="Email을 입력하세요."
+          placeholder="Email을 입력하세요"
         />
       </div>
       <div className="">

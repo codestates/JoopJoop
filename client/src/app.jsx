@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Chat from "./components/pages/chat";
-import Community from "./components/pages/community";
-import Home from "./components/pages/home";
-import Schedule from "./components/pages/schedule";
+import Chat from "./pages/chat";
+import Community from "./pages/community";
+import Home from "./pages/home";
+import Schedule from "./pages/schedule";
 import Navbar from "./components/navbar";
 import SearchGathering from "./components/search_gathering";
 import Footer from "./components/footer";
@@ -13,6 +13,7 @@ import ModalLg from "./components/modalLg";
 import ModalSm from "./components/modalSm";
 import ModalLogin from "./components/modalLogin";
 import ModalConfirmSignOut from "./components/modalConfirmSignOut";
+import ModalSignUp from "./components/modalSignUp";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +48,6 @@ function App() {
           <Route path="/chat" component={Chat} />
           <Route path="/community" component={Community} />
         </Switch>
-        <Footer></Footer>
       </BrowserRouter>
     </>
   );
