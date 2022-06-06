@@ -32,21 +32,9 @@ const location = [
 ];
 
 const time = [
-  {
-    category: "Group 1",
-    value: "오전",
-    label: "오전",
-  },
-  {
-    category: "Group 1",
-    value: "오후",
-    label: "오후",
-  },
-  {
-    category: "Group 3",
-    value: "저녁",
-    label: "저녁",
-  },
+  { category: "Group 1", value: "오전", label: "오전" },
+  { category: "Group 1", value: "오후", label: "오후" },
+  { category: "Group 3", value: "저녁", label: "저녁" },
 ];
 
 const Search_gathering = props => {
