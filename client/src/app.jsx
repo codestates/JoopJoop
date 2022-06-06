@@ -43,12 +43,14 @@ function App() {
       <BrowserRouter>
         <Navbar toggle={toggle} />
         <Dropdown isOpen={isOpen} toggle={toggle} />
+        <ModalSignUp />
         <Switch>
           <Route path={["/", "/home"]} exact component={Home} />
           <Route path="/schedule" component={Schedule} />
           <Route path="/chat" component={Chat} />
           <Route path="/community" component={Community} />
         </Switch>
+        <Footer />
       </BrowserRouter>
     </>
   );

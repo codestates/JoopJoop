@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 // import "../style.css";
-import axios from "axios";
 
 const ModalSignUp = () => {
   const {
