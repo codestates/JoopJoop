@@ -5,6 +5,12 @@ import Community from "./components/pages/community";
 import Home from "./components/pages/home";
 import Schedule from "./components/pages/schedule";
 import Navbar from "./components/navbar";
+<<<<<<< HEAD
+=======
+import Button from "./components/button";
+import Card from "./components/card_gathering";
+import Search from "./components/search_gathering";
+>>>>>>> Merge를 위한 Commit
 import Footer from "./components/footer";
 import Landing from "./components/pages/landing";
 import "./index.css";
