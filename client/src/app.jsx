@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Chat from "./components/pages/chat";
-import Community from "./components/pages/community";
-import Home from "./components/pages/home";
-import Schedule from "./components/pages/schedule";
+import Chat from "./pages/chat";
+import Community from "./pages/community";
+import Home from "./pages/home";
+import Schedule from "./pages/schedule";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import Landing from "./components/pages/landing";
+import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import Mypage from "./components/mypage";
@@ -35,12 +35,12 @@ function App() {
     };
   });
 
-  const loginHandler = data => {
+  const loginHandler = (data) => {
     setIsLogin(true);
     issueAccessToken(data.data.accessToken);
   };
 
-  const issueAccessToken = token => {
+  const issueAccessToken = (token) => {
     setAccessToken(token);
   };
 
