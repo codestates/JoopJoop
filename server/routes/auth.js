@@ -10,9 +10,10 @@ router.post("/register", async (req, res) => {
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_SEC,
+      process.env.PASS_SEC
     ).toString(),
   });
+  console.log(newUser);
 
   try {
     const savedUser = await newUser.save();
@@ -25,18 +26,19 @@ router.post("/register", async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
-  console.log(req.body.email)
   try {
     const user = await User.findOne({
       email: req.body.email,
     });
-
-    if(!user){
+    
+    console.log(user);
+    
+    if (!user) {
       return res.status(401).json("등록되지않은 이메일입니다.");
     }
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_SEC,
+      process.env.PASS_SEC
     );
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
