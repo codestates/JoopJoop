@@ -1,10 +1,10 @@
-const passport = require("passport");
-const KakaoStrategy = require("passport-kakao").Strategy;
-require("dotenv").config();
-const User = require("../models/user");
-const session = require("express-session");
+const passport = require('passport');
+const KakaoStrategy = require('passport-kakao').Strategy;
+require('dotenv').config();
+const User = require('../models/user');
+const session = require('express-session');
 
-module.exports = app => {
+module.exports = (app) => {
   app.use(passport.initialize()); // passport를 초기화 하기 위해서 passport.initialize 미들웨어 사용
   passport.use(
     new KakaoStrategy(
@@ -20,18 +20,18 @@ module.exports = app => {
         try {
           const exUser = await User.findOne({
             // 카카오 플랫폼에서 로그인 했고 & snsId필드에 카카오 아이디가 일치할경우
-            where: { snsId: profile.id /*providerType: 'kakao'*/ },
+            snsId: profile.id /*providerType: 'kakao'*/,
           });
           // 이미 가입된 카카오 프로필이면 성공
           if (exUser) {
             done(null, exUser); // 로그인 인증 완료
           } else {
             // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
-            const newUser = await User.create({
+            const newUser = await new User({
               email: profile._json && profile._json.kakao_account_email,
               nickname: profile.displayName,
               snsId: profile.id,
-              providerType: "kakao",
+              providerType: 'kakao',
             });
             done(null, newUser); // 회원가입하고 로그인 인증 완료
           }
@@ -39,8 +39,8 @@ module.exports = app => {
           console.error(error);
           done(error);
         }
-      },
-    ),
+      }
+    )
   );
   passport.serializeUser((user, done) => {
     done(null, user);

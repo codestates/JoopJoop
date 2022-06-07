@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const cors = require('cors');
 const app = express();
 const dotenv = require('dotenv');
@@ -11,7 +12,7 @@ const gatheringsRoute = require('./routes/gatherings');
 const gaCommentsRoute = require('./routes/gatherings_comments');
 const multer = require('multer');
 const passportConfig = require('./passport');
-const PORT = 80
+const PORT = 80;
 
 dotenv.config();
 
@@ -28,8 +29,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(console.log("Connected to MongoDB"))
-  .catch(err => console.log(err));
+  .then(console.log('Connected to MongoDB'))
+  .catch((err) => console.log(err));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -56,9 +57,8 @@ app.use('/posts', postsRoute);
 app.use('/posts_comments', poCommentsRoute);
 app.use('/gatherings', gatheringsRoute);
 app.use('/gatherings_comments', gaCommentsRoute);
+app.use('/categories', categoriesRoute);
 
 app.listen(PORT, () => {
-  console.log(
-    `JoopJoop Server is running. http://localhost:${PORT}`
-  );
+  console.log(`JoopJoop Server is running. http://localhost:${PORT}`);
 });
