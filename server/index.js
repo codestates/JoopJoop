@@ -49,14 +49,21 @@ app.post("/upload", upload.single("file"), (req, res) => {
 
 passportConfig(app);
 
-app.use(cors());
+
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
 app.use(express.json());
-app.use("/auth", authRoute);
-app.use("/users", usersRoute);
-app.use("/posts", postsRoute);
-app.use("/posts_comments", poCommentsRoute);
-app.use("/gatherings", gatheringsRoute);
-app.use("/gatherings_comments", gaCommentsRoute);
+app.use('/auth', authRoute);
+app.use('/users', usersRoute);
+app.use('/posts', postsRoute);
+app.use('/posts_comments', poCommentsRoute);
+app.use('/gatherings', gatheringsRoute);
+app.use('/gatherings_comments', gaCommentsRoute);
 
 app.listen(PORT, () => {
   console.log(`JoopJoop Server is running. http://localhost:${PORT}`);

@@ -70,7 +70,6 @@ function App() {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
-<feature/signup
         {/* {isLogin ? (
           <Mypage
             accessToken={accessToken}
