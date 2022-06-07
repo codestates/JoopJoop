@@ -28,7 +28,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(console.log("Connected to MongoDB"))
+  .then(console.log("Connected to MongoDB htttps://"))
   .catch(err => console.log(err));
 
 const storage = multer.diskStorage({

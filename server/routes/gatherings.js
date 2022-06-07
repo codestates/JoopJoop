@@ -6,7 +6,7 @@ const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require("./verifyToken");
+} = require("./tokenfunction");
 
 //CREATE GATHERING
 router.post('/', verifyTokenAndAuthorization, async (req, res) => {
