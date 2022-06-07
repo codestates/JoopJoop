@@ -4,7 +4,7 @@ const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require("./verifyToken");
+} = require("./tokenfunction");
 
 const router = require("express").Router();
 
