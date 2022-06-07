@@ -10,6 +10,8 @@ import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import Mypage from "./components/mypage";
+import ModalSignUp from "./components/modalSignUp";
+import ModalLogin from "./components/modalLogin";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,14 +50,15 @@ function App() {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
-        {isLogin ? (
+        {/* {isLogin ? (
           <Mypage
             accessToken={accessToken}
             issueAccessToken={issueAccessToken}
           ></Mypage>
         ) : (
           <Landing loginHandler={loginHandler} />
-        )}
+        )} */}
+        <ModalLogin />
         <Switch>
           <Route path={["/", "/home"]} exact component={Home} />
           <Route path="/schedule" component={Schedule} />
