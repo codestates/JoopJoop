@@ -82,6 +82,7 @@ function App() {
         ) : (
           <Landing loginHandler={loginHandler} />
         )} */}
+        <ModalSignUp />
         <ModalLogin />
         <Switch>
           <Route path={["/", "/home"]} exact component={Home} />
