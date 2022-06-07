@@ -1,11 +1,11 @@
 import React from "react";
-import KakaoLogin from "../kakaoOauth";
-import Button from "../button";
+import KakaoLogin from "../components/kakaoOauth";
+import Button from "../components/button";
 import axios from "axios";
-import Carousel from "../carousel";
-import logo from "../../img/Logo.png";
+import Carousel from "../components/carousel";
+import logo from "../img/Logo.png";
 
-const oAuthLoginHandler = async data => {
+const oAuthLoginHandler = async (data) => {
   let request = {
     oAuthId: data.profile.id,
   };
@@ -16,7 +16,7 @@ const oAuthLoginHandler = async data => {
   });
 };
 
-const Mypage = loginHandler => {
+const Mypage = (loginHandler) => {
   return (
     <div className="flex flex-row justify-center items-center">
       <div>
