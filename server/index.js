@@ -16,14 +16,11 @@ const PORT = 80;
 
 dotenv.config();
 
-// app.use(
-//   cors({
-//     origin: ['http://localhost:3000', `http://localhost:${process.env.PORT}`],
-//     credentials: true,
-//     method: ['GET', 'POST', 'DELETE', 'PUT'],
-//   })
-// );
-
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 mongoose
   .connect(`${process.env.ATLAS}`, {
     useNewUrlParser: true,
@@ -49,7 +46,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 
 passportConfig(app);
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
