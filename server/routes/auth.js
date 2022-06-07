@@ -26,16 +26,16 @@ router.post("/register", async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
-  console.log(req.body.email);
   try {
     const user = await User.findOne({
       email: req.body.email,
     });
+    
     console.log(user);
+    
     if (!user) {
       return res.status(401).json("등록되지않은 이메일입니다.");
     }
-
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
       process.env.PASS_SEC
