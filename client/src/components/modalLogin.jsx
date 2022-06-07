@@ -1,7 +1,34 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const ModalLogin = () => {
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputValue = (key) => (e) => {
+    setUserInfo({ ...userInfo, [key]: e.target.value });
+    console.log(userInfo);
+  };
+
+  const loginRequestHandler = () => {
+    const { email, password } = userInfo;
+
+    axios
+      .post(
+        "http://localhost:80/auth/login",
+        { email, password },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
   return (
     <div className="w-500 h-647 flex flex-col justify-center items-center">
       <div className="relative left-48">
@@ -15,17 +42,22 @@ const ModalLogin = () => {
           type="email"
           className="w-80 h-12 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
+          onChange={() => handleInputValue("email")}
         />
       </div>
       <div className="">
         <input
-          type="email"
+          type="password"
           className="w-80 h-12 bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
           placeholder="비밀번호를 입력하세요."
+          onChange={() => handleInputValue("password")}
         />
       </div>
       <div className="">
-        <button className="w-36 h-12 bg-green-80 text-center rounded-3xl outline md:outline-2 text-white">
+        <button
+          className="w-36 h-12 bg-green-80 text-center rounded-3xl outline md:outline-2 text-white"
+          onClick={loginRequestHandler}
+        >
           로그인
         </button>
       </div>

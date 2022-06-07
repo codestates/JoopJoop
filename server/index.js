@@ -30,7 +30,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {

@@ -10,8 +10,11 @@ import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import Mypage from "./components/mypage";
+import ModalSignUp from "./components/modalSignUp";
+import ModalLogin from "./components/modalLogin";
 import Kakao from "./components/kakaoOauth";
 import axios from "axios";
+
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,6 +70,13 @@ function App() {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
+<feature/signup
+        {/* {isLogin ? (
+          <Mypage
+            accessToken={accessToken}
+            issueAccessToken={issueAccessToken}
+          ></Mypage>
+
         <Kakao oAuthLoginHandler={oAuthLoginHandler} />
         {isLogin ? (
           // <Mypage
@@ -74,9 +84,11 @@ function App() {
           //   issueAccessToken={issueAccessToken}
           // ></Mypage>
           <div>login complete</div>
+
         ) : (
           <Landing loginHandler={loginHandler} />
-        )}
+        )} */}
+        <ModalLogin />
         <Switch>
           <Route path={["/", "/home"]} exact component={Home} />
           <Route path="/schedule" component={Schedule} />
