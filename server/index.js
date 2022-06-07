@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const app = express();
+
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
@@ -12,6 +13,7 @@ const gatheringsRoute = require('./routes/gatherings');
 const mailRoute = require('./routes/mail');
 const multer = require('multer');
 const passportConfig = require('./passport');
+
 const PORT = 80;
 const cookieParser = require('cookie-parser');
 
@@ -35,8 +37,7 @@ const storage = multer.diskStorage({
     callback(null, 'images');
   },
   filename: (req, file, callback) => {
-    callback(null, 'hello.jpeg'); // 포스트맨으로는 이미지 이름까지 보낼수 없기때문에 'hello.jpeg' 라고 지정해서 보내야함
-    // 하지만 클라이언트에서 받아올때는 이미지 이름까지 받아올수 있기 때문에 req.body.name을 쓰면됨
+    callback(null, 'hello.jpeg');
   },
 });
 
