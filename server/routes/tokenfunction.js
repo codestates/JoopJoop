@@ -23,14 +23,14 @@ const verifyToken = (req, res, next) => {
   if (authHeader) {
     const token = authHeader.split(" ")[1];
     jwt.verify(token, process.env.JWT_SEC, (err, user) => {
-      if (err) res.status(403).json("Token is not valid!");
+      if (err) res.status(403).json('유효하지 않은 토큰입니다!');
       // console.log(user)
       // console.log(req.user)
       req.user = user;
       next();
     });
   } else {
-    return res.status(401).json("You are not authenticated!");
+    return res.status(401).json('권한이 없습니다!');
   }
 };
 
@@ -40,7 +40,7 @@ const verifyTokenAndAuthorization = (req, res, next) => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
     } else {
-      res.status(403).json("You are not alowed to do that!");
+      res.status(403).json('올바르지 않은 접근입니다!');
     }
   });
 };

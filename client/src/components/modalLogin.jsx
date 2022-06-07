@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const ModalLogin = () => {
-  const [userInfo, setUserInfo] = useState({
-    email: "",
-    password: "",
-  });
+  // const [userInfo, setUserInfo] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const handleInputValue = (key) => (e) => {
-    setUserInfo({ ...userInfo, [key]: e.target.value });
-    console.log(userInfo);
-  };
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  // const handleInputValue = (key) => (e) => {
+  //   setEmail()
+  //   // setUserInfo({ ...userInfo, [key]: e.target.value });
+  //   // console.log(userInfo);
+  // };
 
   const loginRequestHandler = () => {
-    const { email, password } = userInfo;
-
+  console.log(email, password)
     axios
       .post(
         "http://localhost:80/auth/login",
@@ -42,7 +45,7 @@ const ModalLogin = () => {
           type="email"
           className="w-80 h-12 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
-          onChange={() => handleInputValue("email")}
+          onChange={(event) => setEmail(event.target.value)}
         />
       </div>
       <div className="">
@@ -50,7 +53,7 @@ const ModalLogin = () => {
           type="password"
           className="w-80 h-12 bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
           placeholder="비밀번호를 입력하세요."
-          onChange={() => handleInputValue("password")}
+          onChange={(event) => setPassword(event.target.value)}
         />
       </div>
       <div className="">
