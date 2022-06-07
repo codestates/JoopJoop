@@ -1,18 +1,16 @@
-const router = require('express').Router();
-const User = require('../models/user');
-const CryptoJS = require('crypto-js');
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
-const { generateToken } = require('./tokenfunction');
+const router = require("express").Router();
+const User = require("../models/user");
+const CryptoJS = require("crypto-js");
+const { generateToken, generateOauthToken } = require("./tokenfunction");
 
 //REGISTER
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   const newUser = new User({
     nickname: req.body.nickname,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     ).toString(),
   });
 
@@ -26,18 +24,17 @@ router.post('/register', async (req, res) => {
 });
 
 //LOGIN
-
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({
       email: req.body.email,
     });
 
-    !user && res.status(401).json('등록되지않은 이메일입니다.');
+    !user && res.status(401).json("등록되지않은 이메일입니다.");
 
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     );
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
@@ -45,7 +42,7 @@ router.post('/login', async (req, res) => {
     // console.log(`original :" ${originalPassword} input :" ${inputPassword}`);
 
     if (originalPassword != inputPassword) {
-      return res.status(401).json('패스워드를 다시 확인해주세요.');
+      return res.status(401).json("패스워드를 다시 확인해주세요.");
     }
 
     const accessToken = generateToken(user);
@@ -53,19 +50,19 @@ router.post('/login', async (req, res) => {
     const { password, ...others } = user._doc;
     res.status(200).json({ ...others, accessToken });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json(err);
   }
 });
 
-router.post('/kakao', (req, res) => {
+// Oauth2 Kakao Login
+router.post("/kakao", (req, res) => {
   if (req.body.data.oAuthId) {
-    console.log(req.body.data.oAuthId);
     //요청 body에 oAuthId 키가 존재하는지 체크한다.
     //만일 존재한다면, DB에 해당 oAuthId를 갖고있는 유저를 탐색한다.
-    User.findOne({ oAuthId: req.body.oAuthId }, (err, user) => {
+    User.findOne({ oAuthId: req.body.data.oAuthId }, (err, user) => {
       if (!user) {
-        const userSchema = new User(req.body);
+        const userSchema = new User(req.body.data);
         // 계정 생성
         userSchema.save((err, _) => {
           if (err) return res.json({ success: false, err });
@@ -75,20 +72,14 @@ router.post('/kakao', (req, res) => {
         });
       }
       //JWT 토큰 발급
-      //! JWT 작성 완료 후 함수 교체 필요
-      user.generateToken((err, user) => {
-        if (err) return res.status(400).send(err);
-        // save Token at Cookie
-        res
-          .cookie('x_auth', user.token) //쿠키에 JWT토큰을 넣어준다.
-          .status(200)
-          .json({ loginSuccess: true, userId: user._Id, token: user.token });
-      });
+      const accessToken = generateOauthToken(user);
+      res
+        .cookie("x_auth", accessToken)
+        .status(200)
+        .json({ loginSuccess: true, userId: user._id, token: accessToken });
     });
     return;
   } else {
-    console.log('oAuthId not found!!');
-    console.log(req);
   }
 });
 
