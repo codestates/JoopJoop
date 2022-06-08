@@ -33,16 +33,16 @@ function App() {
     };
   });
 
-  const loginHandler = data => {
+  const loginHandler = (data) => {
     setIsLogin(true);
     issueAccessToken(data.data.accessToken);
   };
 
-  const issueAccessToken = token => {
+  const issueAccessToken = (token) => {
     setAccessToken(token);
   };
 
-  const oAuthLoginHandler = async data => {
+  const oAuthLoginHandler = async (data) => {
     console.log(isLogin);
     let request = {
       oAuthId: data.profile.id,
@@ -53,7 +53,7 @@ function App() {
         data: request,
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         loginHandler(res);
       });
@@ -74,7 +74,6 @@ function App() {
         ) : (
           <Landing loginHandler={loginHandler} />
         )}
-
         <Footer></Footer>
       </BrowserRouter>
     </>
