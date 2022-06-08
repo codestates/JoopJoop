@@ -1,11 +1,11 @@
-import React from "react";
-import KakaoLogin from "../components/kakaoOauth";
+import React, { useState } from "react";
 import Button from "../components/button";
 import axios from "axios";
 import Carousel from "../components/carousel";
 import logo from "../img/Logo.png";
+import SignUpModal from "../modals/signUpModal";
 
-const oAuthLoginHandler = async (data) => {
+const oAuthLoginHandler = async data => {
   let request = {
     oAuthId: data.profile.id,
   };
@@ -16,7 +16,15 @@ const oAuthLoginHandler = async (data) => {
   });
 };
 
-const Mypage = (loginHandler) => {
+const Mypage = loginHandler => {
+  const [modalOn, setModalOn] = useState(false);
+
+  const handleModal = () => {
+    setModalOn(!modalOn);
+  };
+
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
+
   return (
     <div className="flex flex-row justify-center items-center">
       <div>
@@ -29,6 +37,17 @@ const Mypage = (loginHandler) => {
         <Button children={"구글 회원가입"}></Button>
         <Button children={"카카오 회원가입"}></Button>
         <div className="text-center">또는</div>
+
+        <Button
+          className="btn btn-green"
+          children={"이메일 회원가입"}
+          onClick={() => setSignupModalOpen(true)}
+        />
+        <SignUpModal
+          modalOpen={signupModalOpen}
+          closeModal={() => setSignupModalOpen(false)}
+        />
+
         <Button children={"이메일 회원가입"}></Button>
         <div className="text-center">회원이신가요?</div>
         <Button children={"로그인"}></Button>
