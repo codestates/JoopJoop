@@ -10,7 +10,10 @@ import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import axios from "axios";
+<<<<<<< HEAD
 import SignupModal from "./modals/signUpModal";
+=======
+>>>>>>> 56b4a76 (resolve conflict 22.06.08.19.28)
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,16 +37,16 @@ function App() {
     };
   });
 
-  const loginHandler = data => {
+  const loginHandler = (data) => {
     setIsLogin(true);
     issueAccessToken(data.data.accessToken);
   };
 
-  const issueAccessToken = token => {
+  const issueAccessToken = (token) => {
     setAccessToken(token);
   };
 
-  const oAuthLoginHandler = async data => {
+  const oAuthLoginHandler = async (data) => {
     console.log(isLogin);
     let request = {
       oAuthId: data.profile.id,
@@ -54,7 +57,7 @@ function App() {
         data: request,
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         loginHandler(res);
       });
@@ -64,7 +67,26 @@ function App() {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
+<<<<<<< HEAD
         <Landing loginHandler={loginHandler} />
+=======
+        {/* {isLogin ? (
+          <Mypage
+            accessToken={accessToken}
+            issueAccessToken={issueAccessToken}
+          ></Mypage>
+        <Kakao oAuthLoginHandler={oAuthLoginHandler} />
+        {isLogin ? (
+          // <Mypage
+          //   accessToken={accessToken}
+          //   issueAccessToken={issueAccessToken}
+          // ></Mypage>
+          <div>login complete</div>
+        ) : (
+          <Landing loginHandler={loginHandler} />
+        )} */}
+        <ModalLogin />
+>>>>>>> 56b4a76 (resolve conflict 22.06.08.19.28)
         <Switch>
           <Route path={["/", "/home"]} exact component={Home} />
           <Route path="/schedule" component={Schedule} />
