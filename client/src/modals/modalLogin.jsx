@@ -9,6 +9,7 @@ const ModalLogin = () => {
   const loginRequestHandler = () => {
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -20,7 +21,16 @@ const ModalLogin = () => {
 
   const loginRequestHandler = () => {
 >>>>>>> 4e8d160 (update)
+<<<<<<< HEAD:client/src/modals/modalLogin.jsx
 >>>>>>> 56b4a76 (resolve conflict 22.06.08.19.28):client/src/components/modalLogin.jsx
+=======
+=======
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginRequestHandler = () => {
+>>>>>>> 4e8d160 (update)
+>>>>>>> 56d83e3 (resolove conflict):client/src/components/modalLogin.jsx
     axios
       .post(
         "http://localhost:80/auth/login",
