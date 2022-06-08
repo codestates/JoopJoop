@@ -1,0 +1,1 @@
+const { smtpTransport } = require('../config/email');
