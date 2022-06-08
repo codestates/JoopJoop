@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const ModalLogin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
   const loginRequestHandler = () => {
     axios
       .post(
