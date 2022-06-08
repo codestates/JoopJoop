@@ -6,7 +6,6 @@ const ModalLogin = () => {
   const [password, setPassword] = useState('')
 
   const loginRequestHandler = () => {
-  console.log(email, password)
     axios
       .post(
         "http://localhost:80/auth/login",

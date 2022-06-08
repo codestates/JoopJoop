@@ -15,7 +15,6 @@ import ModalLogin from "./components/modalLogin";
 import Kakao from "./components/kakaoOauth";
 import axios from "axios";
 
-
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
@@ -32,24 +31,22 @@ function App() {
         console.log("i resized");
       }
     };
-
     window.addEventListener("resize", hideMenu);
-
     return () => {
       window.removeEventListener("resize", hideMenu);
     };
   });
 
-  const loginHandler = data => {
+  const loginHandler = (data) => {
     setIsLogin(true);
     issueAccessToken(data.data.accessToken);
   };
 
-  const issueAccessToken = token => {
+  const issueAccessToken = (token) => {
     setAccessToken(token);
   };
 
-  const oAuthLoginHandler = async data => {
+  const oAuthLoginHandler = async (data) => {
     console.log(isLogin);
     let request = {
       oAuthId: data.profile.id,
@@ -60,7 +57,7 @@ function App() {
         data: request,
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res);
         loginHandler(res);
       });
@@ -75,7 +72,6 @@ function App() {
             accessToken={accessToken}
             issueAccessToken={issueAccessToken}
           ></Mypage>
-
         <Kakao oAuthLoginHandler={oAuthLoginHandler} />
         {isLogin ? (
           // <Mypage
@@ -83,10 +79,10 @@ function App() {
           //   issueAccessToken={issueAccessToken}
           // ></Mypage>
           <div>login complete</div>
-
         ) : (
           <Landing loginHandler={loginHandler} />
         )} */}
+        <ModalSignUp />
         <ModalLogin />
         <Switch>
           <Route path={["/", "/home"]} exact component={Home} />
