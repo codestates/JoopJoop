@@ -1,10 +1,10 @@
-const router = require("express").Router();
-const User = require("../models/user");
-const CryptoJS = require("crypto-js");
-const { generateToken, generateOauthToken } = require("./tokenfunction");
+const router = require('express').Router();
+const User = require('../models/user');
+const CryptoJS = require('crypto-js');
+const { generateToken, generateOauthToken } = require('./tokenfunction');
 
 //REGISTER
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   const newUser = new User({
     nickname: req.body.nickname,
     email: req.body.email,
@@ -25,16 +25,14 @@ router.post("/register", async (req, res) => {
 });
 
 //LOGIN
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({
       email: req.body.email,
     });
-    
-    console.log(user);
-    
+
     if (!user) {
-      return res.status(401).json("등록되지않은 이메일입니다.");
+      return res.status(401).json('등록되지않은 이메일입니다.');
     }
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
@@ -46,7 +44,7 @@ router.post("/login", async (req, res) => {
     // console.log(`original :" ${originalPassword} input :" ${inputPassword}`);
 
     if (originalPassword != inputPassword) {
-      return res.status(401).json("패스워드를 다시 확인해주세요.");
+      return res.status(401).json('패스워드를 다시 확인해주세요.');
     }
 
     const accessToken = generateToken(user);
@@ -60,7 +58,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Oauth2 Kakao Login
-router.post("/kakao", (req, res) => {
+router.post('/kakao', (req, res) => {
   if (req.body.data.oAuthId) {
     //요청 body에 oAuthId 키가 존재하는지 체크한다.
     //만일 존재한다면, DB에 해당 oAuthId를 갖고있는 유저를 탐색한다.
@@ -78,7 +76,7 @@ router.post("/kakao", (req, res) => {
       //JWT 토큰 발급
       const accessToken = generateOauthToken(user);
       res
-        .cookie("x_auth", accessToken)
+        .cookie('x_auth', accessToken)
         .status(200)
         .json({ loginSuccess: true, userId: user._id, token: accessToken });
     });
