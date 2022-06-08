@@ -40,7 +40,7 @@ const Mypage = loginHandler => {
 
         <Button
           className="btn btn-green"
-          children={"이메일 회원가입"}
+          children={"모달 사용법 예시"}
           onClick={() => setSignupModalOpen(true)}
         />
         <SignUpModal

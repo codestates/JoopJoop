@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const ModalLogin = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const loginRequestHandler = () => {
     axios
@@ -13,9 +13,9 @@ const ModalLogin = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         console.log(res);
       });
   };
@@ -33,7 +33,7 @@ const ModalLogin = () => {
           type="email"
           className="w-80 h-12 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={event => setEmail(event.target.value)}
         />
       </div>
       <div className="">
@@ -41,7 +41,7 @@ const ModalLogin = () => {
           type="password"
           className="w-80 h-12 bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
           placeholder="비밀번호를 입력하세요."
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={event => setPassword(event.target.value)}
         />
       </div>
       <div className="">
