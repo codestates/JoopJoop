@@ -1,81 +1,81 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Navbar from "./components/navbar";
-import Chat from "./pages/chat";
-import Community from "./pages/community";
-import Home from "./pages/home";
-import Schedule from "./pages/schedule";
-import Footer from "./components/footer";
-import Landing from "./pages/landing";
-import "./index.css";
-import Dropdown from "./components/dropdown";
-import axios from "axios";
-import { connect } from "react-redux";
-import action from "./redux/action";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Navbar from './components/navbar';
+import Chat from './pages/chat';
+import Community from './pages/community';
+import Home from './pages/home';
+import Schedule from './pages/schedule';
+import Footer from './components/footer';
+import Landing from './pages/landing';
+import './index.css';
+import Dropdown from './components/dropdown';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import action from './redux/action';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
   };
 };
 
 function App({ isLogin, setIsLogin }) {
   const onLogin = (email, password) => {
-    console.log("로그인요청");
+    console.log('로그인요청');
     const data = {
       email,
       password,
     };
     axios
-      .post("http://localhost:80/auth/login", data, {
+      .post('http://localhost:80/auth/login', data, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         withCredentials: true,
         HttpOnly: true,
-        samesite: "Secure",
+        samesite: 'Secure',
       })
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
       })
-      .catch(error => {
-        console.log("onLogin 함수");
+      .catch((error) => {
+        console.log('onLogin 함수');
       });
   };
 
   const onSilentRefresh = () => {
     axios
       .post(
-        "http://localhost:80/auth/refresh",
-        { data: "refresh" },
+        'http://localhost:80/auth/refresh',
+        { data: 'refresh' },
         {
           withCredentials: true,
-        },
+        }
       )
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
-        console.log("resfresh 성공");
+        console.log('resfresh 성공');
       })
-      .catch(error => {
-        console.log("refresh 실패");
+      .catch((error) => {
+        console.log('refresh 실패');
         setIsLogin(false);
       });
   };
 
-  const onLoginSuccess = res => {
+  const onLoginSuccess = (res) => {
     const { accessToken } = res.data;
     // console.log("onloginsuccess");
     // console.log(accessToken);
     //login state true
     setIsLogin(true);
     // accessToken 설정
-    axios.defaults.headers.common["token"] = accessToken;
+    axios.defaults.headers.common['token'] = accessToken;
     // accessToken 만료하기 1분 전에 로그인 연장
     // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
     // getGatherings(accessToken);
@@ -106,15 +106,23 @@ function App({ isLogin, setIsLogin }) {
     const hideMenu = () => {
       if (window.innerWidth > 768 && isOpen) {
         setIsOpen(false);
-        console.log("i resized");
+        console.log('i resized');
       }
     };
-    window.addEventListener("resize", hideMenu);
+    window.addEventListener('resize', hideMenu);
     return () => {
-      window.removeEventListener("resize", hideMenu);
+      window.removeEventListener('resize', hideMenu);
     };
   });
 
+  const loginHandler = (data) => {
+    setIsLogin(true);
+    issueAccessToken(data.data.accessToken);
+  };
+
+  const issueAccessToken = (token) => {
+    setAccessToken(token);
+  };
   return (
     <>
       <BrowserRouter>

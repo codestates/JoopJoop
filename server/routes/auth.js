@@ -46,6 +46,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
       return res.status(401).json('등록되지않은 이메일입니다.');
     }
+    !user && res.status(401).json('등록되지않은 이메일입니다.');
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
       process.env.PASS_SEC
@@ -140,7 +141,6 @@ router.post('/kakao', (req, res) => {
         .json({ loginSuccess: true, userId: user._id });
     });
     return;
-  } else {
   }
 });
 
@@ -154,5 +154,4 @@ router.get('/logout', (req, res) => {
     res.status(500).json(err);
   }
 });
-
 module.exports = router;
