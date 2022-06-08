@@ -20,9 +20,9 @@ const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
-          }
+          },
         )
-        .then((res) => {
+        .then(res => {
           console.log(res);
         })
         .then(() => {
@@ -50,14 +50,14 @@ const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
           type="email"
           className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={event => setEmail(event.target.value)}
         />
         <div className="">
           <input
             type="password"
             className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
             placeholder="비밀번호를 입력하세요."
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={event => setPassword(event.target.value)}
           />
         </div>
         <Link to="/home" className="">
@@ -103,7 +103,7 @@ const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
       </div>
     </div>,
 
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 

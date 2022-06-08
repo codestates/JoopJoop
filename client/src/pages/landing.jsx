@@ -9,7 +9,7 @@ import ModalCreateGathering from "../modals/modalViewGathering";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./home";
 
-const oAuthLoginHandler = async (data) => {
+const oAuthLoginHandler = async data => {
   let request = {
     oAuthId: data.profile.id,
   };
@@ -20,7 +20,7 @@ const oAuthLoginHandler = async (data) => {
   });
 };
 
-const Landing = (loginHandler) => {
+const Landing = loginHandler => {
   const [modalOn, setModalOn] = useState(false);
 
   const handleModal = () => {
