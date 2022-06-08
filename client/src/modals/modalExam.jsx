@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDom from "react-dom"; //Importing ReactDom
+import ReactDom from "react-dom";
 
 function SignupModal({ modalOpen, closeModal }) {
   if (!modalOpen) return null;

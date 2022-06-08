@@ -6,7 +6,7 @@ const Navbar = ({ toggle, loginId }) => {
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">
         <Link to="/" className="">
-          <img className="w-25 h-10" src="img/logoSmall.png" />
+          <img className="w-25 h-10" src="img/logoSmall.png" alt="err" />
         </Link>
         <ul className="flex">
           <li className="p-4 text-white text-xl font-mono">
@@ -32,7 +32,11 @@ const Navbar = ({ toggle, loginId }) => {
         </ul>
       </nav>
       <div className="flex absolute right-12 p-4" onClick={toggle}>
-        <img className="w-5 h-5 mr-4 cursor-pointer" src="img/favicon.png" />
+        <img
+          className="w-5 h-5 mr-4 cursor-pointer"
+          src="img/favicon.png"
+          alt="err"
+        />
         <div className="cursor-pointer" onClick={toggle}>
           {loginId}
         </div>

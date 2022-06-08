@@ -10,10 +10,6 @@ import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import axios from "axios";
-<<<<<<< HEAD
-import SignupModal from "./modals/signUpModal";
-=======
->>>>>>> 56b4a76 (resolve conflict 22.06.08.19.28)
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,32 +63,17 @@ function App() {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
-<<<<<<< HEAD
-        <Landing loginHandler={loginHandler} />
-=======
-        {/* {isLogin ? (
-          <Mypage
-            accessToken={accessToken}
-            issueAccessToken={issueAccessToken}
-          ></Mypage>
-        <Kakao oAuthLoginHandler={oAuthLoginHandler} />
         {isLogin ? (
-          // <Mypage
-          //   accessToken={accessToken}
-          //   issueAccessToken={issueAccessToken}
-          // ></Mypage>
-          <div>login complete</div>
+          <Switch>
+            <Route path="/" exact component={Landing} />
+            <Route path="/home" exact component={Home} />
+            <Route path="/schedule" component={Schedule} />
+            <Route path="/chat" component={Chat} />
+            <Route path="/community" component={Community} />
+          </Switch>
         ) : (
           <Landing loginHandler={loginHandler} />
-        )} */}
-        <ModalLogin />
->>>>>>> 56b4a76 (resolve conflict 22.06.08.19.28)
-        <Switch>
-          <Route path={["/", "/home"]} exact component={Home} />
-          <Route path="/schedule" component={Schedule} />
-          <Route path="/chat" component={Chat} />
-          <Route path="/community" component={Community} />
-        </Switch>
+        )}
         <Footer></Footer>
       </BrowserRouter>
     </>

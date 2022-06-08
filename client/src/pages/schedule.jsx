@@ -1,7 +1,7 @@
 import React from "react";
 
 const Schedule = () => {
-  return null;
+  return <div>SCHEDULE 구현중</div>;
 };
 
 export default Schedule;

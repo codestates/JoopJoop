@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,16 +19,16 @@ const Carousel = () => {
     <div className="w-[59rem]">
       <Slider {...settings}>
         <div>
-          <img src={img1} alt="" />
+          <img src={img1} alt="err" />
         </div>
         <div>
-          <img src={img2} alt="" />
+          <img src={img2} alt="err" />
         </div>
         <div>
-          <img src={img3} alt="" />
+          <img src={img3} alt="err" />
         </div>
         <div>
-          <img src={img4} alt="" />
+          <img src={img4} alt="err" />
         </div>
       </Slider>
     </div>

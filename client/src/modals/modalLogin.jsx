@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ReactDom from "react-dom";
+import Button from "../components/button";
+import logo from "../img/Logo.png";
+import { XIcon } from "@heroicons/react/solid";
 
-const ModalLogin = () => {
+const ModalLogin = ({ modalOpen, closeModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,65 +25,75 @@ const ModalLogin = () => {
       });
   };
 
-  return (
-    <div className="w-500 h-647 flex flex-col justify-center items-center">
-      <div className="relative left-48">
-        <button>X</button>
-      </div>
-      <div className="p-10">
-        <img className="" src="/img/LOGO.jpg"></img>
-      </div>
-      <div className="">
+  if (!modalOpen) return null;
+  return ReactDom.createPortal(
+    <div className="container-modal">
+      <div className="modal-normal gap-3">
+        <div className="relative w-full">
+          <button
+            className="absolute left-[91.5%] bottom-2"
+            onClick={closeModal}
+          >
+            <XIcon className="h-5 w-5" />
+          </button>
+        </div>
+        <img className="w-52" src={logo} alt="err"></img>
+        <div className="w-10 h-2"></div>
         <input
           type="email"
-          className="w-80 h-12 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
+          className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
           onChange={event => setEmail(event.target.value)}
         />
-      </div>
-      <div className="">
-        <input
-          type="password"
-          className="w-80 h-12 bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
-          placeholder="비밀번호를 입력하세요."
-          onChange={event => setPassword(event.target.value)}
-        />
-      </div>
-      <div className="">
-        <button
-          className="w-36 h-12 bg-green-80 text-center rounded-3xl outline md:outline-2 text-white"
-          onClick={loginRequestHandler}
-        >
-          로그인
-        </button>
-      </div>
-      <div className="flex my-3">
-        <div className="w-48">
-          <hr />
-        </div>
-        <p className="relative bottom-3">or</p>
-        <div className="w-48">
-          <hr />
-        </div>
-      </div>
-      <div className="flex justify-between">
         <div className="">
-          <button className="w-36 h-12 bg-blue mx-3 text-center rounded-3xl   text-white">
+          <input
+            type="password"
+            className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
+            placeholder="비밀번호를 입력하세요."
+            onChange={event => setPassword(event.target.value)}
+          />
+        </div>
+        <div className="">
+          <Button
+            className="w-[8.4rem] h-[2.9rem] btn-green rounded-3xl text-center outline text-white"
+            onClick={loginRequestHandler}
+          >
+            로그인
+          </Button>
+        </div>
+        <div className="flex gap-2 items-center">
+          <div className="w-48">
+            <hr className="text-grey-80" />
+          </div>
+          <p className="text-grey-80">or</p>
+          <div className="text-grey-80 w-48">
+            <hr />
+          </div>
+        </div>
+        <div className="flex flex-row justify-center items-start gap-5">
+          <button className=" w-40 h-[2.9rem] bg-blue text-center rounded-3xl text-white">
             Google 로그인
           </button>
-        </div>
-        <div className="">
-          <button className="w-36 h-12 bg-yellow mx-3 text-center rounded-3xl  text-white">
+          <button className="w-40 h-[2.9rem] bg-yellow text-center rounded-3xl text-white">
             Kakao 로그인
           </button>
         </div>
+        <div className="w-10 h-2"></div>
+        <button className="text-xs flex items-center text-center">
+          비밀번호를 잊으셨나요?
+        </button>
+        <div className="flex flex-row justify-center items-center gap-5">
+          <button className="text-xs flex items-center text-center">
+            계정이 없으신가요?
+          </button>
+          <button className="text-xs flex items-center text-center">
+            회원가입
+          </button>
+        </div>
       </div>
-      <button className="text-xs my-3">비밀번호를 잊으셨나요?</button>
-      <div className="">
-        <button className="text-xs mx-4">계정이 없으신가요?</button>
-        <button className="text-xs mr-6">회원가입</button>
-      </div>
-    </div>
+    </div>,
+
+    document.getElementById("modal"),
   );
 };
 
