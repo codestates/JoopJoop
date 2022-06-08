@@ -10,10 +10,7 @@ const postsRoute = require('./routes/posts');
 const poCommentsRoute = require('./routes/posts_comments');
 const gatheringsRoute = require('./routes/gatherings');
 const gaCommentsRoute = require('./routes/gatherings_comments');
-<<<<<<< HEAD
-=======
 const mailRoute = require('./routes/mail');
->>>>>>> 72a798e (nodemailer ver 1.0 - with naver)
 const multer = require('multer');
 const passportConfig = require('./passport');
 const PORT = 80;
