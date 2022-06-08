@@ -10,7 +10,6 @@ import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import axios from "axios";
-import SignupModal from "./modals/signUpModal";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,13 +63,18 @@ function App() {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
-        <Landing loginHandler={loginHandler} />
-        <Switch>
-          <Route path={["/", "/home"]} exact component={Home} />
-          <Route path="/schedule" component={Schedule} />
-          <Route path="/chat" component={Chat} />
-          <Route path="/community" component={Community} />
-        </Switch>
+        {isLogin ? (
+          <Switch>
+            <Route path="/" exact component={Landing} />
+            <Route path="/home" exact component={Home} />
+            <Route path="/schedule" component={Schedule} />
+            <Route path="/chat" component={Chat} />
+            <Route path="/community" component={Community} />
+          </Switch>
+        ) : (
+          <Landing loginHandler={loginHandler} />
+        )}
+
         <Footer></Footer>
       </BrowserRouter>
     </>

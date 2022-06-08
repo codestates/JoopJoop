@@ -3,7 +3,9 @@ import Button from "../components/button";
 import axios from "axios";
 import Carousel from "../components/carousel";
 import logo from "../img/Logo.png";
-import SignUpModal from "../modals/signUpModal";
+import ModalLogin from "../modals/modalLogin";
+import ModalSignUp from "../modals/modalSignUp";
+import ModalCreateGathering from "../modals/modalViewGathering";
 
 const oAuthLoginHandler = async data => {
   let request = {
@@ -23,7 +25,9 @@ const Mypage = loginHandler => {
     setModalOn(!modalOn);
   };
 
-  const [signupModalOpen, setSignupModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
+  const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
 
   return (
     <div className="flex flex-row justify-center items-center">
@@ -37,22 +41,27 @@ const Mypage = loginHandler => {
         <Button children={"구글 회원가입"}></Button>
         <Button children={"카카오 회원가입"}></Button>
         <div className="text-center">또는</div>
-
         <Button
           className="btn btn-green"
-          children={"모달 사용법 예시"}
-          onClick={() => setSignupModalOpen(true)}
+          children={"이메일 회원가입"}
+          onClick={() => setSignUpModalOpen(true)}
         />
-        <SignUpModal
-          modalOpen={signupModalOpen}
-          closeModal={() => setSignupModalOpen(false)}
-        />
-
-        <Button children={"이메일 회원가입"}></Button>
         <div className="text-center">회원이신가요?</div>
-        <Button children={"로그인"}></Button>
+        <Button
+          className="btn btn-green"
+          children={"로그인"}
+          onClick={() => setLoginModalOpen(true)}
+        />
         <Button children={"게스트 로그인"}></Button>
       </div>
+      <ModalLogin
+        modalOpen={loginModalOpen}
+        closeModal={() => setLoginModalOpen(false)}
+      />
+      <ModalSignUp
+        modalOpen={signUpModalOpen}
+        closeModal={() => setSignUpModalOpen(false)}
+      />
     </div>
   );
 };

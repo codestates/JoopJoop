@@ -1,16 +1,10 @@
 import React from "react";
-import ReactDom from "react-dom";
-import { XIcon } from "@heroicons/react/solid";
 
-const ModalConfirmSignOut = ({ modalOpen, closeModal }) => {
-  if (!modalOpen) return null;
-
-  return ReactDom.createPortal(
+const ModalConfirmSignOut = () => {
+  return (
     <div className="w-500 h-367 flex flex-col justify-center items-center text-center">
-      <div className="relative w-full">
-        <button className="absolute left-[91.5%] bottom-2" onClick={closeModal}>
-          <XIcon className="h-5 w-5" />
-        </button>
+      <div className="relative left-48 bottom-1">
+        <button>X</button>
       </div>
       <div className="p-10">
         <h1 className="text-3xl">회원 탈퇴하게 되시면 </h1>
@@ -26,19 +20,14 @@ const ModalConfirmSignOut = ({ modalOpen, closeModal }) => {
         </p>
       </div>
       <div className="flex">
-        <button
-          className="w-44 h-12 bg-red mx-3 mt-10 text-center rounded-3xl"
-          onClick={closeModal}
-        >
+        <button className="w-44 h-12 bg-red mx-3 mt-10 text-center rounded-3xl ">
           계속 이용할래요!
         </button>
-        <button className="w-44 h-12 bg-grey-50 mx-3 mt-10 text-center rounded-3xl">
+        <button className="w-44 h-12 bg-grey-50 mx-3 mt-10 text-center rounded-3xl ">
           그만 할게요...
         </button>
       </div>
-    </div>,
-
-    document.getElementById("modal"),
+    </div>
   );
 };
 
