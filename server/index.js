@@ -18,11 +18,7 @@ const PORT = 80;
 dotenv.config();
 
 const corsOptions = {
-<<<<<<< HEAD
   origin: 'http://localhost:3000',
-=======
-  origin: "http://localhost:3000",
->>>>>>> 4e8d160 (update)
   credentials: true,
   optionSuccessStatus: 200,
 };
