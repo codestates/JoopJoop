@@ -70,12 +70,13 @@ router.get('/', async (req, res) => {
   try {
     let gaComments;
     if (nickname) {
-      gaComments = await GaComment.find({ nickname });
+      gaComments = await GaComment.find({ nickname }).populate('author');
     } else {
-      gaComments = await GaComment.find();
+      gaComments = await GaComment.find().populate('author');
     }
     res.status(200).json(gaComments);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });

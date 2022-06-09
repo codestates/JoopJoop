@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
   // console.log(mailcontent);
 
   mailer.sendGmail(mailcontent);
-  res.status(200).send(`인증번호:${authnum}`);
+  res.status(200).json({ authnum: `${authnum}` });
 });
 
 module.exports = router;

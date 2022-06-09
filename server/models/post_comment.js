@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
 const PostCommentSchema = mongoose.Schema(
   {
-    post_id: String,
-    content: {
-      // 채팅친 참가자 id, 채팅내용
-      type: Object,
-      properties: {
-        email: String,
-        profile_img: String,
-        message: String,
-      },
+    text: {
+      type: String,
+      required: true,
     },
+    post: { type: mongoose.Schema.Types.ObjectId, ref: 'post' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
   },
   { timestamp: true }
 );
