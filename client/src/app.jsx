@@ -74,6 +74,7 @@ function App() {
         ) : (
           <Landing loginHandler={loginHandler} />
         )}
+
         <Footer></Footer>
       </BrowserRouter>
     </>

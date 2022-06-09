@@ -6,8 +6,10 @@ import logo from "../img/Logo.png";
 import ModalLogin from "../modals/modalLogin";
 import ModalSignUp from "../modals/modalSignUp";
 import ModalCreateGathering from "../modals/modalViewGathering";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Home from "./home";
 
-const oAuthLoginHandler = async data => {
+const oAuthLoginHandler = async (data) => {
   let request = {
     oAuthId: data.profile.id,
   };
@@ -18,7 +20,7 @@ const oAuthLoginHandler = async data => {
   });
 };
 
-const Mypage = loginHandler => {
+const Landing = (loginHandler) => {
   const [modalOn, setModalOn] = useState(false);
 
   const handleModal = () => {
@@ -28,42 +30,55 @@ const Mypage = loginHandler => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
   const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
-    <div className="flex flex-row justify-center items-center">
-      <div>
-        <Carousel className="flex" />
-      </div>
-      <div className="w-full flex flex-col place-content-center items-center gap-4">
-        <img src={logo} alt="logo" />
-        <div className="h-1"></div>
-        <div className="font-normal text-center text-3xl">지금 시작하세요!</div>
-        <Button children={"구글 회원가입"}></Button>
-        <Button children={"카카오 회원가입"}></Button>
-        <div className="text-center">또는</div>
-        <Button
-          className="btn btn-green"
-          children={"이메일 회원가입"}
-          onClick={() => setSignUpModalOpen(true)}
-        />
-        <div className="text-center">회원이신가요?</div>
-        <Button
-          className="btn btn-green"
-          children={"로그인"}
-          onClick={() => setLoginModalOpen(true)}
-        />
-        <Button children={"게스트 로그인"}></Button>
-      </div>
-      <ModalLogin
-        modalOpen={loginModalOpen}
-        closeModal={() => setLoginModalOpen(false)}
-      />
-      <ModalSignUp
-        modalOpen={signUpModalOpen}
-        closeModal={() => setSignUpModalOpen(false)}
-      />
-    </div>
+    <BrowserRouter>
+      {isLogin ? (
+        <Switch>
+          <Route path="/home" exact component={Home} />
+        </Switch>
+      ) : (
+        <div className="flex flex-row justify-center items-center">
+          <div>
+            <Carousel className="flex" />
+          </div>
+          <div className="w-full flex flex-col place-content-center items-center gap-4">
+            <img src={logo} alt="logo" />
+            <div className="h-1"></div>
+            <div className="font-normal text-center text-3xl">
+              지금 시작하세요!
+            </div>
+            <Button children={"구글 회원가입"}></Button>
+            <Button children={"카카오 회원가입"}></Button>
+            <div className="text-center">또는</div>
+            <Button
+              className="btn btn-green"
+              children={"이메일 회원가입"}
+              onClick={() => setSignUpModalOpen(true)}
+            />
+            <div className="text-center">회원이신가요?</div>
+            <Button
+              className="btn btn-green"
+              children={"로그인"}
+              onClick={() => setLoginModalOpen(true)}
+            />
+            <Button children={"게스트 로그인"}></Button>
+          </div>
+
+          <ModalLogin
+            modalOpen={loginModalOpen}
+            closeModal={() => setLoginModalOpen(false)}
+            isLogin={() => setIsLogin(true)}
+          />
+          <ModalSignUp
+            modalOpen={signUpModalOpen}
+            closeModal={() => setSignUpModalOpen(false)}
+          />
+        </div>
+      )}
+    </BrowserRouter>
   );
 };
 
-export default Mypage;
+export default Landing;
