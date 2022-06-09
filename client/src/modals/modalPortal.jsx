@@ -8,7 +8,7 @@ const ModalPortal = ({ children, closePortal }) => {
   useEffect(() => {
     setMounted(true);
     if (document) {
-      const dom = document.getElementById("root-modal");
+      const dom = document.getElementById("modal");
       ref.current = dom;
     }
     return () => {

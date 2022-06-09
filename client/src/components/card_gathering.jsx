@@ -1,5 +1,5 @@
-import React from 'react';
-import profileImg from '../profile.png';
+import React from "react";
+import profileImg from "../img/profile.png";
 
 const card_gathering = ({ date, time, big, small, content, img, user }) => {
   return (
@@ -27,14 +27,14 @@ const card_gathering = ({ date, time, big, small, content, img, user }) => {
 };
 
 card_gathering.defaultProps = {
-  date: '7월 13일',
-  time: '7:00 PM',
-  duration: '3시간',
-  big: '강남구',
-  small: '학동공원',
-  content: '가볍게 줍깅하실 분 구해요!',
+  date: "7월 13일",
+  time: "7:00 PM",
+  duration: "3시간",
+  big: "강남구",
+  small: "학동공원",
+  content: "가볍게 줍깅하실 분 구해요!",
   img: profileImg,
-  user: 'hound_bae',
+  user: "hound_bae",
 };
 
 export default card_gathering;

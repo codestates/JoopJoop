@@ -10,6 +10,7 @@ import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import axios from "axios";
+import SearchGathering from "./components/search_gathering";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -72,7 +73,8 @@ function App() {
             <Route path="/community" component={Community} />
           </Switch>
         ) : (
-          <Landing loginHandler={loginHandler} />
+          <Home />
+          // <Landing loginHandler={loginHandler} />
         )}
         <Footer></Footer>
       </BrowserRouter>
