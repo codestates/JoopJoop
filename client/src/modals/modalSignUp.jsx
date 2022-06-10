@@ -18,7 +18,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     console.log(data);
   };
   const [userInfo, setUserInfo] = useState({
@@ -28,42 +28,40 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
     nickname: "",
   });
 
-  const handleInputValue = key => e => {
+  const handleInputValue = (key) => (e) => {
     setUserInfo({ ...userInfo, [key]: e.target.value });
   };
 
   const handleSignup = () => {
     const { email, password, passwordConfirm, nickname } = userInfo;
     console.log("click");
-    if (password && passwordConfirm) {
-      console.log("test click");
 
-      axios
-        .post(
-          `${localURL}/auth/register`,
-          {
-            email: email,
-            password: password,
-            nickname: nickname,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          },
-        )
-        .then(res => {
-          console.log(res);
-          alert("회원가입 되었습니다! 로그인하세요");
-          closeModal();
-        });
-    }
+    console.log("test click");
+    axios
+      .post(
+        `${localURL}/auth/register`,
+        {
+          email: email,
+          password: password,
+          nickname: nickname,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        alert("회원가입 되었습니다! 로그인하세요");
+        closeModal();
+      });
   };
 
   if (!modalOpen) return null;
 
   return ReactDom.createPortal(
     <div className="container-modal">
-      <div className="modal-normal gap-3" onSubmit={e => e.preventDefault()}>
+      <div className="modal-normal gap-3" onSubmit={(e) => e.preventDefault()}>
         <div className="relative w-full">
           <button
             className="absolute left-[91.5%] bottom-2"
@@ -112,7 +110,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             onChange={handleInputValue("passwordConfirm")}
             {...register("passwordConfirm", {
               required: true,
-              validate: value => value === password.current,
+              validate: (value) => value === password.current,
             })}
           />
           {errors.passwordConfirm &&
@@ -152,7 +150,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         </form>
       </div>
     </div>,
-    document.getElementById("modal"),
+    document.getElementById("modal")
   );
 };
 
