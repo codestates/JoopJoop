@@ -9,22 +9,30 @@ import ModalSignUp from "../modals/modalSignUp";
 import KakaoOauth from "../components/kakaoOauth";
 import Home from "./home";
 
-const oAuthLoginHandler = async (data) => {
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+  return {
+    isLogin: state.isLogin,
+  };
+};
+
+const oAuthLoginHandler = async data => {
   let request = {
     oAuthId: data.profile.id,
   };
-  console.log(request);
   await axios
     .post("http://localhost:80/auth/kakao", {
       data: request,
       withCredentials: true,
     })
-    .then((data) => {
+    .then(data => {
       console.log(data);
     });
 };
 
-const Landing = ({ onLogin }) => {
+//? props.onLogin 확인 필요
+const Landing = ({ onLogin, isLogin }) => {
   const [modalOn, setModalOn] = useState(false);
 
   const handleModal = () => {
@@ -34,7 +42,6 @@ const Landing = ({ onLogin }) => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
   const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <BrowserRouter>
@@ -73,7 +80,6 @@ const Landing = ({ onLogin }) => {
           <ModalLogin
             modalOpen={loginModalOpen}
             closeModal={() => setLoginModalOpen(false)}
-            isLogin={() => setIsLogin(true)}
             onLogin={onLogin}
           />
           <ModalSignUp
@@ -86,4 +92,4 @@ const Landing = ({ onLogin }) => {
   );
 };
 
-export default Landing;
+export default connect(mapStateToProps, null)(Landing);

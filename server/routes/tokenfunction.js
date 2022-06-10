@@ -1,29 +1,30 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const generateAccessToken = (user) => {
+const generateAccessToken = user => {
   return jwt.sign(
     {
       id: user._id,
       isAdmin: user.isAdmin,
     },
     process.env.JWT_SEC,
-    { expiresIn: "1d" }
+    { expiresIn: "1d" },
   );
 };
 
-const generateRefreshToken = (user) => {
+const generateRefreshToken = user => {
   return jwt.sign(
     {
       id: user._id,
       isAdmin: user.isAdmin,
     },
     process.env.REFRESH_SECRET,
-    { expiresIn: "30d" }
+    { expiresIn: "30d" },
   );
 };
 
-const generateOauthToken = (user) => {
+const generateOauthToken = user => {
+  console.log("user : " + user);
   return jwt.sign({ oAuthId: user.oAuthId }, process.env.JWT_SEC, {
     expiresIn: "1d",
   });
