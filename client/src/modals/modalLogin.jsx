@@ -1,35 +1,16 @@
 import React, { useState } from "react";
-import axios from "axios";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 
-const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
+const ModalLogin = ({ modalOpen, closeModal, isLogin, onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginRequestHandler = () => {
-    // console.log(email, password)
-    if (email && password) {
-      axios
-        .post(
-          "http://localhost:80/auth/login",
-          { email, password },
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          },
-        )
-        .then(res => {
-          console.log(res);
-        })
-        .then(() => {
-          closeModal();
-          isLogin();
-        });
-    }
+  const loginHandler = () => {
+    onLogin(email, password);
   };
 
   if (!modalOpen) return null;
@@ -64,7 +45,7 @@ const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
           <div className="">
             <Button
               className="w-[8.4rem] h-[2.9rem] btn-green rounded-3xl text-center outline text-white"
-              onClick={loginRequestHandler}
+              onClick={loginHandler}
             >
               로그인
             </Button>
