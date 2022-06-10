@@ -9,7 +9,7 @@ import ModalSignUp from "../modals/modalSignUp";
 import KakaoOauth from "../components/kakaoOauth";
 import Home from "./home";
 
-const oAuthLoginHandler = async data => {
+const oAuthLoginHandler = async (data) => {
   let request = {
     oAuthId: data.profile.id,
   };
@@ -19,7 +19,7 @@ const oAuthLoginHandler = async data => {
       data: request,
       withCredentials: true,
     })
-    .then(data => {
+    .then((data) => {
       console.log(data);
     });
 };

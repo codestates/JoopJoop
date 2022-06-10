@@ -38,12 +38,11 @@ router.post("/register", async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   try {
     const user = await User.findOne({
       email: req.body.email,
     });
-
+    console.log(user);
     if (!user) {
       return res.status(401).json("등록되지않은 이메일입니다.");
     }
@@ -104,10 +103,14 @@ router.post("/refresh", async (req, res) => {
 
   const { id } = refreshTokenData;
   const user = await User.findOne({ _id: id });
+  console.log(user);
+
   try {
-    console.log(user);
     const newAccessToken = generateAccessToken(user);
-    res.status(200).json(res, newAccessToken, user);
+    console.log("refresh!!!");
+    console.log(newAccessToken);
+    const { password, ...others } = user._doc;
+    res.status(200).json({ ...others, newAccessToken });
   } catch {
     return res.status(400).json({
       data: null,

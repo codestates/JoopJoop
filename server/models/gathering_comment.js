@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const GatheringCommentSchema = mongoose.Schema(
   {
     gathering_id: String,
@@ -15,4 +15,4 @@ const GatheringCommentSchema = mongoose.Schema(
   { timestamp: true }
 );
 
-module.exports = mongoose.model('gathering_comment', GatheringCommentSchema);
+module.exports = mongoose.model("gathering_comment", GatheringCommentSchema);
