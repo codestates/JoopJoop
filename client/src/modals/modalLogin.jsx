@@ -1,35 +1,16 @@
 import React, { useState } from "react";
-import axios from "axios";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 
-const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
+const ModalLogin = ({ modalOpen, closeModal, isLogin, onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginRequestHandler = () => {
-    // console.log(email, password)
-    if (email && password) {
-      axios
-        .post(
-          "http://localhost:80/auth/login",
-          { email, password },
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          console.log(res);
-        })
-        .then(() => {
-          closeModal();
-          isLogin();
-        });
-    }
+  const loginHandler = () => {
+    onLogin(email, password);
   };
 
   if (!modalOpen) return null;
@@ -50,21 +31,21 @@ const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
           type="email"
           className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={event => setEmail(event.target.value)}
         />
         <div className="">
           <input
             type="password"
             className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
             placeholder="비밀번호를 입력하세요."
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={event => setPassword(event.target.value)}
           />
         </div>
         <Link to="/home" className="">
           <div className="">
             <Button
               className="w-[8.4rem] h-[2.9rem] btn-green rounded-3xl text-center outline text-white"
-              onClick={loginRequestHandler}
+              onClick={loginHandler}
             >
               로그인
             </Button>
@@ -103,7 +84,7 @@ const ModalLogin = ({ modalOpen, closeModal, isLogin }) => {
       </div>
     </div>,
 
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 

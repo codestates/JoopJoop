@@ -1,26 +1,30 @@
 import React, { useState } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Button from "../components/button";
 import axios from "axios";
 import Carousel from "../components/carousel";
 import logo from "../img/Logo.png";
 import ModalLogin from "../modals/modalLogin";
 import ModalSignUp from "../modals/modalSignUp";
-import ModalCreateGathering from "../modals/modalViewGathering";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import KakaoOauth from "../components/kakaoOauth";
 import Home from "./home";
 
-const oAuthLoginHandler = async (data) => {
+const oAuthLoginHandler = async data => {
   let request = {
     oAuthId: data.profile.id,
   };
   console.log(request);
-  await axios.post("http://localhost:80/auth/kakao", {
-    data: request,
-    withCredentials: true,
-  });
+  await axios
+    .post("http://localhost:80/auth/kakao", {
+      data: request,
+      withCredentials: true,
+    })
+    .then(data => {
+      console.log(data);
+    });
 };
 
-const Landing = (loginHandler) => {
+const Landing = ({ onLogin }) => {
   const [modalOn, setModalOn] = useState(false);
 
   const handleModal = () => {
@@ -51,6 +55,7 @@ const Landing = (loginHandler) => {
             </div>
             <Button children={"구글 회원가입"}></Button>
             <Button children={"카카오 회원가입"}></Button>
+            <KakaoOauth oAuthLoginHandler={oAuthLoginHandler} />
             <div className="text-center">또는</div>
             <Button
               className="btn btn-green"
@@ -69,6 +74,7 @@ const Landing = (loginHandler) => {
             modalOpen={loginModalOpen}
             closeModal={() => setLoginModalOpen(false)}
             isLogin={() => setIsLogin(true)}
+            onLogin={onLogin}
           />
           <ModalSignUp
             modalOpen={signUpModalOpen}
