@@ -13,16 +13,14 @@ const UserSchema = new mongoose.Schema(
     badge: String,
     point: Number,
     introduction: String,
-    // gathering_info: {
-    //   type: Array,
-    //   properties: {
-    //     id: Number,
-    //     creator_id: Number,
-    //     title: String,
-    //     date: String,
-    //     location: String,
-    //   },
-    // },
+    // posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'post' }],
+    // postcomments: [
+    //   { type: mongoose.Schema.Types.ObjectId, ref: 'post_comment' },
+    // ],
+    // gatherings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'gathering' }],
+    // gatheringcomments: [
+    //   { type: mongoose.Schema.Types.ObjectId, ref: 'gathering_comment' },
+    // ],
   },
   { timestamps: true }
 );

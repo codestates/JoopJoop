@@ -29,23 +29,12 @@ const GatheringSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    participants: {
-      // 채팅방 참가자들 id
-      type: Array,
-      properties: {
-        nickname: String,
-      },
-    },
-    // comment: {
-    //   // 댓글단사람의 아이디, 댓글 내용
-    //   type: Array,
-    //   properties: {
-    //     nickname: String,
-    //     message: String,
-    //   },
-    // },
     longitude: String,
     latitude: String,
+    comments: [
+      { type: mongoose.Schema.Types.ObjectId, ref: 'gathering_comment' },
+    ],
+    paricipants: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
   },
   { timestamps: true }
 );
