@@ -4,13 +4,41 @@ import Button from "../components/button";
 import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
+//! redux state 받아오기 import
+import { connect } from "react-redux";
+//! redux dispatch 함수 받아오기 import
+import action from "../redux/action";
 
-const ModalLogin = ({ modalOpen, closeModal, isLogin, onLogin }) => {
+//! redux state 받아오기
+const mapStateToProps = state => {
+  return {
+    isLogin: state.isLogin,
+  };
+};
+
+//! redux dispatch 받아오기
+const mapDispatchToProps = dispatch => {
+  return {
+    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+  };
+};
+
+//! props로 위에 작성한 setIsLogin props로 내려주기
+const ModalLogin = ({
+  modalOpen,
+  closeModal,
+  onLogin,
+  setIsLogin,
+  isLogin,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const loginHandler = () => {
     onLogin(email, password);
+    console.log(isLogin);
+    setIsLogin(true);
+    console.log(isLogin);
   };
 
   if (!modalOpen) return null;
@@ -88,4 +116,4 @@ const ModalLogin = ({ modalOpen, closeModal, isLogin, onLogin }) => {
   );
 };
 
-export default ModalLogin;
+export default connect(mapStateToProps, mapDispatchToProps)(ModalLogin);

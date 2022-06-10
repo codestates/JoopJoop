@@ -26,15 +26,15 @@ function App() {
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then((res) => {
+      .then(res => {
         onLoginSuccess(res);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("onLogin 함수");
       });
   };
 
-  const onLoginSuccess = (res) => {
+  const onLoginSuccess = res => {
     const { accessToken } = res.data;
     // accessToken 설정
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -53,13 +53,13 @@ function App() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         console.log(res);
         // onLoginSuccess(res);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("refresh 실패");
       });
   };
@@ -90,30 +90,13 @@ function App() {
     };
   });
 
-  const loginHandler = (data) => {
+  const loginHandler = data => {
     setIsLogin(true);
     issueAccessToken(data.data.accessToken);
   };
 
-  const issueAccessToken = (token) => {
+  const issueAccessToken = token => {
     setAccessToken(token);
-  };
-
-  const oAuthLoginHandler = async (data) => {
-    console.log(isLogin);
-    let request = {
-      oAuthId: data.profile.id,
-    };
-    console.log(request);
-    await axios
-      .post("http://localhost:80/auth/kakao", {
-        data: request,
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res);
-        loginHandler(res);
-      });
   };
 
   return (

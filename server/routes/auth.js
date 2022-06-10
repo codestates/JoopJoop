@@ -22,7 +22,7 @@ router.post("/register", async (req, res) => {
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     ).toString(),
   });
   console.log(newUser);
@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
     }
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     );
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
@@ -80,7 +80,7 @@ router.post("/refresh", async (req, res) => {
   if (!refreshToken) {
     return res.json("refresh token not provided");
   }
-  const checkRefreshToken = (refreshToken) => {
+  const checkRefreshToken = refreshToken => {
     return jwt.verify(
       refreshToken,
       process.env.REFRESH_SECRET,
@@ -91,7 +91,7 @@ router.post("/refresh", async (req, res) => {
         }
         console.log(decoded);
         return decoded;
-      }
+      },
     );
   };
 
@@ -124,11 +124,11 @@ router.post("/kakao", (req, res) => {
   if (req.body.data.oAuthId) {
     //요청 body에 oAuthId 키가 존재하는지 체크한다.
     //만일 존재한다면, DB에 해당 oAuthId를 갖고있는 유저를 탐색한다.
-    User.findOne({ oAuthId: req.body.data.oAuthId }, (err, user) => {
+    User.findOne({ oAuthId: req.body.data.oAuthId }, async (err, user) => {
       if (!user) {
-        const userSchema = new User(req.body.data);
+        const userSchema = await new User(req.body.data);
         // 계정 생성
-        userSchema.save((err, _) => {
+        await userSchema.save(err => {
           if (err) return res.json({ success: false, err });
           return res.status(200).json({
             registerSuccess: true,
