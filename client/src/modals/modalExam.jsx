@@ -52,7 +52,7 @@ function SignupModal({ modalOpen, closeModal }) {
       </div>
     </div>,
 
-    document.getElementById("modal"), //Assign the root div to render to
+    document.getElementById("modal") //Assign the root div to render to
   );
 }
 
