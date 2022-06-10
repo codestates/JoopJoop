@@ -22,7 +22,7 @@ router.post("/register", async (req, res) => {
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_SEC,
+      process.env.PASS_SEC
     ).toString(),
   });
   console.log(newUser);
@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
     }
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_SEC,
+      process.env.PASS_SEC
     );
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
@@ -81,8 +81,7 @@ router.post("/refresh", async (req, res) => {
   if (!refreshToken) {
     return res.json("refresh token not provided");
   }
-
-  const checkRefreshToken = refreshToken => {
+  const checkRefreshToken = (refreshToken) => {
     return jwt.verify(
       refreshToken,
       process.env.REFRESH_SECRET,
@@ -92,36 +91,29 @@ router.post("/refresh", async (req, res) => {
           return null;
         }
         console.log(decoded);
-      },
+        return decoded;
+      }
     );
   };
 
-  console.log(refreshToken);
-
   const refreshTokenData = checkRefreshToken(refreshToken);
-
-  console.log(refreshTokenData);
 
   if (!refreshTokenData) {
     return res.json("invalid refresh token, please login again");
   }
 
   const { id } = refreshTokenData;
-  User.findOne({ id })
-    .then(data => {
-      if (!data) {
-        return res.json({
-          data: null,
-          message: "refresh token has been tempered",
-        });
-      }
-
-      const newAccessToken = generateAccessToken(data.dataValues);
-      res.json(res, newAccessToken, data.dataValues);
-    })
-    .catch(err => {
-      console.log(err);
+  const user = await User.findOne({ _id: id });
+  try {
+    console.log(user);
+    const newAccessToken = generateAccessToken(user);
+    res.status(200).json(res, newAccessToken, user);
+  } catch {
+    return res.status(400).json({
+      data: null,
+      message: "refresh token has been tempered",
     });
+  }
 });
 
 // Oauth2 Kakao Login
