@@ -65,7 +65,6 @@ const Landing = (loginHandler) => {
             />
             <Button children={"게스트 로그인"}></Button>
           </div>
-
           <ModalLogin
             modalOpen={loginModalOpen}
             closeModal={() => setLoginModalOpen(false)}
