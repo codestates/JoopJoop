@@ -2,6 +2,7 @@
   {
     "id": 1,
     "title": "Royal Tenenbaums, The",
+    "town": "종로구",
     "place": "Konotop",
     "date": "5/12/2022",
     "time": "3:45 AM",
@@ -15,6 +16,7 @@
   {
     "id": 2,
     "title": "Police Academy 3: Back in Training",
+    "town": "종로구",
     "place": "Ust’-Ilimsk",
     "date": "4/6/2022",
     "time": "8:23 AM",
@@ -28,6 +30,7 @@
   {
     "id": 3,
     "title": "Boys from Fengkuei, The (Feng gui lai de ren)",
+    "town": "용산구",
     "place": "Lishu",
     "date": "4/5/2022",
     "time": "10:34 PM",
@@ -41,6 +44,7 @@
   {
     "id": 4,
     "title": "Aspen",
+    "town": "종로구",
     "place": "Waiholo",
     "date": "10/3/2021",
     "time": "12:51 PM",
@@ -54,6 +58,7 @@
   {
     "id": 5,
     "title": "It's a Wonderful Afterlife",
+    "town": "성동구",
     "place": "Syrskoye",
     "date": "3/7/2022",
     "time": "7:47 AM",
@@ -67,6 +72,7 @@
   {
     "id": 6,
     "title": "Outrageous Fortune",
+    "town": "종로구",
     "place": "Bom Despacho",
     "date": "9/12/2021",
     "time": "1:35 AM",
@@ -80,6 +86,7 @@
   {
     "id": 7,
     "title": "Royal Affair, A (Kongelig affære, En)",
+    "town": "중구",
     "place": "Xitan",
     "date": "6/30/2021",
     "time": "12:32 PM",
@@ -93,6 +100,7 @@
   {
     "id": 8,
     "title": "Scatter My Ashes at Bergdorf's",
+    "town": "중구",
     "place": "Hicksville",
     "date": "1/17/2022",
     "time": "11:36 PM",
@@ -106,6 +114,7 @@
   {
     "id": 9,
     "title": "Titanic",
+    "town": "중구",
     "place": "North Side",
     "date": "2/13/2022",
     "time": "7:14 AM",
@@ -119,6 +128,7 @@
   {
     "id": 10,
     "title": "The Last Shark",
+    "town": "종로구",
     "place": "Hyattsville",
     "date": "12/18/2021",
     "time": "1:07 AM",
@@ -132,6 +142,7 @@
   {
     "id": 11,
     "title": "Emperor Waltz, The",
+    "town": "성동구",
     "place": "Tierp",
     "date": "1/5/2022",
     "time": "3:14 AM",
@@ -145,6 +156,7 @@
   {
     "id": 12,
     "title": "Appeared, The (Aparecidos)",
+    "town": "중구",
     "place": "Las Heras",
     "date": "2/2/2022",
     "time": "10:22 AM",
@@ -158,6 +170,7 @@
   {
     "id": 13,
     "title": "Paternity",
+    "town": "종로구",
     "place": "Stockholm",
     "date": "5/30/2022",
     "time": "8:54 AM",
@@ -171,6 +184,7 @@
   {
     "id": 14,
     "title": "Comancheros, The",
+    "town": "중구",
     "place": "Lovisa",
     "date": "4/1/2022",
     "time": "6:40 AM",
@@ -184,6 +198,7 @@
   {
     "id": 15,
     "title": "Silence of the Sea, The (Le silence de la mer)",
+    "town": "중구",
     "place": "Kaduranca",
     "date": "12/12/2021",
     "time": "10:40 PM",
@@ -197,6 +212,7 @@
   {
     "id": 16,
     "title": "In God's Hands",
+    "town": "종로구",
     "place": "San Francisco Zapotitlán",
     "date": "12/28/2021",
     "time": "1:10 AM",
@@ -210,6 +226,7 @@
   {
     "id": 17,
     "title": "Iron Jawed Angels",
+    "town": "성동구",
     "place": "Fayzabad",
     "date": "10/26/2021",
     "time": "2:44 PM",
@@ -223,6 +240,7 @@
   {
     "id": 18,
     "title": "Brandon Teena Story, The",
+    "town": "중구",
     "place": "Terara",
     "date": "1/16/2022",
     "time": "6:09 PM",
@@ -236,6 +254,7 @@
   {
     "id": 19,
     "title": "Paris Blues",
+    "town": "중구",
     "place": "Mojoagung",
     "date": "10/18/2021",
     "time": "9:39 AM",
@@ -249,6 +268,7 @@
   {
     "id": 20,
     "title": "Wallace and Gromit in 'A Matter of Loaf and Death'",
+    "town": "용산구",
     "place": "Paris 01",
     "date": "12/2/2021",
     "time": "12:54 PM",
@@ -262,6 +282,7 @@
   {
     "id": 21,
     "title": "Mechanic, The",
+    "town": "종로구",
     "place": "Kalanchak",
     "date": "2/25/2022",
     "time": "3:47 AM",
@@ -275,6 +296,7 @@
   {
     "id": 22,
     "title": "State Fair",
+    "town": "용산구",
     "place": "Senador Canedo",
     "date": "5/2/2022",
     "time": "3:34 AM",
@@ -288,6 +310,7 @@
   {
     "id": 23,
     "title": "Man-Thing",
+    "town": "성동구",
     "place": "Edinburgh",
     "date": "12/30/2021",
     "time": "5:17 AM",
@@ -301,6 +324,7 @@
   {
     "id": 24,
     "title": "Fed Up",
+    "town": "용산구",
     "place": "Yelizavetinskoye",
     "date": "3/22/2022",
     "time": "1:02 AM",
@@ -314,6 +338,7 @@
   {
     "id": 25,
     "title": "Victory Through Air Power",
+    "town": "성동구",
     "place": "Huangdu",
     "date": "4/13/2022",
     "time": "5:34 AM",
@@ -327,6 +352,7 @@
   {
     "id": 26,
     "title": "Gold",
+    "town": "용산구",
     "place": "Lolak",
     "date": "4/27/2022",
     "time": "8:54 PM",
@@ -340,6 +366,7 @@
   {
     "id": 27,
     "title": "This Is the End",
+    "town": "성동구",
     "place": "Fengyang",
     "date": "4/5/2022",
     "time": "8:26 PM",
@@ -353,6 +380,7 @@
   {
     "id": 28,
     "title": "Earthsea (Legend of Earthsea)",
+    "town": "용산구",
     "place": "Jarānwāla",
     "date": "6/28/2021",
     "time": "9:49 AM",
@@ -366,6 +394,7 @@
   {
     "id": 29,
     "title": "Tremors 4: The Legend Begins",
+    "town": "성동구",
     "place": "Sibubuhan",
     "date": "10/14/2021",
     "time": "12:46 PM",
@@ -379,6 +408,7 @@
   {
     "id": 30,
     "title": "Unthinkable",
+    "town": "종로구",
     "place": "Bohicon",
     "date": "4/8/2022",
     "time": "6:52 AM",

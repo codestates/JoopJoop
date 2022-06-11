@@ -2,13 +2,10 @@ import React from "react";
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import Card from "../components/card_gathering";
-import axios from "axios";
 
-axios
-  .get("http://localhost:80/gatherings/", {
-    withCredentials: true,
-  })
-  .then(data => console.log(data));
+import mockGatherings from "../mockData/mock_gather.json";
+
+const GatheringCards = () => {};
 
 const Home = () => {
   return (

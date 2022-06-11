@@ -25,7 +25,6 @@ router.post("/register", async (req, res) => {
       process.env.PASS_SEC,
     ).toString(),
   });
-  console.log(newUser);
 
   try {
     const savedUser = await newUser.save();
@@ -42,7 +41,6 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({
       email: req.body.email,
     });
-    console.log(user);
     if (!user) {
       return res.status(401).json("등록되지않은 이메일입니다.");
     }
@@ -89,7 +87,6 @@ router.post("/refresh", async (req, res) => {
           console.log(err);
           return null;
         }
-        console.log(decoded);
         return decoded;
       },
     );
@@ -103,14 +100,11 @@ router.post("/refresh", async (req, res) => {
 
   const { id } = refreshTokenData;
   const user = await User.findOne({ _id: id });
-  console.log(user);
 
   try {
     const newAccessToken = generateAccessToken(user);
-    console.log("refresh!!!");
-    console.log(newAccessToken);
     const { password, ...others } = user._doc;
-    res.status(200).json({ ...others, newAccessToken });
+    res.status(200).json({ ...others, accessToken: newAccessToken });
   } catch {
     return res.status(400).json({
       data: null,
