@@ -28,8 +28,11 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(console.log('Connected to MongoDB https://cloud.mongodb.com/'))
-  .catch((err) => console.log(err));
+
+
+
+  .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
+  .catch(err => console.log(err));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -46,7 +49,11 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 
 passportConfig(app);
+<<<<<<< HEAD
 app.use(cookieParser());
+=======
+
+>>>>>>> Merge를 위한 Commit
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/auth', authRoute);

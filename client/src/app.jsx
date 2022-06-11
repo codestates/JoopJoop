@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Navbar from './components/navbar';
 import Chat from './pages/chat';
 import Community from './pages/community';
 import Home from './pages/home';
@@ -9,6 +8,8 @@ import Footer from './components/footer';
 import Landing from './pages/landing';
 import './index.css';
 import Dropdown from './components/dropdown';
+import axios from 'axios';
+
 import axios from 'axios';
 import { connect } from 'react-redux';
 import action from './redux/action';
