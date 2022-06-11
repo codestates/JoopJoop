@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 const GatheringSchema = mongoose.Schema(
   {
-    creator: {
-      type: Object,
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
       required: true,
-      properties: {
-        nickname: String,
-        profile_img: String,
-      },
-      // default: [{ nickname: 'MinHyuk', profile_img: 'MinHyuk.jpeg' }],
     },
     title: {
       type: String,
@@ -34,7 +30,7 @@ const GatheringSchema = mongoose.Schema(
     comments: [
       { type: mongoose.Schema.Types.ObjectId, ref: 'gathering_comment' },
     ],
-    paricipants: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    paricipants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
   },
   { timestamps: true }
 );

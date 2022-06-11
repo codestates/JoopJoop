@@ -1,15 +1,15 @@
-const router = require("express").Router();
-const User = require("../models/user");
-const Gathering = require("../models/gathering");
-const GaComment = require("../models/gathering_comment");
+const router = require('express').Router();
+const User = require('../models/user');
+const Gathering = require('../models/gathering');
+const GaComment = require('../models/gathering_comment');
 const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require("./tokenfunction");
+} = require('./tokenfunction');
 
 //CREATE GATHERING
-router.post("/", verifyTokenAndAuthorization, async (req, res) => {
+router.post('/', verifyTokenAndAuthorization, async (req, res) => {
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
@@ -19,7 +19,7 @@ router.post("/", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 //UPDATE GATHERING
-router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     if (gathering.creator.nickname === req.body.nickname) {
@@ -36,32 +36,32 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json("자신이 만든 모임만 수정할 수 있습니다");
+      res.status(401).json('자신이 만든 모임만 수정할 수 있습니다');
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 //DELETE GATHERING
-router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     if (gathering.creator.nickname === req.body.nickname) {
       try {
         await gathering.delete();
-        res.status(200).json("모임이 삭제 되었습니다.");
+        res.status(200).json('모임이 삭제 되었습니다.');
       } catch (err) {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json("자신이 만든 모임만 삭제할 수 있습니다");
+      res.status(401).json('자신이 만든 모임만 삭제할 수 있습니다');
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 //GET GATHERING
-router.get("/:id", verifyTokenAndAdmin, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     res.status(200).json(gathering);
@@ -70,7 +70,7 @@ router.get("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 //GET ALL GATHERING
-router.get("/", verifyTokenAndAdmin, async (req, res) => {
+router.get('/', async (req, res) => {
   const nickname = req.query.nickname;
   try {
     let gatherings;

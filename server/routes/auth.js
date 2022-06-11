@@ -5,6 +5,7 @@ const {
   generateAccessToken,
   generateRefreshToken,
   generateOauthToken,
+  verifyToken,
 } = require('./tokenfunction');
 const jwt = require('jsonwebtoken');
 
@@ -63,6 +64,7 @@ router.post('/login', async (req, res) => {
     const refreshToken = generateRefreshToken(user);
 
     const { password, ...others } = user._doc;
+
     res
       .cookie('refreshToken', refreshToken, cookieOption)
       .status(200)
@@ -110,6 +112,8 @@ router.post('/refresh', async (req, res) => {
 
   try {
     const newAccessToken = generateAccessToken(user);
+    console.log('refresh!!!');
+    console.log(newAccessToken);
     const { password, ...others } = user._doc;
     res.status(200).json({ ...others, accessToken: newAccessToken });
   } catch {
@@ -146,6 +150,11 @@ router.post('/kakao', (req, res) => {
     return;
   } else {
   }
+});
+
+router.post('/logout', (req, res) => {
+  // res.setHeader('Set-Cookie', 'login=true; Max-age=0');
+  return res.cookie('refreshToken', '').json({ message: 'success to logout!' });
 });
 
 module.exports = router;
