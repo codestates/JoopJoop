@@ -31,8 +31,8 @@ const generateOauthToken = user => {
 };
 
 const verifyToken = (req, res, next) => {
-  console.log("verifyToken");
-  console.log(req.headers.token);
+  // console.log("verifyToken");
+  // console.log(req.headers.token);
 
   const authHeader = req.headers.token;
 

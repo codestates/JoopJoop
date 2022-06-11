@@ -1,7 +1,8 @@
 import React from "react";
-import profileImg from "../img/profile.png";
+import defaultImg from "../img/profile.png";
 
-const card_gathering = ({ date, time, big, small, content, img, user }) => {
+const card_gathering = props => {
+  const { date, time, town, place, title, creator, location } = props.props;
   return (
     <>
       <div className="w-80 h-60 m-2 rounded-2xl border-2 border-grey-50 bg-white shadow-lg flex flex-col">
@@ -13,13 +14,13 @@ const card_gathering = ({ date, time, big, small, content, img, user }) => {
           </div>
         </div>
         <div className="h-full w-full flex flex-col items-center mt-7">
-          <div className="text-xl font-medium">{big}</div>
-          <div className="text-lg">{small}</div>
-          <div className="text-sm">{content}</div>
+          <div className="text-xl font-medium">{town}</div>
+          <div className="text-lg">{place}</div>
+          <div className="text-sm">{title}</div>
         </div>
         <div className="flex flex-row place-content-center gap-4 items-center m-2">
-          <img className="h-8 w-8" src={img} alt="err" />
-          <div className=" text-lg">{user}</div>
+          <img className="h-8 w-8" src={creator.profileImg} alt="err" />
+          <div className=" text-lg">{creator.nickname}</div>
         </div>
       </div>
     </>
@@ -29,12 +30,11 @@ const card_gathering = ({ date, time, big, small, content, img, user }) => {
 card_gathering.defaultProps = {
   date: "7월 13일",
   time: "7:00 PM",
-  duration: "3시간",
-  big: "강남구",
-  small: "학동공원",
-  content: "가볍게 줍깅하실 분 구해요!",
-  img: profileImg,
-  user: "hound_bae",
+  town: "강남구",
+  place: "학동공원",
+  title: "가볍게 줍깅하실 분 구해요!",
+  profileImg: defaultImg,
+  nickname: "hound_bae",
 };
 
 export default card_gathering;

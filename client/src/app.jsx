@@ -58,7 +58,7 @@ function App({ isLogin, setIsLogin }) {
         },
       )
       .then(res => {
-        console.log("resfresh 성공");
+        // console.log("resfresh 성공");
         onLoginSuccess(res);
       })
       .catch(error => {
@@ -68,15 +68,15 @@ function App({ isLogin, setIsLogin }) {
 
   const onLoginSuccess = res => {
     const { accessToken } = res.data;
-    console.log("onloginsuccess");
-    console.log(accessToken);
+    // console.log("onloginsuccess");
+    // console.log(accessToken);
     //login state true
     setIsLogin(true);
     // accessToken 설정
     axios.defaults.headers.common["token"] = accessToken;
     // accessToken 만료하기 1분 전에 로그인 연장
     // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
-    getGatherings(accessToken);
+    // getGatherings(accessToken);
   };
 
   //! gatherings 정보가져오기, 분리 필요
