@@ -31,9 +31,13 @@ const generateOauthToken = user => {
 };
 
 const verifyToken = (req, res, next) => {
+  console.log("verifyToken");
+  console.log(req.headers.token);
+
   const authHeader = req.headers.token;
+
   if (authHeader) {
-    const token = authHeader.split(" ")[1];
+    const token = authHeader;
     jwt.verify(token, process.env.JWT_SEC, (err, user) => {
       if (err) res.status(403).json("유효하지 않은 토큰입니다!");
       // console.log(user)

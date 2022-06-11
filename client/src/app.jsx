@@ -9,8 +9,22 @@ import Landing from "./pages/landing";
 import "./index.css";
 import Dropdown from "./components/dropdown";
 import axios from "axios";
+import { connect } from "react-redux";
+import action from "./redux/action";
 
-function App() {
+const mapStateToProps = state => {
+  return {
+    isLogin: state.isLogin,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+  };
+};
+
+function App({ isLogin, setIsLogin }) {
   const onLogin = (email, password) => {
     console.log("로그인요청");
     const data = {
@@ -34,34 +48,45 @@ function App() {
       });
   };
 
-  const onLoginSuccess = res => {
-    const { accessToken } = res.data;
-    // accessToken 설정
-    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-    // accessToken 만료하기 1분 전에 로그인 연장
-    // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
-  };
-
   const onSilentRefresh = () => {
-    console.log("silent");
     axios
       .post(
         "http://localhost:80/auth/refresh",
         { data: "refresh" },
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
           withCredentials: true,
         },
       )
       .then(res => {
-        console.log(res);
-        // onLoginSuccess(res);
+        console.log("resfresh 성공");
+        onLoginSuccess(res);
       })
       .catch(error => {
         console.log("refresh 실패");
       });
+  };
+
+  const onLoginSuccess = res => {
+    const { accessToken } = res.data;
+    console.log("onloginsuccess");
+    console.log(accessToken);
+    //login state true
+    setIsLogin(true);
+    // accessToken 설정
+    axios.defaults.headers.common["token"] = accessToken;
+    // accessToken 만료하기 1분 전에 로그인 연장
+    // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
+    getGatherings(accessToken);
+  };
+
+  //! gatherings 정보가져오기, 분리 필요
+  const getGatherings = () => {
+    axios
+      .get("http://localhost:80/gatherings", {
+        withCredentials: true,
+        token: accessToken,
+      })
+      .then(data => console.log(data));
   };
 
   const componentDidMount = () => {
@@ -70,7 +95,6 @@ function App() {
   componentDidMount();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
   const [accessToken, setAccessToken] = useState("");
 
   const toggle = () => {
@@ -89,11 +113,6 @@ function App() {
       window.removeEventListener("resize", hideMenu);
     };
   });
-
-  const loginHandler = data => {
-    setIsLogin(true);
-    issueAccessToken(data.data.accessToken);
-  };
 
   const issueAccessToken = token => {
     setAccessToken(token);
@@ -120,4 +139,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
