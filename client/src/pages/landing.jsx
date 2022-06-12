@@ -31,17 +31,9 @@ const oAuthLoginHandler = async data => {
     });
 };
 
-//? props.onLogin 확인 필요
 const Landing = ({ onLogin, isLogin }) => {
-  const [modalOn, setModalOn] = useState(false);
-
-  const handleModal = () => {
-    setModalOn(!modalOn);
-  };
-
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
-  const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
 
   return (
     <BrowserRouter>
