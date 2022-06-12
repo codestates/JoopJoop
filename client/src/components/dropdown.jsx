@@ -6,7 +6,7 @@ const Dropdown = ({ isOpen, toggle, profileImg, userId, alarm, url }) => {
     <div
       className={
         isOpen
-          ? "absolute top-10 right-10 h-25 w-17 bg-white flex flex-col   "
+          ? "absolute top-16 right-10 h-25 w-17 bg-white flex flex-col  transition duration-300 ease-in-out animate-bounce "
           : "hidden"
       }
       onClick={toggle}
