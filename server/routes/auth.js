@@ -43,8 +43,11 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({
       email: req.body.email,
     });
+<<<<<<< HEAD
     console.log(user);
 
+=======
+>>>>>>> Merge 를 위한 Commit
     if (!user) {
       return res.status(401).json('등록되지않은 이메일입니다.');
     }

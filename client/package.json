@@ -10,7 +10,10 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
+<<<<<<< HEAD
     "date-fns": "^2.28.0",
+=======
+>>>>>>> Merge 를 위한 Commit
     "dotenv": "^16.0.1",
     "install": "^0.13.0",
     "npm": "^8.12.1",

@@ -7,7 +7,11 @@
     "date": "2022-06-12",
     "time": "3:45 AM",
     "location": { "longitude": 33.2050521, "latitude": 51.2409432 },
+<<<<<<< HEAD
     "author": {
+=======
+    "creator": {
+>>>>>>> Merge 를 위한 Commit
       "nickname": "smacascaidh0",
       "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
     },

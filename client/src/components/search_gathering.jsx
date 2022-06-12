@@ -1,8 +1,13 @@
 import React from "react";
+<<<<<<< HEAD
 import SearchTown from "./select_town";
 import SearchDate from "./select_date";
 import SearchTime from "./select_time";
 import Button from "./button";
+=======
+import SearchLocation from "./select_location";
+import SearchDate from "./select_date";
+>>>>>>> Merge 를 위한 Commit
 
 const location = [
   { value: "종로구", label: "종로구" },
@@ -33,18 +38,31 @@ const location = [
 ];
 
 const time = [
+<<<<<<< HEAD
   { value: "오전", label: "오전" },
   { value: "오후", label: "오후" },
 ];
 
 const Search_gathering = () => {
+=======
+  { category: "Group 1", value: "오전", label: "오전" },
+  { category: "Group 1", value: "오후", label: "오후" },
+  { category: "Group 3", value: "저녁", label: "저녁" },
+];
+
+const Search_gathering = props => {
+>>>>>>> Merge 를 위한 Commit
   return (
     <>
       <div className="border-2 w-[45rem] border-green-100 rounded-full">
         <div className="flex place-content-between gap-1">
           <div className="pl-10 w-[24rem] justify-center">
             <div className="">장소</div>
+<<<<<<< HEAD
             <SearchTown options={location} />
+=======
+            <SearchLocation options={location} />
+>>>>>>> Merge 를 위한 Commit
           </div>
           <div className="w-[6rem]">
             <div>날짜</div>
@@ -52,6 +70,7 @@ const Search_gathering = () => {
           </div>
           <div className="w-[7rem]">
             <div>시간</div>
+<<<<<<< HEAD
             <SearchTime options={time} />
           </div>
           <div className="pr-10 w-[3rem]">
@@ -59,6 +78,12 @@ const Search_gathering = () => {
               className="btn btn-green w-10 h-10 text-sm"
               children={"초기화"}
             />
+=======
+            <SearchLocation options={time} />
+          </div>
+          <div className="pr-10 w-[3rem]">
+            <i>Search icon</i>
+>>>>>>> Merge 를 위한 Commit
           </div>
         </div>
       </div>

@@ -8,7 +8,11 @@ const {
 } = require('./tokenfunction');
 
 //CREATE GATHERING
+<<<<<<< HEAD
 router.post('/:id', verifyTokenAndAuthorization, async (req, res) => {
+=======
+router.post('/', verifyTokenAndAuthorization, async (req, res) => {
+>>>>>>> Merge 를 위한 Commit
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
@@ -60,7 +64,11 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 //GET GATHERING
+<<<<<<< HEAD
 router.get('/:id', async (req, res) => {
+=======
+router.get('/:id', verifyTokenAndAdmin, async (req, res) => {
+>>>>>>> Merge 를 위한 Commit
   try {
     const gathering = await Gathering.findById(req.params.id);
     res.status(200).json(gathering);
@@ -69,7 +77,11 @@ router.get('/:id', async (req, res) => {
   }
 });
 //GET ALL GATHERING
+<<<<<<< HEAD
 router.get('/', async (req, res) => {
+=======
+router.get('/', verifyTokenAndAdmin, async (req, res) => {
+>>>>>>> Merge 를 위한 Commit
   const nickname = req.query.nickname;
   try {
     let gatherings;
@@ -86,10 +98,5 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-//CREATE GATHERING COMMENT
-//UPDATE GATHERING COMMENT
-//DELETE GATHERING COMMENT
-//GET ALL GATHERING COMMENT
 
 module.exports = router;

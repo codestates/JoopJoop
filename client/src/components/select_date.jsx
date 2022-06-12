@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -29,10 +30,24 @@ const SearchDate = ({ setSearchDate }) => {
       className="w-[6rem]"
       locale={ko}
       dateFormat="yy/MM/dd"
+=======
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+const SearchDate = props => {
+  const [startDate, setStartDate] = useState(new Date());
+  return (
+    <DatePicker
+      className="w-[6rem]"
+>>>>>>> Merge 를 위한 Commit
       selected={startDate}
       onChange={date => setStartDate(date)}
     />
   );
 };
 
+<<<<<<< HEAD
 export default connect(null, mapDispatchToProps)(SearchDate);
+=======
+export default SearchDate;
+>>>>>>> Merge 를 위한 Commit

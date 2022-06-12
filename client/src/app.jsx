@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+<<<<<<< HEAD
+=======
+import Navbar from './components/navbar';
+>>>>>>> Merge 를 위한 Commit
 import Chat from './pages/chat';
 import Community from './pages/community';
 import Home from './pages/home';
@@ -9,8 +13,11 @@ import Landing from './pages/landing';
 import './index.css';
 import Dropdown from './components/dropdown';
 import axios from 'axios';
+<<<<<<< HEAD
 
 import axios from 'axios';
+=======
+>>>>>>> Merge 를 위한 Commit
 import { connect } from 'react-redux';
 import action from './redux/action';
 
@@ -34,7 +41,11 @@ function App({ isLogin, setIsLogin }) {
       password,
     };
     axios
+<<<<<<< HEAD
       .post('http://localhost:80/auth/login', data, {
+=======
+      .post('http://localhost:8080/auth/login', data, {
+>>>>>>> Merge 를 위한 Commit
         headers: {
           'Content-Type': 'application/json',
         },
@@ -53,7 +64,11 @@ function App({ isLogin, setIsLogin }) {
   const onSilentRefresh = () => {
     axios
       .post(
+<<<<<<< HEAD
         'http://localhost:80/auth/refresh',
+=======
+        'http://localhost:8080/auth/refresh',
+>>>>>>> Merge 를 위한 Commit
         { data: 'refresh' },
         {
           withCredentials: true,
@@ -116,6 +131,7 @@ function App({ isLogin, setIsLogin }) {
     };
   });
 
+<<<<<<< HEAD
   const loginHandler = (data) => {
     setIsLogin(true);
     issueAccessToken(data.data.accessToken);
@@ -124,11 +140,17 @@ function App({ isLogin, setIsLogin }) {
   const issueAccessToken = (token) => {
     setAccessToken(token);
   };
+=======
+>>>>>>> Merge 를 위한 Commit
   return (
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
+<<<<<<< HEAD
         {isLogin ? <Navbar toggle={toggle} /> : null}
+=======
+        {isLogin ? <Navbar /> : null}
+>>>>>>> Merge 를 위한 Commit
         {isLogin ? (
           <Switch>
             <Route path="/home" exact component={Home} />
