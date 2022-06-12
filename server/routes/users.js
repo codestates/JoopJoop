@@ -45,8 +45,8 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate({
-      path: 'posts',
-      model: 'post',
+      path: 'gatherings',
+      model: 'gathering',
     });
     const { password, ...others } = user._doc;
     res.status(200).json(others);
@@ -59,7 +59,12 @@ router.get('/:id', async (req, res) => {
 //GET ALL USER
 router.get('/', async (req, res) => {
   try {
-    let users = await User.find();
+    let users = await User.find().populate('gatherings', [
+      'title',
+      'place',
+      'date',
+      'time',
+    ]);
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json(err);
