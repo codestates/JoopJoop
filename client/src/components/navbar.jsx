@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ toggle, loginId }) => {
+const Navbar = ({ loginId, isOpen, toggle }) => {
   return (
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">

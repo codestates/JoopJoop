@@ -11,7 +11,7 @@ const Mypage = () => {
         },
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.message !== "ok") {
           const message =
             "access token이 만료되어 불러올 수 없습니다. refresh token을 사용해주시기 바랍니다.";
@@ -27,7 +27,7 @@ const Mypage = () => {
       .get("https://localhost:4000/refreshtokenrequest", {
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.message !== "ok") {
           const message =
             "refresh token이 만료되어 불러올 수 없습니다. 다시 로그인 해주시기 바랍니다.";
