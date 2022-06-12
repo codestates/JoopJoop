@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import ModalViewGathering from "../modals/modalViewGathering";
 import Card from "../components/card_gathering";
@@ -59,12 +58,6 @@ const Schedule = () => {
       />
     </div>
   );
-=======
-import React from "react";
-
-const Schedule = () => {
-  return <div>SCHEDULE 구현중</div>;
->>>>>>> Merge 를 위한 Commit
 };
 
 export default Schedule;

@@ -2,11 +2,7 @@ import React from "react";
 import defaultImg from "../img/profile.png";
 
 const card_gathering = ({ props, onClick }) => {
-<<<<<<< HEAD
   const { date, time, town, place, title, author, location } = props;
-=======
-  const { date, time, town, place, title, creator, location } = props;
->>>>>>> Merge 를 위한 Commit
   return (
     <>
       <div
@@ -26,13 +22,8 @@ const card_gathering = ({ props, onClick }) => {
           <div className="text-sm">{title}</div>
         </div>
         <div className="flex flex-row place-content-center gap-4 items-center m-2">
-<<<<<<< HEAD
           <img className="h-8 w-8" src={author.profileImg} alt="err" />
           <div className=" text-lg">{author.nickname}</div>
-=======
-          <img className="h-8 w-8" src={creator.profileImg} alt="err" />
-          <div className=" text-lg">{creator.nickname}</div>
->>>>>>> Merge 를 위한 Commit
         </div>
       </div>
     </>

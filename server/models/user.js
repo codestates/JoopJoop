@@ -11,16 +11,12 @@ const UserSchema = new mongoose.Schema({
   },
   profileImg: { type: String, default: 'joopjoop.png' },
   introduction: String,
-<<<<<<< HEAD
-  gatherings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'gathering' }],
-=======
   gatherings: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'gathering',
     },
   ],
->>>>>>> add google oauth
 });
 
 module.exports = mongoose.model('user', UserSchema);

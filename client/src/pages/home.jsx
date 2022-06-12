@@ -1,14 +1,8 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
-=======
-import React, { useState } from "react";
-import { useEffect } from "react";
->>>>>>> Merge 를 위한 Commit
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import Card from "../components/card_gathering";
 import ModalViewGathering from "../modals/modalViewGathering";
-<<<<<<< HEAD
 import { format } from "date-fns";
 
 import mockGatherings from "../mockData/mock_gather.json";
@@ -87,21 +81,6 @@ const Home = ({ searchTown, searchDate, searchTime }) => {
     searchTime,
   );
 
-=======
-
-import mockGatherings from "../mockData/mock_gather.json";
-
-const Home = () => {
-  const [gatherModalOpen, setGatherModalOpen] = useState(false);
-  const [selectedIdx, setSelectedIdx] = useState(0);
-
-  const selectdGathering = mockGatherings[0];
-
-  useEffect(() => {
-    const selectdGathering = mockGatherings[selectedIdx];
-  }, [selectedIdx]);
-
->>>>>>> Merge 를 위한 Commit
   return (
     <div className="flex flex-col items-center gap-5">
       <div className="h-6"></div>
@@ -109,20 +88,12 @@ const Home = () => {
       <Button className={"btn btn-green"} children={"모임 만들기"}></Button>
       <hr className="w-full border-[1px] border-grey-50" />
       <div className="grid grid-cols-4 gap-4">
-<<<<<<< HEAD
         {filteredGatherings.map(gather => (
-=======
-        {mockGatherings.map(gather => (
->>>>>>> Merge 를 위한 Commit
           <Card
             key={gather.id}
             props={gather}
             onClick={() => {
-<<<<<<< HEAD
               setSelectedIdx(gather.id - 1);
-=======
-              setSelectedIdx(gather.id);
->>>>>>> Merge 를 위한 Commit
               setGatherModalOpen(true);
             }}
           ></Card>
@@ -131,18 +102,10 @@ const Home = () => {
       <ModalViewGathering
         modalOpen={gatherModalOpen}
         closeModal={() => setGatherModalOpen(false)}
-<<<<<<< HEAD
         selectedGathering={selectedGathering}
-=======
-        selectdGathering={selectdGathering}
->>>>>>> Merge 를 위한 Commit
       />
     </div>
   );
 };
 
-<<<<<<< HEAD
 export default connect(mapStateToProps)(Home);
-=======
-export default Home;
->>>>>>> Merge 를 위한 Commit

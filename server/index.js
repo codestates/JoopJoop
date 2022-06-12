@@ -13,14 +13,9 @@ const poCommentsRoute = require('./routes/posts_comments');
 const gatheringsRoute = require('./routes/gatherings');
 const mailRoute = require('./routes/mail');
 const multer = require('multer');
-<<<<<<< HEAD
-const passportConfig = require('./passport');
-const PORT = 8080;
-=======
 const kakaoPassportConfig = require('./passport/kakao');
 const googlePassportConfig = require('./passport/google');
 const PORT = 5000;
->>>>>>> add google oauth
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
