@@ -7,8 +7,8 @@ import Schedule from "./pages/schedule";
 import Footer from "./components/footer";
 import Landing from "./pages/landing";
 import "./index.css";
-import Dropdown from "./components/dropdown";
 import axios from "axios";
+import Mypage from "./components/mypage";
 
 function App() {
   const onLogin = (email, password) => {
@@ -26,15 +26,15 @@ function App() {
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("onLogin 함수");
       });
   };
 
-  const onLoginSuccess = res => {
+  const onLoginSuccess = (res) => {
     const { accessToken } = res.data;
     // accessToken 설정
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
@@ -53,13 +53,13 @@ function App() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        },
+        }
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         // onLoginSuccess(res);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("refresh 실패");
       });
   };
@@ -69,51 +69,30 @@ function App() {
   };
   componentDidMount();
 
-  const [isOpen, setIsOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [accessToken, setAccessToken] = useState("");
 
-  const toggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    const hideMenu = () => {
-      if (window.innerWidth > 768 && isOpen) {
-        setIsOpen(false);
-        console.log("i resized");
-      }
-    };
-    window.addEventListener("resize", hideMenu);
-    return () => {
-      window.removeEventListener("resize", hideMenu);
-    };
-  });
-
-  const loginHandler = data => {
+  const loginHandler = (data) => {
     setIsLogin(true);
     issueAccessToken(data.data.accessToken);
   };
 
-  const issueAccessToken = token => {
+  const issueAccessToken = (token) => {
     setAccessToken(token);
   };
 
   return (
     <>
       <BrowserRouter>
-        <Dropdown isOpen={isOpen} toggle={toggle} />
-        {isLogin ? (
-          <Switch>
-            <Route path="/" exact component={Landing} />
-            <Route path="/home" exact component={Home} />
-            <Route path="/schedule" component={Schedule} />
-            <Route path="/chat" component={Chat} />
-            <Route path="/community" component={Community} />
-          </Switch>
-        ) : (
-          <Landing onLogin={onLogin} />
-        )}
+        <Landing onLogin={onLogin} />
+        <Switch>
+          <Route path="/" exact component={Landing} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/mypage" exact component={Mypage} />
+          <Route path="/schedule" component={Schedule} />
+          <Route path="/chat" component={Chat} />
+          <Route path="/community" component={Community} />
+        </Switch>
         <Footer></Footer>
       </BrowserRouter>
     </>
