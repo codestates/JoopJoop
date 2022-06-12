@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/user');
 const Gathering = require('../models/gathering');
-const GaComment = require('../models/gathering_comment');
 const {
   verifyToken,
   verifyTokenAndAuthorization,
@@ -9,7 +8,7 @@ const {
 } = require('./tokenfunction');
 
 //CREATE GATHERING
-router.post('/', verifyTokenAndAuthorization, async (req, res) => {
+router.post('/:id', verifyTokenAndAuthorization, async (req, res) => {
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
@@ -29,7 +28,7 @@ router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
           {
             $set: req.body,
           },
-          { new: true },
+          { new: true }
         );
         res.status(200).json(updatedGathering);
       } catch (err) {

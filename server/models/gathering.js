@@ -1,38 +1,39 @@
 const mongoose = require('mongoose');
-const GatheringSchema = mongoose.Schema(
-  {
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: Array,
-      properties: {
-        message: String,
-        image: String,
-      },
-    },
-    date: {
-      type: String,
-      required: true,
-    },
-    location: {
-      type: String,
-      required: true,
-    },
-    longitude: String,
-    latitude: String,
-    comments: [
-      { type: mongoose.Schema.Types.ObjectId, ref: 'gathering_comment' },
-    ],
-    paricipants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+const GatheringSchema = mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
   },
-  { timestamps: true }
-);
+  town: {
+    type: String,
+    required: true,
+  },
+  place: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  time: {
+    type: String,
+    required: true,
+  },
+  longitude: {
+    type: String,
+    required: true,
+  },
+  latitude: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
+  paricipants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+});
 
 module.exports = mongoose.model('gathering', GatheringSchema);

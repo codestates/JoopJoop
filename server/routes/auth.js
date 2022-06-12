@@ -5,7 +5,6 @@ const {
   generateAccessToken,
   generateRefreshToken,
   generateOauthToken,
-  verifyToken,
 } = require('./tokenfunction');
 const jwt = require('jsonwebtoken');
 
@@ -64,7 +63,6 @@ router.post('/login', async (req, res) => {
     const refreshToken = generateRefreshToken(user);
 
     const { password, ...others } = user._doc;
-
     res
       .cookie('refreshToken', refreshToken, cookieOption)
       .status(200)
@@ -81,11 +79,7 @@ router.post('/refresh', async (req, res) => {
   // console.log(refreshToken);
 
   if (!refreshToken) {
-<<<<<<< HEAD
-    return res.status(400).json("refresh token not provided");
-=======
-    return res.json('refresh token not provided');
->>>>>>> 6dbe6b5 (schema populate 진행중)
+    return res.status(400).json('refresh token not provided');
   }
   const checkRefreshToken = (refreshToken) => {
     return jwt.verify(
@@ -112,8 +106,6 @@ router.post('/refresh', async (req, res) => {
 
   try {
     const newAccessToken = generateAccessToken(user);
-    console.log('refresh!!!');
-    console.log(newAccessToken);
     const { password, ...others } = user._doc;
     res.status(200).json({ ...others, accessToken: newAccessToken });
   } catch {
@@ -152,9 +144,15 @@ router.post('/kakao', (req, res) => {
   }
 });
 
-router.post('/logout', (req, res) => {
-  // res.setHeader('Set-Cookie', 'login=true; Max-age=0');
-  return res.cookie('refreshToken', '').json({ message: 'success to logout!' });
+router.get('/logout', (req, res) => {
+  try {
+    res.clearCookie('refreshToken');
+    res.clearCookie('x_auth');
+    // res.redirect('/');
+    return res.status(200).json({ message: '로그아웃에 성공했습니다' });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
