@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Navbar from "./components/navbar";
 import Chat from "./pages/chat";
 import Community from "./pages/community";
 import Home from "./pages/home";
@@ -58,11 +59,12 @@ function App({ isLogin, setIsLogin }) {
         },
       )
       .then(res => {
-        // console.log("resfresh 성공");
         onLoginSuccess(res);
+        console.log("resfresh 성공");
       })
       .catch(error => {
         console.log("refresh 실패");
+        setIsLogin(false);
       });
   };
 
@@ -80,14 +82,14 @@ function App({ isLogin, setIsLogin }) {
   };
 
   //! gatherings 정보가져오기, 분리 필요
-  const getGatherings = () => {
-    axios
-      .get("http://localhost:80/gatherings", {
-        withCredentials: true,
-        token: accessToken,
-      })
-      .then(data => console.log(data));
-  };
+  // const getGatherings = () => {
+  //   axios
+  //     .get("http://localhost:80/gatherings", {
+  //       withCredentials: true,
+  //       token: accessToken,
+  //     })
+  //     .then(data => console.log(data));
+  // };
 
   const componentDidMount = () => {
     onSilentRefresh();
@@ -95,7 +97,6 @@ function App({ isLogin, setIsLogin }) {
   componentDidMount();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [accessToken, setAccessToken] = useState("");
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -114,17 +115,13 @@ function App({ isLogin, setIsLogin }) {
     };
   });
 
-  const issueAccessToken = token => {
-    setAccessToken(token);
-  };
-
   return (
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
+        {isLogin ? <Navbar /> : null}
         {isLogin ? (
           <Switch>
-            <Route path="/" exact component={Landing} />
             <Route path="/home" exact component={Home} />
             <Route path="/schedule" component={Schedule} />
             <Route path="/chat" component={Chat} />

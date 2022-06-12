@@ -1,11 +1,14 @@
 import React from "react";
 import defaultImg from "../img/profile.png";
 
-const card_gathering = props => {
-  const { date, time, town, place, title, creator, location } = props.props;
+const card_gathering = ({ props, onClick }) => {
+  const { date, time, town, place, title, creator, location } = props;
   return (
     <>
-      <div className="w-80 h-60 m-2 rounded-2xl border-2 border-grey-50 bg-white shadow-lg flex flex-col">
+      <div
+        className="w-80 h-60 m-2 rounded-2xl border-2 border-grey-50 bg-white shadow-lg flex flex-col"
+        onClick={onClick}
+      >
         <div className="pt-3 pl-5 flex flex-row">
           <div className="h-full w-full flex flex-row items-center gap-2 text-sm text-grey-80">
             <div>{date}</div>

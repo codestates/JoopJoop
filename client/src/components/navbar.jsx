@@ -5,7 +5,7 @@ const Navbar = ({ toggle, loginId }) => {
   return (
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">
-        <Link to="/" className="">
+        <Link to="/home" className="">
           <img className="w-25 h-10" src="img/logoSmall.png" alt="err" />
         </Link>
         <ul className="flex">

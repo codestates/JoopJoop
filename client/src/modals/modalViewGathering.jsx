@@ -5,25 +5,8 @@ import Button from "../components/button";
 import { XIcon } from "@heroicons/react/solid";
 import profileImg from "../img/profile.png";
 
-const ModalViewGathering = ({ modalOpen, closeModal }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const loginRequestHandler = () => {
-    axios
-      .post(
-        "http://localhost:80/auth/login",
-        { email, password },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        },
-      )
-      .then(res => {
-        console.log(res);
-      });
-  };
-
+const ModalViewGathering = ({ modalOpen, closeModal, selectdGathering }) => {
+  console.log(selectdGathering);
   if (!modalOpen) return null;
   return ReactDom.createPortal(
     <div className="container-modal">
