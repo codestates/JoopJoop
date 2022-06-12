@@ -76,7 +76,10 @@ router.get('/', async (req, res) => {
     if (nickname) {
       gatherings = await Gathering.find({ nickname });
     } else {
-      gatherings = await Gathering.find();
+      gatherings = await Gathering.find().populate('author', [
+        'nickname',
+        'profileImg',
+      ]);
     }
     res.status(200).json(gatherings);
   } catch (err) {
