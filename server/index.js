@@ -12,12 +12,7 @@ const gatheringsRoute = require('./routes/gatherings');
 const mailRoute = require('./routes/mail');
 const multer = require('multer');
 const passportConfig = require('./passport');
-<<<<<<< HEAD
-
-const PORT = 80;
-=======
 const PORT = 8080;
->>>>>>> Merge를 위한 Commit
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
@@ -32,16 +27,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-<<<<<<< HEAD
-
-
-
-  .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
-  .catch(err => console.log(err));
-=======
   .then(console.log('Connected to MongoDB https://cloud.mongodb.com/'))
   .catch((err) => console.log(err));
->>>>>>> Merge를 위한 Commit
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
