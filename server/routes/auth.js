@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const passport = require('passport');
+const CLIENT_URL = 'http://localhost:3000/';
 const User = require('../models/user');
 const CryptoJS = require('crypto-js');
 const {
@@ -43,9 +45,12 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({
       email: req.body.email,
     });
+    console.log(user);
+
     if (!user) {
       return res.status(401).json('등록되지않은 이메일입니다.');
     }
+
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
       process.env.PASS_SEC
@@ -140,10 +145,17 @@ router.post('/kakao', (req, res) => {
         .json({ loginSuccess: true, userId: user._id });
     });
     return;
-  } else {
   }
 });
+router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: CLIENT_URL,
+    failureRedirect: CLIENT_URL,
+  })
+);
 router.get('/logout', (req, res) => {
   try {
     res.clearCookie('refreshToken');
@@ -154,5 +166,4 @@ router.get('/logout', (req, res) => {
     res.status(500).json(err);
   }
 });
-
 module.exports = router;

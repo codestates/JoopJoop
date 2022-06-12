@@ -11,17 +11,12 @@ const UserSchema = new mongoose.Schema({
   },
   profileImg: { type: String, default: 'joopjoop.png' },
   introduction: String,
-  gatherings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'gathering' }],
-  // badge: String,
-  // point: Number,
-  // posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'post' }],
-  // postcomments: [
-  //   { type: mongoose.Schema.Types.ObjectId, ref: 'post_comment' },
-  // ],
-  // gatheringcomments: [
-  //   { type: mongoose.Schema.Types.ObjectId, ref: 'gathering_comment' },
-  // ],
-  // { timestamps: true }
+  gatherings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'gathering',
+    },
+  ],
 });
 
 module.exports = mongoose.model('user', UserSchema);

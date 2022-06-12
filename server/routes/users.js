@@ -5,7 +5,6 @@ const {
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
 } = require('./tokenfunction');
-
 const router = require('express').Router();
 
 //UPDATE

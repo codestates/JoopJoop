@@ -87,9 +87,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-//CREATE GATHERING COMMENT
-//UPDATE GATHERING COMMENT
-//DELETE GATHERING COMMENT
-//GET ALL GATHERING COMMENT
-
 module.exports = router;
