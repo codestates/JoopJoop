@@ -72,7 +72,10 @@ router.get('/', async (req, res) => {
     if (email) {
       poComments = await PoComment.find({ email });
     } else {
-      poComments = await PoComment.find();
+      poComments = await PoComment.find().populate('author', [
+        'nickname',
+        'email',
+      ]);
     }
     res.status(200).json(poComments);
   } catch (err) {

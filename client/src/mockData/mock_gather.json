@@ -7,7 +7,7 @@
     "date": "5/12/2022",
     "time": "3:45 AM",
     "location": { "longitude": 33.2050521, "latitude": 51.2409432 },
-    "creator": {
+    "author": {
       "nickname": "smacascaidh0",
       "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
     },
