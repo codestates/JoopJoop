@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 const cors = require('cors');
 const app = express();
 const dotenv = require('dotenv');
@@ -11,11 +13,33 @@ const poCommentsRoute = require('./routes/posts_comments');
 const gatheringsRoute = require('./routes/gatherings');
 const mailRoute = require('./routes/mail');
 const multer = require('multer');
+<<<<<<< HEAD
 const passportConfig = require('./passport');
 const PORT = 8080;
+=======
+const kakaoPassportConfig = require('./passport/kakao');
+const googlePassportConfig = require('./passport/google');
+const PORT = 5000;
+>>>>>>> add google oauth
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
+
+app.use(
+  session({
+    secret: 'somethingsecretgoeshere',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
+// app.use(
+//   cookieSession({
+//     name: 'session',
+//     keys: ['Minhyuk'],
+//     maxAge: 24 * 60 * 60 * 100,
+//   })
+// );
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -44,7 +68,10 @@ app.post('/upload', upload.single('file'), (req, res) => {
   res.status(200).json('파일이 업로드 되었습니다.');
 });
 
-passportConfig(app);
+kakaoPassportConfig(app);
+app.use(express());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());

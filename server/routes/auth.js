@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const passport = require('passport');
+const CLIENT_URL = 'http://localhost:3000/';
 const User = require('../models/user');
 const CryptoJS = require('crypto-js');
 const {
@@ -43,11 +45,8 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({
       email: req.body.email,
     });
-<<<<<<< HEAD
     console.log(user);
 
-=======
->>>>>>> Merge 를 위한 Commit
     if (!user) {
       return res.status(401).json('등록되지않은 이메일입니다.');
     }
@@ -148,7 +147,15 @@ router.post('/kakao', (req, res) => {
     return;
   }
 });
+router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: CLIENT_URL,
+    failureRedirect: CLIENT_URL,
+  })
+);
 router.get('/logout', (req, res) => {
   try {
     res.clearCookie('refreshToken');

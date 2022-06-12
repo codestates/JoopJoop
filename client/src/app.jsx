@@ -42,10 +42,14 @@ function App({ isLogin, setIsLogin }) {
     };
     axios
 <<<<<<< HEAD
+<<<<<<< HEAD
       .post('http://localhost:80/auth/login', data, {
 =======
       .post('http://localhost:8080/auth/login', data, {
 >>>>>>> Merge 를 위한 Commit
+=======
+      .post('http://localhost:5000/auth/login', data, {
+>>>>>>> add google oauth
         headers: {
           'Content-Type': 'application/json',
         },
@@ -65,10 +69,14 @@ function App({ isLogin, setIsLogin }) {
     axios
       .post(
 <<<<<<< HEAD
+<<<<<<< HEAD
         'http://localhost:80/auth/refresh',
 =======
         'http://localhost:8080/auth/refresh',
 >>>>>>> Merge 를 위한 Commit
+=======
+        'http://localhost:5000/auth/refresh',
+>>>>>>> add google oauth
         { data: 'refresh' },
         {
           withCredentials: true,
