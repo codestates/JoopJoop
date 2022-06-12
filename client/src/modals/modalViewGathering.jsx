@@ -7,7 +7,7 @@ import profileImg from "../img/profile.png";
 import Participant from "../components/participant";
 
 const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
-  const { title, town, place, date, time, location, creator, participants } =
+  const { title, town, place, date, time, location, author, participants } =
     selectedGathering;
 
   const [isCreator, SetIsCreator] = useState(false);
@@ -33,7 +33,7 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
             </div>
             <div className="flex flex-row items-center gap-1">
               <img src={profileImg} alt="err" className="w-5 h-5" />
-              <div className="text-[16px]">{creator.nickname}</div>
+              <div className="text-[16px]">{author.nickname}</div>
             </div>
           </div>
           <div className="flex flex-col items-start gap-3 w-[340px] h-[379px]">

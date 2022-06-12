@@ -34,7 +34,7 @@
     "date": "2022-06-14",
     "time": "3:45 PM",
     "location": { "longitude": 33.2050521, "latitude": 51.2409432 },
-    "creator": {
+    "author": {
       "nickname": "smacascaidh0",
       "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
     },
@@ -61,11 +61,24 @@
     "date": "2022-06-15",
     "time": "10:34 PM",
     "location": { "longitude": 124.33539, "latitude": 43.30706 },
-    "creator": {
+    "author": {
       "nickname": "vcotesford2",
       "profileImg": "http://dummyimage.com/206x100.png/dddddd/000000"
     },
-    "participants": "Valencia Cotesford"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 4,
@@ -75,11 +88,24 @@
     "date": "2022-06-11",
     "time": "12:51 PM",
     "location": { "longitude": 119.0983524, "latitude": -9.5179699 },
-    "creator": {
+    "author": {
       "nickname": "bolder3",
       "profileImg": "http://dummyimage.com/165x100.png/5fa2dd/ffffff"
     },
-    "participants": "Bessie Older"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 5,
@@ -89,11 +115,24 @@
     "date": "2022-06-09",
     "time": "7:47 AM",
     "location": { "longitude": 39.5247021, "latitude": 52.5713649 },
-    "creator": {
+    "author": {
       "nickname": "brubinovitch4",
       "profileImg": "http://dummyimage.com/212x100.png/5fa2dd/ffffff"
     },
-    "participants": "Bobbee Rubinovitch"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 6,
@@ -103,11 +142,24 @@
     "date": "2022-06-23",
     "time": "1:35 AM",
     "location": { "longitude": -45.2243578, "latitude": -19.6499319 },
-    "creator": {
+    "author": {
       "nickname": "troundtree5",
       "profileImg": "http://dummyimage.com/208x100.png/cc0000/ffffff"
     },
-    "participants": "Tannie Roundtree"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 7,
@@ -117,11 +169,24 @@
     "date": "2022-06-30",
     "time": "12:32 PM",
     "location": { "longitude": 120.819425, "latitude": 31.282537 },
-    "creator": {
+    "author": {
       "nickname": "steal6",
       "profileImg": "http://dummyimage.com/138x100.png/ff4444/ffffff"
     },
-    "participants": "Sunny Teal"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 8,
@@ -131,11 +196,24 @@
     "date": "2022-06-10",
     "time": "11:36 PM",
     "location": { "longitude": -73.53, "latitude": 40.77 },
-    "creator": {
+    "author": {
       "nickname": "ggeering7",
       "profileImg": "http://dummyimage.com/196x100.png/cc0000/ffffff"
     },
-    "participants": "Glynnis Geering"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 9,
@@ -145,11 +223,24 @@
     "date": "2022-06-11",
     "time": "7:14 AM",
     "location": { "longitude": -81.2085052, "latitude": 19.3508272 },
-    "creator": {
+    "author": {
       "nickname": "vorrobin8",
       "profileImg": "http://dummyimage.com/127x100.png/dddddd/000000"
     },
-    "participants": "Vinita Orrobin"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 10,
@@ -159,11 +250,24 @@
     "date": "2022-06-17",
     "time": "1:07 AM",
     "location": { "longitude": -76.8807437, "latitude": 38.9477341 },
-    "creator": {
+    "author": {
       "nickname": "awackett9",
       "profileImg": "http://dummyimage.com/196x100.png/5fa2dd/ffffff"
     },
-    "participants": "Alys Wackett"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 11,
@@ -173,11 +277,24 @@
     "date": "2022-06-11",
     "time": "3:14 AM",
     "location": { "longitude": 17.5205087, "latitude": 60.3475866 },
-    "creator": {
+    "author": {
       "nickname": "cmorata",
       "profileImg": "http://dummyimage.com/111x100.png/5fa2dd/ffffff"
     },
-    "participants": "Creighton Morat"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 12,
@@ -187,11 +304,24 @@
     "date": "2022-06-10",
     "time": "10:22 AM",
     "location": { "longitude": -58.5146668, "latitude": -34.6824081 },
-    "creator": {
+    "author": {
       "nickname": "kjohnysb",
       "profileImg": "http://dummyimage.com/232x100.png/5fa2dd/ffffff"
     },
-    "participants": "Kipp Johnys"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 13,
@@ -201,11 +331,24 @@
     "date": "2022-06-20",
     "time": "8:54 AM",
     "location": { "longitude": -68.1435021, "latitude": 47.0202503 },
-    "creator": {
+    "author": {
       "nickname": "nbueyc",
       "profileImg": "http://dummyimage.com/236x100.png/5fa2dd/ffffff"
     },
-    "participants": "Newton Buey"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 14,
@@ -215,11 +358,24 @@
     "date": "2022-06-28",
     "time": "6:40 AM",
     "location": { "longitude": 26.2192689, "latitude": 60.4627094 },
-    "creator": {
+    "author": {
       "nickname": "rdormond",
       "profileImg": "http://dummyimage.com/103x100.png/cc0000/ffffff"
     },
-    "participants": "Ric Dormon"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   },
   {
     "id": 15,
@@ -229,10 +385,23 @@
     "date": "2022-06-07",
     "time": "10:40 PM",
     "location": { "longitude": 106.92596, "latitude": -6.21956 },
-    "creator": {
+    "author": {
       "nickname": "ctinceye",
       "profileImg": "http://dummyimage.com/178x100.png/5fa2dd/ffffff"
     },
-    "participants": "Cherilynn Tincey"
+    "participants": [
+      {
+        "nickname": "smacascaidh0",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "every",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      },
+      {
+        "nickname": "asdfasdf",
+        "profileImg": "http://dummyimage.com/210x100.png/dddddd/000000"
+      }
+    ]
   }
 ]
