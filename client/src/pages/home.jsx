@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import Card from "../components/card_gathering";
+
 import Navbar from "../components/navbar";
 import Dropdown from "../components/dropdown";
 import axios from "axios";
@@ -11,6 +12,9 @@ axios
     withCredentials: true,
   })
   .then((data) => console.log(data));
+=======
+
+import mockGatherings from "../mockData/mock_gather.json";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +36,7 @@ const Home = () => {
   });
 
   return (
+
     <>
       <Navbar toggle={toggle} />
       <Dropdown isOpen={isOpen} toggle={toggle} />
@@ -44,6 +49,15 @@ const Home = () => {
         <div>
           <Card></Card>
         </div>
+
+    <div className="flex flex-col items-center">
+      <div>
+        <div className="h-12">spacer</div>
+        <SearchGathering></SearchGathering>
+        <Button className={"btn btn-green"} children={"모임 만들기"}></Button>
+      </div>
+      <div>
+        <Card props={mockGatherings[0]}></Card>
       </div>
     </>
   );

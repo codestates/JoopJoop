@@ -29,7 +29,7 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
           {
             $set: req.body,
           },
-          { new: true }
+          { new: true },
         );
         res.status(200).json(updatedGathering);
       } catch (err) {
