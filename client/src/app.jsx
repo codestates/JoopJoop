@@ -119,7 +119,7 @@ function App({ isLogin, setIsLogin }) {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} />
-        {isLogin ? <Navbar /> : null}
+        {isLogin ? <Navbar toggle={toggle} /> : null}
         {isLogin ? (
           <Switch>
             <Route path="/home" exact component={Home} />
