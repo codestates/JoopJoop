@@ -5,7 +5,7 @@ const {
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
 } = require('./tokenfunction');
-
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 const router = require('express').Router();
 
 //UPDATE
