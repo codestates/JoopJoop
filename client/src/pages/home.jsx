@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import Card from "../components/card_gathering";
@@ -7,6 +6,7 @@ import ModalViewGathering from "../modals/modalViewGathering";
 import { format } from "date-fns";
 
 import mockGatherings from "../mockData/mock_gather.json";
+//! mockGatherings를 필터링된 모임정보로 대치한다.
 
 import { connect } from "react-redux";
 
@@ -25,9 +25,6 @@ const Home = ({ searchTown, searchDate, searchTime }) => {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [selectedGathering, setSelectedGathering] = useState(mockGatherings[0]);
 
-  // 조회한 모임 정보를 필터링해서 선언해준다.
-  // mockGatherings를 필터링된 모임정보로 대치한다.
-
   let filteredGatherings = mockGatherings;
 
   useEffect(() => {
@@ -41,7 +38,6 @@ const Home = ({ searchTown, searchDate, searchTime }) => {
 
   const filter = (gatherings, searchTown, searchDate, searchTime) => {
     if (searchTown.length > 0 && searchTown.length < 25) {
-      console.log(searchTown);
       gatherings = gatherings.filter(gathering =>
         searchTown.includes(gathering.town),
       );
@@ -84,8 +80,6 @@ const Home = ({ searchTown, searchDate, searchTime }) => {
     searchDate,
     searchTime,
   );
-
-  console.log("render!!");
 
   return (
     <div className="flex flex-col items-center gap-5">

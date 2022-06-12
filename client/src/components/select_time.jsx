@@ -5,19 +5,13 @@ import { connect } from "react-redux";
 import action from "../redux/action";
 import { useCallback } from "react";
 
-const mapStateToProps = state => {
-  return {
-    searchTime: state.searchTime,
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     setSearchTime: time => dispatch(action.setSearchTime(time)),
   };
 };
 
-const Search = ({ options, setSearchTime, searchTime }) => {
+const Search = ({ options, setSearchTime }) => {
   const overrideStrings = {
     allItemsAreSelected: "전체",
     clearSearch: "Clear Search",
@@ -58,4 +52,4 @@ const Search = ({ options, setSearchTime, searchTime }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(null, mapDispatchToProps)(Search);
