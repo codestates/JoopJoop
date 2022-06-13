@@ -46,7 +46,11 @@ function App({ isLogin, setIsLogin }) {
         onLoginSuccess(res);
       })
       .catch((error) => {
+<<<<<<< HEAD
         console.log('onLogin 함수');
+=======
+        console.log("onLogin 함수");
+>>>>>>> 064d0097 (fix conflicts for merge)
       });
   };
 
@@ -61,8 +65,12 @@ function App({ isLogin, setIsLogin }) {
         samesite: 'Secure',
       })
       .then((res) => {
+<<<<<<< HEAD
         console.log('로그아웃 완료');
         setIsLogin(false);
+=======
+        console.log("로그아웃 완료");
+>>>>>>> 064d0097 (fix conflicts for merge)
       })
       .catch((err) => {
         console.error(err);
@@ -85,7 +93,11 @@ function App({ isLogin, setIsLogin }) {
         console.log('resfresh 성공');
       })
       .catch((error) => {
+<<<<<<< HEAD
         console.log('refresh 실패');
+=======
+        console.log("refresh 실패");
+>>>>>>> 064d0097 (fix conflicts for merge)
         setIsLogin(false);
       });
   };
