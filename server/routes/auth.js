@@ -28,6 +28,16 @@ router.post('/register', async (req, res) => {
     ).toString(),
   });
 
+  const user = await User.find();
+  if (!user.filter((el) => (el.nickname === newUser.nickname ? false : true))) {
+    return res
+      .status(401)
+      .json({
+        message: '중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요',
+      });
+  }
+  // console.log('user!! :', user);
+
   try {
     const savedUser = await newUser.save();
     res.status(201).json({
@@ -80,9 +90,9 @@ router.post('/login', async (req, res) => {
 
 //Refresh Login
 router.post('/refresh', async (req, res) => {
-  console.log('리프레쉬');
+  // console.log('리프레쉬');
   const refreshToken = req.cookies.refreshToken;
-  console.log(refreshToken);
+  // console.log(refreshToken);
 
   if (!refreshToken) {
     return res.status(400).json('refresh token not provided');
@@ -196,6 +206,7 @@ router.get(
       .redirect(CLIENT_URL);
   }
 );
+
 router.get('/logout', (req, res) => {
   try {
     res.clearCookie('refreshToken');

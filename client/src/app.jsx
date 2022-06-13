@@ -34,7 +34,7 @@ function App({ isLogin, setIsLogin }) {
       password,
     };
     axios
-      .post("http://localhost:80/auth/login", data, {
+      .post(process.env.REACT_APP_LOCALSERVER_URL + '/auth/login', data, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -52,7 +52,9 @@ function App({ isLogin, setIsLogin }) {
 
   const onLogout = (e) => {
     axios
-      .get("http://localhost:80/auth/logout", {
+
+      .get(process.env.REACT_APP_LOCALSERVER_URL + '/auth/logout', {
+
         headers: {
           "Content-Type": "application/json",
         },
@@ -61,7 +63,10 @@ function App({ isLogin, setIsLogin }) {
         samesite: "Secure",
       })
       .then((res) => {
-        console.log("로그아웃 완료");
+
+        console.log('로그아웃 완료');
+        setIsLogin(false);
+
       })
       .catch((err) => {
         console.error(err);
@@ -69,10 +74,13 @@ function App({ isLogin, setIsLogin }) {
   };
 
   const onSilentRefresh = () => {
+    console.log(process.env.REACT_APP_LOCALSERVER_URL);
     axios
       .post(
-        "http://localhost:80/auth/refresh",
-        { data: "refresh" },
+
+        process.env.REACT_APP_LOCALSERVER_URL + '/auth/refresh',
+        { data: 'refresh' },
+
         {
           withCredentials: true,
         }
@@ -142,12 +150,12 @@ function App({ isLogin, setIsLogin }) {
         {isLogin ? <Navbar toggle={toggle} /> : null}
         {isLogin ? (
           <Switch>
-            <Route path="/" exact component={Landing} />
-            <Route path="/home" component={Home} />
-            <Route path="/schedule" component={Schedule} />
-            <Route path="/chat" component={Chat} />
-            <Route path="/community" component={Community} />
-            <Route path="/mypage" component={Mypage} />
+            <Route path='/' exact component={Landing} />
+            <Route path='/home' component={Home} />
+            <Route path='/schedule' component={Schedule} />
+            <Route path='/chat' component={Chat} />
+            <Route path='/community' component={Community} />
+            <Route path='/mypage' component={Mypage} />
           </Switch>
         ) : (
           <Landing onLogin={onLogin} />
