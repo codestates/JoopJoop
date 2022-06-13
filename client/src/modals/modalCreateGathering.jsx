@@ -11,7 +11,7 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
   const loginRequestHandler = () => {
     axios
       .post(
-        "http://localhost:80/auth/login",
+        process.env.REACT_APP_LOCALSERVER_URL + "/auth/login",
         { email, password },
         {
           headers: { "Content-Type": "application/json" },

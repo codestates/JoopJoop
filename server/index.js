@@ -15,7 +15,7 @@ const mailRoute = require("./routes/mail");
 const multer = require("multer");
 const kakaoPassportConfig = require("./passport/kakao");
 const googlePassportConfig = require("./passport/google");
-const PORT = 80;
+const PORT = 5000;
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
@@ -26,7 +26,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },
-  })
+  }),
 );
 // app.use(
 //   cookieSession({
@@ -47,7 +47,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {

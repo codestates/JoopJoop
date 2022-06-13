@@ -22,7 +22,7 @@ const oAuthLoginHandler = async data => {
     oAuthId: data.profile.id,
   };
   await axios
-    .post("http://localhost:80/auth/kakao", {
+    .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao", {
       data: request,
       withCredentials: true,
     })
