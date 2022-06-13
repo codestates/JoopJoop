@@ -31,13 +31,22 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
   const loginHandler = () => {
     if (email && password) {
       onLogin(email, password);
+<<<<<<< HEAD
+=======
+      setIsLogin(true);
+>>>>>>> 064d0097 (fix conflicts for merge)
     }
   };
 
   const google = () => {
     window.open(
+<<<<<<< HEAD
       process.env.REACT_APP_LOCALSERVER_URL + '/auth/google',
       '_self'
+=======
+      process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
+      "_self"
+>>>>>>> 064d0097 (fix conflicts for merge)
     );
   };
 
@@ -56,16 +65,28 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
         <img className='w-52' src={logo} alt='err'></img>
         <div className='w-10 h-2'></div>
         <input
+<<<<<<< HEAD
           type='email'
           className='input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70'
           placeholder='Email을 입력하세요.'
+=======
+          type="email"
+          className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
+          placeholder="Email을 입력하세요."
+>>>>>>> 064d0097 (fix conflicts for merge)
           onChange={(event) => setEmail(event.target.value)}
         />
         <div className=''>
           <input
+<<<<<<< HEAD
             type='password'
             className='input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70'
             placeholder='비밀번호를 입력하세요.'
+=======
+            type="password"
+            className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
+            placeholder="비밀번호를 입력하세요."
+>>>>>>> 064d0097 (fix conflicts for merge)
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
@@ -114,7 +135,11 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
       </div>
     </div>,
 
+<<<<<<< HEAD
     document.getElementById('modal')
+=======
+    document.getElementById("modal")
+>>>>>>> 064d0097 (fix conflicts for merge)
   );
 };
 
