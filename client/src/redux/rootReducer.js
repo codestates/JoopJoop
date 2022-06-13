@@ -3,6 +3,8 @@ const initialState = {
   searchTown: [],
   searchDate: "",
   searchTime: [],
+  email: "test@gmail.com",
+  nickname: "팅팅",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -17,6 +19,10 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, searchDate: action.payload };
     case "SET_SEARCHTIME":
       return { ...state, searchTime: action.payload };
+    case "SET_EMAIL":
+      return { ...state, setEmail: action.payload };
+    case "SET_NICKNAME":
+      return { ...state, setNickname: action.payload };
     default:
       return state;
   }

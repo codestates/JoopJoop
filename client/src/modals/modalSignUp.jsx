@@ -6,7 +6,7 @@ import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
 
-const localURL = process.env.REACT_APP_LOCALSERVER_URL;
+const localURL = "http://localhost:5000";
 
 const ModalSignUp = ({ modalOpen, closeModal }) => {
   const {
@@ -18,22 +18,8 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = data => {
-    console.log(data);
-  };
-  const [userInfo, setUserInfo] = useState({
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    nickname: "",
-  });
-
-  const handleInputValue = key => e => {
-    setUserInfo({ ...userInfo, [key]: e.target.value });
-  };
-
-  const handleSignup = () => {
-    const { email, password, passwordConfirm, nickname } = userInfo;
+  const onSubmit = (data) => {
+    const { email, password, nickname } = data;
     console.log("click");
 
     console.log("test click");
@@ -48,20 +34,26 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        },
+        }
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         alert("회원가입 되었습니다! 로그인하세요");
         closeModal();
       });
   };
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+    passwordConfirm: "",
+    nickname: "",
+  });
 
   if (!modalOpen) return null;
 
   return ReactDom.createPortal(
     <div className="container-modal">
-      <div className="modal-normal gap-3" onSubmit={e => e.preventDefault()}>
+      <div className="modal-normal gap-3" onSubmit={(e) => e.preventDefault()}>
         <div className="relative w-full">
           <button
             className="absolute left-[91.5%] bottom-2"
@@ -80,7 +72,6 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="email"
             className="w-72  h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
             placeholder="Email을 입력하세요."
-            onChange={handleInputValue("email")}
             {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
           />
           {errors.email && (
@@ -91,7 +82,6 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="password"
             className="w-367 h-10   bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
             placeholder="비밀번호를 입력하세요."
-            onChange={handleInputValue("password")}
             {...register("password", { required: true, minLength: 6 })}
           />
           {errors.password && errors.password.type === "required" && (
@@ -107,10 +97,9 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="password"
             className="w-367 h-10   bg-white text-center rounded-3xl mb-3 outline md:outline-2 placeholder:text-grey-70"
             placeholder="비밀번호를 다시 입력하세요."
-            onChange={handleInputValue("passwordConfirm")}
             {...register("passwordConfirm", {
               required: true,
-              validate: value => value === password.current,
+              validate: (value) => value === password.current,
             })}
           />
           {errors.passwordConfirm &&
@@ -126,7 +115,6 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="text"
             className="w-72  h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
             placeholder="닉네임을 입력하세요."
-            onChange={handleInputValue("nickname")}
             {...register("nickname", { required: true, maxLength: 10 })}
           />
           {errors.nickname && errors.nickname.type === "required" && (
@@ -137,20 +125,14 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           )}
           <input
             type="submit"
+            value="회원가입"
             className="w-36 h-12 btn-green mx-3 my-3 text-center rounded-3xl  text-white"
-            onClick={handleSignup}
+            onClick={onSubmit}
           />
-          {/* <Button
-            type="submit"
-            className="w-36 h-12 btn-green mx-3 my-3 text-center rounded-3xl  text-white"
-            onClick={handleSignup}
-          >
-            회원가입
-          </Button> */}
         </form>
       </div>
     </div>,
-    document.getElementById("modal"),
+    document.getElementById("modal")
   );
 };
 
