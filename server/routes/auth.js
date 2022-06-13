@@ -80,8 +80,9 @@ router.post('/login', async (req, res) => {
 
 //Refresh Login
 router.post('/refresh', async (req, res) => {
+  console.log('리프레쉬');
   const refreshToken = req.cookies.refreshToken;
-  // console.log(refreshToken);
+  console.log(refreshToken);
 
   if (!refreshToken) {
     return res.status(400).json('refresh token not provided');
@@ -147,14 +148,53 @@ router.post('/kakao', (req, res) => {
     return;
   }
 });
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+// router.get('/google/login/success', (req, res) => {
+//   if (req.user) {
+//     res.status(200).json({
+//       success: true,
+//       message: 'successfull',
+//       user: req.user,
+//       //   cookies: req.cookies
+//     });
+//   }
+// });
 
 router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+// router.get(
+//   '/google/callback',
+//   passport.authenticate('google', {
+//     successRedirect: 'login/success',
+//     failureRedirect: CLIENT_URL,
+//   })
+// );
+router.get(
   '/google/callback',
+
   passport.authenticate('google', {
-    successRedirect: CLIENT_URL,
     failureRedirect: CLIENT_URL,
-  })
+  }),
+  async function (req, res) {
+    const { oAuthId, nickname, isAdmin } = req.user._doc;
+    // Successful authentication, redirect home.\
+    const userGoogle = await User.findOne({ oAuthId });
+    console.log(userGoogle);
+
+    const accessToken = generateAccessToken(userGoogle);
+    // const accessToken = jwt.sign(
+    //   { userId: userGoogle._doc.oAuthId },
+    //   process.env.JWT_SEC
+    // );
+    // res.cookie('refreshToken', token);
+    // res.status(200).json(accessToken);
+    res
+      .cookie('refreshToken', accessToken, cookieOption)
+      .status(200)
+      .redirect(CLIENT_URL);
+  }
 );
 router.get('/logout', (req, res) => {
   try {
