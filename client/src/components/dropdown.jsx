@@ -1,12 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-const Dropdown = ({ isOpen, toggle, profileImg, userId, alarm, url }) => {
+const Dropdown = ({
+  isOpen,
+  toggle,
+  profileImg,
+  userId,
+  alarm,
+  url,
+  logout,
+}) => {
+  const history = useHistory();
   return (
     <div
       className={
         isOpen
-          ? "absolute top-16 right-10 h-25 w-17 bg-white flex flex-col  transition duration-300 ease-in-out animate-bounce "
+          ? "absolute top-10 right-10 h-25 w-17 bg-white flex flex-col"
           : "hidden"
       }
       onClick={toggle}
@@ -18,9 +27,16 @@ const Dropdown = ({ isOpen, toggle, profileImg, userId, alarm, url }) => {
       <Link to="/mypage" className="p-4 shadow hover:bg-green-50">
         {profileImg}
       </Link>
-      <Link to="/logout" className="p-4 shadow hover:bg-green-50">
+      <button
+        className="p-4 shadow hover:bg-green-50"
+        onClick={(e) => {
+          e.preventDefault();
+          logout();
+          history.push("/");
+        }}
+      >
         로그아웃
-      </Link>
+      </button>
     </div>
   );
 };

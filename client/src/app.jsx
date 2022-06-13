@@ -12,16 +12,17 @@ import Dropdown from "./components/dropdown";
 import axios from "axios";
 import { connect } from "react-redux";
 import action from "./redux/action";
+import Mypage from "./pages/mypage";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
   };
 };
 
@@ -41,11 +42,29 @@ function App({ isLogin, setIsLogin }) {
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("onLogin 함수");
+      });
+  };
+
+  const onLogout = (e) => {
+    axios
+      .get("http://localhost:80/auth/logout", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        HttpOnly: true,
+        samesite: "Secure",
+      })
+      .then((res) => {
+        console.log("로그아웃 완료");
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 
@@ -56,19 +75,19 @@ function App({ isLogin, setIsLogin }) {
         { data: "refresh" },
         {
           withCredentials: true,
-        },
+        }
       )
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
         console.log("resfresh 성공");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("refresh 실패");
         setIsLogin(false);
       });
   };
 
-  const onLoginSuccess = res => {
+  const onLoginSuccess = (res) => {
     const { accessToken } = res.data;
     // console.log("onloginsuccess");
     // console.log(accessToken);
@@ -118,14 +137,16 @@ function App({ isLogin, setIsLogin }) {
   return (
     <>
       <BrowserRouter>
-        <Dropdown isOpen={isOpen} toggle={toggle} />
+        <Dropdown isOpen={isOpen} toggle={toggle} logout={onLogout} />
         {isLogin ? <Navbar toggle={toggle} /> : null}
         {isLogin ? (
           <Switch>
+            <Route path="/" component={Landing} />
             <Route path="/home" exact component={Home} />
             <Route path="/schedule" component={Schedule} />
             <Route path="/chat" component={Chat} />
             <Route path="/community" component={Community} />
+            <Route path="/mypage" component={Mypage} />
           </Switch>
         ) : (
           <Landing onLogin={onLogin} />
