@@ -35,7 +35,6 @@ const Dropdown = ({
         onClick={(e) => {
           e.preventDefault();
           logout();
-          history.push("/");
         }}
       >
         로그아웃

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Navbar from './components/navbar';
@@ -13,6 +14,23 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import action from './redux/action';
 import Mypage from './pages/mypage';
+=======
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import Navbar from "./components/navbar";
+import Chat from "./pages/chat";
+import Community from "./pages/community";
+import Home from "./pages/home";
+import Schedule from "./pages/schedule";
+import Footer from "./components/footer";
+import Landing from "./pages/landing";
+import "./index.css";
+import Dropdown from "./components/dropdown";
+import axios from "axios";
+import { connect } from "react-redux";
+import action from "./redux/action";
+import Mypage from "./pages/mypage";
+>>>>>>> c6b2c71b (fix Register)
 
 const mapStateToProps = (state) => {
   return {
@@ -27,6 +45,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 function App({ isLogin, setIsLogin }) {
+  const history = useHistory();
   const onLogin = (email, password) => {
     console.log('로그인요청');
     const data = {
@@ -70,7 +89,11 @@ function App({ isLogin, setIsLogin }) {
         setIsLogin(false);
 =======
         console.log("로그아웃 완료");
+<<<<<<< HEAD
 >>>>>>> 064d0097 (fix conflicts for merge)
+=======
+        setIsLogin(false);
+>>>>>>> c6b2c71b (fix Register)
       })
       .catch((err) => {
         console.error(err);

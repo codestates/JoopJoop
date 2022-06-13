@@ -32,9 +32,12 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
     if (email && password) {
       onLogin(email, password);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       setIsLogin(true);
 >>>>>>> 064d0097 (fix conflicts for merge)
+=======
+>>>>>>> c6b2c71b (fix Register)
     }
   };
 
@@ -90,6 +93,18 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
+<<<<<<< HEAD
+=======
+
+        <div className="">
+          <Button
+            className="w-[8.4rem] h-[2.9rem] btn-green rounded-3xl text-center outline text-white"
+            onClick={loginHandler}
+          >
+            로그인
+          </Button>
+        </div>
+>>>>>>> c6b2c71b (fix Register)
 
         <div className=''>
           <Button
