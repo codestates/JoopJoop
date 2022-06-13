@@ -40,7 +40,12 @@ router.post("/register", async (req, res) => {
 });
 
 //LOGIN
+<<<<<<< HEAD
 router.post("/login", async (req, res) => {
+=======
+router.post('/login', async (req, res) => {
+  console.log(req.body);
+>>>>>>> 9d83f43d (for merge)
   try {
     const user = await User.findOne({
       email: req.body.email,
