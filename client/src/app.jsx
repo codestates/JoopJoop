@@ -78,6 +78,7 @@ function App({ isLogin, setIsLogin }) {
         }
       )
       .then((res) => {
+        console.log(res);
         onLoginSuccess(res);
         console.log("resfresh 성공");
       })
