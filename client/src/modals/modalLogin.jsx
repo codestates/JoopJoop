@@ -37,10 +37,12 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
   };
 
   const google = () => {
+
     window.open(
       process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
       "_self"
     );
+
   };
 
   if (!modalOpen) return null;
