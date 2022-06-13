@@ -31,16 +31,23 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
   const loginHandler = () => {
     if (email && password) {
       onLogin(email, password);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 403d60bf (fix loginHandler Function)
       setIsLogin(true);
     }
   };
 
   const google = () => {
+<<<<<<< HEAD
     window.open(
       process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
       "_self"
     );
+=======
+    window.open("http://localhost:80/auth/google", "_self");
+>>>>>>> 403d60bf (fix loginHandler Function)
   };
 
   if (!modalOpen) return null;

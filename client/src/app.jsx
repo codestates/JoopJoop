@@ -34,7 +34,11 @@ function App({ isLogin, setIsLogin }) {
       password,
     };
     axios
+<<<<<<< HEAD
       .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/login", data, {
+=======
+      .post("http://localhost:80/auth/login", data, {
+>>>>>>> 403d60bf (fix loginHandler Function)
         headers: {
           "Content-Type": "application/json",
         },
@@ -52,7 +56,11 @@ function App({ isLogin, setIsLogin }) {
 
   const onLogout = (e) => {
     axios
+<<<<<<< HEAD
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
+=======
+      .get("http://localhost:80/auth/logout", {
+>>>>>>> 403d60bf (fix loginHandler Function)
         headers: {
           "Content-Type": "application/json",
         },
@@ -62,11 +70,14 @@ function App({ isLogin, setIsLogin }) {
       })
       .then((res) => {
         console.log("로그아웃 완료");
+<<<<<<< HEAD
         setIsLogin(false);
 
         console.log("로그아웃 완료");
 
         setIsLogin(false);
+=======
+>>>>>>> 403d60bf (fix loginHandler Function)
       })
       .catch((err) => {
         console.error(err);
@@ -77,7 +88,11 @@ function App({ isLogin, setIsLogin }) {
     console.log(process.env.REACT_APP_LOCALSERVER_URL);
     axios
       .post(
+<<<<<<< HEAD
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
+=======
+        "http://localhost:80/auth/refresh",
+>>>>>>> 403d60bf (fix loginHandler Function)
         { data: "refresh" },
         {
           withCredentials: true,
@@ -90,7 +105,10 @@ function App({ isLogin, setIsLogin }) {
       })
       .catch((error) => {
         console.log("refresh 실패");
+<<<<<<< HEAD
 
+=======
+>>>>>>> 403d60bf (fix loginHandler Function)
         setIsLogin(false);
       });
   };
