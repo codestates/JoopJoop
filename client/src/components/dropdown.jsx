@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Dropdown = ({
   isOpen,
@@ -24,9 +24,12 @@ const Dropdown = ({
       {/* <Link to={{ url }} className="p-4 shadow hover:bg-green-50">
         {alarm}
       </Link> */}
-      <Link to="/mypage" className="p-4 shadow hover:bg-green-50">
+      <button
+        className="p-4 shadow hover:bg-green-50"
+        onClick={(e) => history.push("/mypage")}
+      >
         {profileImg}
-      </Link>
+      </button>
       <button
         className="p-4 shadow hover:bg-green-50"
         onClick={(e) => {

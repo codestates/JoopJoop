@@ -141,8 +141,8 @@ function App({ isLogin, setIsLogin }) {
         {isLogin ? <Navbar toggle={toggle} /> : null}
         {isLogin ? (
           <Switch>
-            <Route path="/" component={Landing} />
-            <Route path="/home" exact component={Home} />
+            <Route path="/" exact component={Landing} />
+            <Route path="/home" component={Home} />
             <Route path="/schedule" component={Schedule} />
             <Route path="/chat" component={Chat} />
             <Route path="/community" component={Community} />
