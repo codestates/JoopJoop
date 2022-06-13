@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
-import ReactDom from 'react-dom';
-import Button from '../components/button';
-import logo from '../img/Logo.png';
-import { XIcon } from '@heroicons/react/solid';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import ReactDom from "react-dom";
+import Button from "../components/button";
+import logo from "../img/Logo.png";
+import { XIcon } from "@heroicons/react/solid";
+import { Link } from "react-router-dom";
 //! redux state 받아오기 import
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 //! redux dispatch 함수 받아오기 import
-import action from '../redux/action';
+import action from "../redux/action";
 
 //! redux state 받아오기
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isLogin: state.isLogin,
   };
 };
 
 //! redux dispatch 받아오기
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
   };
 };
 
 //! props로 위에 작성한 setIsLogin props로 내려주기
 const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const loginHandler = () => {
     onLogin(email, password);
@@ -34,7 +34,10 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
   };
 
   const google = () => {
-    window.open('http://localhost:5000/auth/google', '_self');
+    window.open(
+      process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
+      "_self",
+    );
   };
 
   if (!modalOpen) return null;
@@ -55,14 +58,14 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
           type="email"
           className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={event => setEmail(event.target.value)}
         />
         <div className="">
           <input
             type="password"
             className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
             placeholder="비밀번호를 입력하세요."
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={event => setPassword(event.target.value)}
           />
         </div>
         <Link to="/home" className="">
@@ -111,7 +114,7 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
       </div>
     </div>,
 
-    document.getElementById('modal')
+    document.getElementById("modal"),
   );
 };
 

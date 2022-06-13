@@ -18,6 +18,15 @@ const mapStateToProps = state => {
   };
 };
 
+// const getGatherings = () => {
+//   axios
+//     .get("http://localhost:80/gatherings", {
+//       withCredentials: true,
+//       token: accessToken,
+//     })
+//     .then(data => console.log(data));
+// };
+
 //! date 형식 변경이 있을 수 있어 console.log 남겨놓겠습니다.
 
 const Home = ({ searchTown, searchDate, searchTime }) => {

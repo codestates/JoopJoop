@@ -6,7 +6,7 @@ import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
 
-const localURL = "http://localhost:80";
+const localURL = process.env.REACT_APP_LOCALSERVER_URL;
 
 const ModalSignUp = ({ modalOpen, closeModal }) => {
   const {
@@ -18,7 +18,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     console.log(data);
   };
   const [userInfo, setUserInfo] = useState({
@@ -28,7 +28,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
     nickname: "",
   });
 
-  const handleInputValue = (key) => (e) => {
+  const handleInputValue = key => e => {
     setUserInfo({ ...userInfo, [key]: e.target.value });
   };
 
@@ -48,9 +48,9 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         console.log(res);
         alert("회원가입 되었습니다! 로그인하세요");
         closeModal();
@@ -61,7 +61,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
 
   return ReactDom.createPortal(
     <div className="container-modal">
-      <div className="modal-normal gap-3" onSubmit={(e) => e.preventDefault()}>
+      <div className="modal-normal gap-3" onSubmit={e => e.preventDefault()}>
         <div className="relative w-full">
           <button
             className="absolute left-[91.5%] bottom-2"
@@ -110,7 +110,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             onChange={handleInputValue("passwordConfirm")}
             {...register("passwordConfirm", {
               required: true,
-              validate: (value) => value === password.current,
+              validate: value => value === password.current,
             })}
           />
           {errors.passwordConfirm &&
@@ -150,7 +150,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         </form>
       </div>
     </div>,
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 
