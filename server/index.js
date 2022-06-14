@@ -5,6 +5,7 @@ const passport = require("passport");
 const cors = require("cors");
 const app = express();
 <<<<<<< HEAD
+<<<<<<< HEAD
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
@@ -19,6 +20,8 @@ const googlePassportConfig = require('./passport/google');
 const PORT = 80;
 const cookieParser = require('cookie-parser');
 =======
+=======
+>>>>>>> d78d8355 (for https deploy please)
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
@@ -34,12 +37,30 @@ const PORT = 5000;
 const cookieParser = require("cookie-parser");
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 580291bd (try edit profileImg)
 =======
 const fileupload = require("express-fileupload");
 >>>>>>> 3a900fae (fix)
 =======
 >>>>>>> 0b264aa7 (add profileImg update)
+=======
+=======
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const authRoute = require('./routes/auth');
+const usersRoute = require('./routes/users');
+const postsRoute = require('./routes/posts');
+const poCommentsRoute = require('./routes/posts_comments');
+const gatheringsRoute = require('./routes/gatherings');
+const mailRoute = require('./routes/mail');
+const multer = require('multer');
+const kakaoPassportConfig = require('./passport/kakao');
+const googlePassportConfig = require('./passport/google');
+const PORT = 80;
+const cookieParser = require('cookie-parser');
+>>>>>>> 5b3d20dd (for https deploy please)
+>>>>>>> d78d8355 (for https deploy please)
 
 dotenv.config();
 
