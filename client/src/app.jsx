@@ -17,16 +17,32 @@ import Mypage from "./pages/mypage";
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
+    userId: state.userId,
+    token: state.accessToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setUserId: (id) => dispatch(action.setUserId(id)),
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setEmail: (email) => dispatch(action.setEmail(email)),
+    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
+    setAccessToken: (accessToken) =>
+      dispatch(action.setAccessToken(accessToken)),
   };
 };
 
-function App({ isLogin, setIsLogin }) {
+function App({
+  isLogin,
+  setIsLogin,
+  setEmail,
+  setNickname,
+  setUserId,
+  setAccessToken,
+  userId,
+  token,
+}) {
   const onLogin = (email, password) => {
     console.log("로그인요청");
     const data = {
@@ -44,6 +60,7 @@ function App({ isLogin, setIsLogin }) {
       })
       .then((res) => {
         onLoginSuccess(res);
+        console.log(res);
       })
       .catch((error) => {
         console.log("onLogin 함수");
@@ -94,13 +111,17 @@ function App({ isLogin, setIsLogin }) {
   };
 
   const onLoginSuccess = (res) => {
-    const { accessToken } = res.data;
+    const { accessToken, email, nickname, _id } = res.data;
     // console.log("onloginsuccess");
-    // console.log(accessToken);
     //login state true
     setIsLogin(true);
+    setEmail(email);
+    setNickname(nickname);
+    setUserId(_id);
+    setAccessToken(accessToken);
     // accessToken 설정
-    axios.defaults.headers.common["token"] = accessToken;
+    // axios.defaults.headers.common["token"] = token;
+
     // accessToken 만료하기 1분 전에 로그인 연장
     // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
     // getGatherings(accessToken);

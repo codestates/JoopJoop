@@ -53,7 +53,6 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({
       email: req.body.email,
     });
-    console.log(user);
 
     if (!user) {
       return res.status(401).json("등록되지않은 이메일입니다.");
@@ -90,7 +89,6 @@ router.post("/login", async (req, res) => {
 router.post("/refresh", async (req, res) => {
   // console.log('리프레쉬');
   const refreshToken = req.cookies.refreshToken;
-  // console.log(refreshToken);
 
   if (!refreshToken) {
     return res.status(400).json("refresh token not provided");

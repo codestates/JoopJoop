@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const Navbar = ({ toggle, loginId }) => {
+const mapStateToProps = (state) => {
+  return {
+    userNickname: state.loginNickname,
+  };
+};
+
+const Navbar = ({ toggle, userNickname }) => {
   return (
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">
@@ -31,6 +38,7 @@ const Navbar = ({ toggle, loginId }) => {
           </li>
         </ul>
       </nav>
+
       <div className="flex absolute right-12 p-4" onClick={toggle}>
         <img
           className="w-5 h-5 mr-4 cursor-pointer"
@@ -38,16 +46,11 @@ const Navbar = ({ toggle, loginId }) => {
           alt="err"
         />
         <div className="cursor-pointer" onClick={toggle}>
-          {loginId}
+          {userNickname}
         </div>
       </div>
     </header>
   );
 };
 
-Navbar.defaultProps = {
-  className: "btn btn-green",
-  loginId: "로그인 ID",
-};
-
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);
