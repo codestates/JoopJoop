@@ -20,9 +20,9 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
 
   const onSubmit = (data) => {
     const { email, password, nickname } = data;
-    console.log("click");
+    console.log("버튼 work!");
+    console.log(data);
 
-    console.log("test click");
     axios
       .post(
         `${localURL}/auth/register`,
@@ -42,12 +42,6 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         closeModal();
       });
   };
-  const [userInfo, setUserInfo] = useState({
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    nickname: "",
-  });
 
   if (!modalOpen) return null;
 

@@ -3,8 +3,11 @@ const initialState = {
   searchTown: [],
   searchDate: "",
   searchTime: [],
-  email: "test@gmail.com",
-  nickname: "팅팅",
+  loginEmail: "",
+  loginNickname: "",
+  password: "",
+  userId: "",
+  accessToken: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -19,10 +22,16 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, searchDate: action.payload };
     case "SET_SEARCHTIME":
       return { ...state, searchTime: action.payload };
-    case "SET_EMAIL":
-      return { ...state, setEmail: action.payload };
-    case "SET_NICKNAME":
-      return { ...state, setNickname: action.payload };
+    case "SET_LOGINEMAIL":
+      return { ...state, loginEmail: action.payload };
+    case "SET_LOGINNICKNAME":
+      return { ...state, loginNickname: action.payload };
+    case "SET_PASSWORD":
+      return { ...state, password: action.payload };
+    case "SET_USERID":
+      return { ...state, userId: action.payload };
+    case "SET_ACCESSTOKEN":
+      return { ...state, accessToken: action.payload };
     default:
       return state;
   }

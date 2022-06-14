@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
-    email: state.email,
-    nickname: state.nickname,
+    userEmail: state.loginEmail,
+    userNickname: state.loginNickname,
   };
 };
 
-const Mypage = ({ email, nickname }) => {
+const Mypage = ({ userEmail, userNickname }) => {
   const [editMode, setEditMode] = useState(false);
 
   const switchEditMode = () => {
@@ -29,13 +29,13 @@ const Mypage = ({ email, nickname }) => {
             alt=""
           />
           <div className="flex flex-col ">
-            <label>유저 이메일</label>
+            <label>이메일</label>
             <p className="w-72 h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70">
-              {email}
+              {userEmail}
             </p>
-            <label>유저 닉네임</label>
+            <label>닉네임</label>
             <p className="w-72 h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70">
-              {nickname}
+              {userNickname}
             </p>
             <button
               className="w-36 h-12 btn-green mx-3 my-3 text-center rounded-3xl  text-white"
