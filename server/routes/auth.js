@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const CLIENT_URL = 'http://localhost:3000/';
+const CLIENT_URL = 'https://www.joopjoop.site/';
 const User = require('../models/user');
 const CryptoJS = require('crypto-js');
 const {
@@ -30,11 +30,9 @@ router.post('/register', async (req, res) => {
 
   const user = await User.find();
   if (!user.filter((el) => (el.nickname === newUser.nickname ? false : true))) {
-    return res
-      .status(401)
-      .json({
-        message: '중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요',
-      });
+    return res.status(401).json({
+      message: '중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요',
+    });
   }
   // console.log('user!! :', user);
 

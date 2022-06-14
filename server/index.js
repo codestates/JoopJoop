@@ -15,7 +15,7 @@ const mailRoute = require('./routes/mail');
 const multer = require('multer');
 const kakaoPassportConfig = require('./passport/kakao');
 const googlePassportConfig = require('./passport/google');
-const PORT = 5000;
+const PORT = 80;
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
