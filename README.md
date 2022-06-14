@@ -1,13 +1,7 @@
 # JoopJoop
 [JOOPJOOP](https://www.joopjoop.site)
 
-[JOOPJOOP](https://www.joopjoop.site)
-
 ## Logo
-<<<<<<< HEAD
-
-=======
->>>>>>> 48d4dd9e (Update README.md)
 ![JOOP JOOP triming](https://user-images.githubusercontent.com/96028495/171679334-d5fdcc16-b7c4-4333-b12a-950a6ee4788d.png)
 
 ## About
