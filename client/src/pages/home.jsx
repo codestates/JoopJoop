@@ -3,11 +3,8 @@ import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import Card from "../components/card_gathering";
 import ModalViewGathering from "../modals/modalViewGathering";
+import axios from "axios";
 import { format } from "date-fns";
-
-import mockGatherings from "../mockData/mock_gather.json";
-//! mockGatherings를 필터링된 모임정보로 대치한다.
-
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
@@ -18,26 +15,32 @@ const mapStateToProps = state => {
   };
 };
 
-// const getGatherings = () => {
-//   axios
-//     .get("http://localhost:80/gatherings", {
-//       withCredentials: true,
-//       token: accessToken,
-//     })
-//     .then(data => console.log(data));
-// };
-
 //! date 형식 변경이 있을 수 있어 console.log 남겨놓겠습니다.
 
-const Home = ({ searchTown, searchDate, searchTime }) => {
+// const getAllGatherings = () => {
+//   axios
+//     .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
+//       withCredentials: true,
+//     })
+//     .then(data => {
+//       console.log(data.data);
+//       return data.data;
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
+// console.log(gathering);
+
+const Home = ({ gathering, searchTown, searchDate, searchTime }) => {
   const [gatherModalOpen, setGatherModalOpen] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState(0);
-  const [selectedGathering, setSelectedGathering] = useState(mockGatherings[0]);
+  const [selectedGathering, setSelectedGathering] = useState(gathering[0]);
 
-  let filteredGatherings = mockGatherings;
+  let filteredGatherings = gathering;
 
   useEffect(() => {
-    setSelectedGathering(mockGatherings[selectedIdx]);
+    setSelectedGathering(gathering[selectedIdx]);
   }, [selectedIdx]);
 
   useEffect(() => {
@@ -83,12 +86,7 @@ const Home = ({ searchTown, searchDate, searchTime }) => {
     return gatherings;
   };
 
-  filteredGatherings = filter(
-    mockGatherings,
-    searchTown,
-    searchDate,
-    searchTime,
-  );
+  filteredGatherings = filter(gathering, searchTown, searchDate, searchTime);
 
   return (
     <div className="flex flex-col items-center gap-5">

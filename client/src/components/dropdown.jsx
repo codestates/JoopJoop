@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Dropdown = ({
   isOpen,
@@ -26,13 +27,13 @@ const Dropdown = ({
       </Link> */}
       <button
         className="p-4 shadow hover:bg-green-50"
-        onClick={(e) => history.push("/mypage")}
+        onClick={e => history.push("/mypage")}
       >
         {profileImg}
       </button>
       <button
         className="p-4 shadow hover:bg-green-50"
-        onClick={(e) => {
+        onClick={e => {
           e.preventDefault();
           logout();
         }}
