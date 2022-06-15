@@ -48,7 +48,7 @@ const Home = ({
       );
     }
     if (searchDate !== "") {
-      const convertedSearchDate = format(searchDate, "yyyy-MM-dd").toString();
+      const convertedSearchDate = format(searchDate, "yyyy-M-dd").toString();
       gatherings = gatherings.filter(gathering => {
         return gathering.date === convertedSearchDate;
       });
