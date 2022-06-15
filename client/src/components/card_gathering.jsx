@@ -2,7 +2,6 @@ import React from "react";
 
 const card_gathering = ({ props, onClick }) => {
   const { date, time, town, place, title, author } = props;
-  // console.log(props);
   return (
     <>
       <div

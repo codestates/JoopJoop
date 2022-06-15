@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import { XIcon } from "@heroicons/react/solid";
 import Select from "react-select";
 import { ko } from "date-fns/esm/locale";
-import { useCallback } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import MapContainer from "../components/container_map";
+import CreateMapContainer from "../components/container_createmap";
 
 const townOptions = [
   { value: "종로구", label: "종로구" },
@@ -46,12 +45,9 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
-  const [longitude, setLongitude] = useState(33.450701);
-  const [latitude, setLatitude] = useState(126.570667);
+  const [longitude, setLongitude] = useState(126.570667);
+  const [latitude, setLatitude] = useState(33.450701);
   const gatherInfo = { title, town, place, date, longitude, latitude };
-
-  const markerPositions = [longitude, latitude];
-  const mapSize = [313, 313];
 
   const createGathering = data => {
     axios
@@ -82,7 +78,7 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
           모임 만들기
         </div>
         <div className="flex felx-row items-start gap-4">
-          <MapContainer markerPositions={markerPositions} size={mapSize} />
+          <CreateMapContainer longitude={longitude} latitude={latitude} />
           <div className="flex flex-col items-center gap-4">
             <input
               type="text"
