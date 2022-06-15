@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { XIcon } from "@heroicons/react/solid";
 import { connect } from "react-redux";
@@ -42,7 +42,7 @@ const EditProfile = ({
   const history = useHistory();
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [img, setImg] = useState("");
+  const [files, setFiles] = useState("");
 
   const {
     register,
@@ -53,29 +53,6 @@ const EditProfile = ({
 
   const password = useRef();
   password.current = watch("password");
-
-  const onSubmit = (data) => {
-    const { nickname, password, profileImg } = data;
-    console.log(data);
-    axios
-      .put(
-        `${localURL}/users/${userId}`,
-        {
-          nickname: nickname,
-          password: password,
-          profileImg: profileImg,
-        },
-        {
-          headers: { "Content-Type": "application/json", token: token },
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        setNickname(nickname);
-        setPassword(password);
-        alert("변경 되었습니다!");
-      });
-  };
 
   const onDeleteAccount = () => {
     axios
@@ -96,33 +73,73 @@ const EditProfile = ({
   const onLoadFile = (e) => {
     const file = e.target.files[0];
     console.log(file);
-    setImg(file);
+    setFiles(file);
   };
-  console.log(img);
 
-  const handleClick = async (e) => {
+  const handleClick = (e) => {
     const formData = new FormData();
-    formData.append("profile_img", img);
+    console.log("click");
+    formData.append("file", files);
 
     const config = {
-      Hedaers: {
+      Headers: {
         "content-type": "multipart/form-data",
       },
     };
-    const res = await axios.post(
-      `http://localhost:5000/upload`,
-      formData,
-      config
-    );
-    console.log(res.data.image);
-    setProfileImg(`http://localhost:5000/` + res.data.image);
-    console.log(profileImg);
+    axios
+      .post(`http://localhost:5000/upload`, formData, config)
+      .then((res) => updateProfileImg(res.data.image))
+      .catch((error) => {
+        console.error("Error", error);
+      });
+  };
+
+  const onSubmit = (data) => {
+    const { nickname, password } = data;
+    console.log(data);
+    axios
+      .put(
+        `${localURL}/users/${userId}`,
+        {
+          nickname: nickname,
+          password: password,
+        },
+        {
+          headers: { "Content-Type": "application/json", token: token },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        setNickname(nickname);
+        setPassword(password);
+        alert("변경 되었습니다!");
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const updateProfileImg = (res) => {
+    console.log(res);
+    axios
+      .put(
+        `${localURL}/users/${userId}`,
+        { profileImg: res },
+        {
+          headers: { "Content-Type": "application/json", token: token },
+          withCredentials: true,
+        }
+      )
+      .then((res) =>
+        setProfileImg(
+          process.env.REACT_APP_LOCALSERVER_URL + "/" + res.data.profileImg
+        )
+      )
+      .catch((err) => console.log(err));
   };
 
   function previewFile() {
-    const preview = document.getElementById("preview");
-    const file = document.querySelector("input[type=file]").files[0];
-    const reader = new FileReader();
+    var preview = document.getElementById("preview");
+    var file = document.querySelector("input[type=file]").files[0];
+    var reader = new FileReader();
 
     reader.addEventListener(
       "load",
@@ -136,7 +153,6 @@ const EditProfile = ({
       reader.readAsDataURL(file);
     }
   }
-
   return (
     <div className="flex items-center w-80% h-auto">
       <button
@@ -145,27 +161,29 @@ const EditProfile = ({
       >
         <XIcon className="h-5 w-5" />
       </button>
-      {/* <img className="w-40 h-40 rounded-full " src="img/favicon.png" alt="" /> */}
 
+      <div className="flex flex-col">
+        <img className="w-40 h-40 rounded-full " id="preview"></img>
+
+        <input
+          type="file"
+          name="file"
+          accept="img/*"
+          onChange={(e) => {
+            onLoadFile(e);
+            previewFile();
+          }}
+        />
+
+        <button
+          type="submit"
+          className="bg-green-100 w-32 text-white rounded-full"
+          onClick={handleClick}
+        >
+          저장하기
+        </button>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col">
-          <img className="w-40 h-40 rounded-full" id="preview"></img>
-          <input
-            type="file"
-            id="image"
-            accept="img/*"
-            onChange={(e) => {
-              onLoadFile(e);
-              previewFile();
-            }}
-          />
-          <button
-            className="bg-green-100 w-32 text-white rounded-full"
-            onClick={handleClick}
-          >
-            저장하기
-          </button>
-        </div>
         <div className="flex flex-col">
           <label>이메일</label>
           <p

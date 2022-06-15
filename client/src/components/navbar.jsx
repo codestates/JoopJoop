@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     userNickname: state.loginNickname,
     profileImg: state.profileImg,
@@ -10,7 +10,6 @@ const mapStateToProps = state => {
 };
 
 const Navbar = ({ toggle, userNickname, profileImg }) => {
-  // console.log(profileImg);
   return (
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">
@@ -43,9 +42,9 @@ const Navbar = ({ toggle, userNickname, profileImg }) => {
 
       <div className="flex absolute right-12 p-4" onClick={toggle}>
         <img
+          src={profileImg}
           className="w-5 h-5 mr-4 cursor-pointer"
-          src={{ profileImg }}
-          alt="err"
+          alt="error"
         />
         <div className="cursor-pointer" onClick={toggle}>
           {userNickname}

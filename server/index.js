@@ -77,6 +77,7 @@ app.use("/posts", postsRoute);
 app.use("/mail", mailRoute);
 app.use("/posts_comments", poCommentsRoute);
 app.use("/gatherings", gatheringsRoute);
+app.use("/uploads", express.static("uploads"));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -86,13 +87,18 @@ const storage = multer.diskStorage({
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
-
-const upload = multer({ storage: storage }).single("profile_img");
-app.post("/upload", upload, (req, res) => {
-  return res.json({
-    success: true,
-    image: req.file.path,
-    fileName: req.file.filename,
+const upload = multer({ storage: storage }).single("file");
+app.post("/upload", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err);
+      return res.json({ success: false, err });
+    }
+    return res.json({
+      success: true,
+      image: res.req.file.path,
+      fileName: res.req.file.filename,
+    });
   });
 });
 
