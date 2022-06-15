@@ -8,7 +8,7 @@ const {
 } = require("./tokenfunction");
 
 //CREATE GATHERING
-router.post("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.post("/", async (req, res) => {
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
