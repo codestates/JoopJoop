@@ -1,49 +1,49 @@
 module.exports = {
-  setIsLogin: boolean => ({
+  setIsLogin: (boolean) => ({
     type: "SET_ISLOGIN",
     payload: boolean,
   }),
-  setSearchTown: town => ({
+  setSearchTown: (town) => ({
     type: "SET_SEARCHTOWN",
     payload: town,
   }),
-  setSearchDate: date => ({
+  setSearchDate: (date) => ({
     type: "SET_SEARCHDATE",
     payload: date,
   }),
-  setSearchTime: time => ({
+  setSearchTime: (time) => ({
     type: "SET_SEARCHTIME",
     payload: time,
   }),
-  setEmail: email => ({
+  setEmail: (email) => ({
     type: "SET_LOGINEMAIL",
     payload: email,
   }),
-  setNickname: nickname => ({
+  setNickname: (nickname) => ({
     type: "SET_LOGINNICKNAME",
     payload: nickname,
   }),
-  setPassword: password => ({
+  setPassword: (password) => ({
     type: "SET_PASSWORD",
     payload: password,
   }),
-  setUserId: _id => ({
+  setUserId: (_id) => ({
     type: "SET_USERID",
     payload: _id,
   }),
-  setAccessToken: accessToken => ({
+  setAccessToken: (accessToken) => ({
     type: "SET_ACCESSTOKEN",
     payload: accessToken,
   }),
-  setProfileImg: profileImg => ({
+  setProfileImg: (profileImg) => ({
     type: "SET_PROFILEIMG",
     payload: profileImg,
   }),
-  setGatherings: gathering => ({
+  setGatherings: (gathering) => ({
     type: "SET_GATHERINGS",
     payload: gathering,
   }),
-  setIsLoading: boolean => ({
+  setIsLoading: (boolean) => ({
     type: "SET_ISLOADING",
     payload: boolean,
   }),

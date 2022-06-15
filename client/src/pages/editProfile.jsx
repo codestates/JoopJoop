@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { XIcon } from "@heroicons/react/solid";
 import { connect } from "react-redux";
@@ -42,7 +42,7 @@ const EditProfile = ({
   const history = useHistory();
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [img, setImg] = useState("");
+  const [files, setFiles] = useState("");
 
   const {
     register,
@@ -70,6 +70,30 @@ const EditProfile = ({
       });
   };
 
+  const onLoadFile = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setFiles(file);
+  };
+
+  const handleClick = (e) => {
+    const formData = new FormData();
+    console.log("click");
+    formData.append("file", files);
+
+    const config = {
+      Headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    axios
+      .post(`http://localhost:5000/upload`, formData, config)
+      .then((res) => updateProfileImg(res.data.image))
+      .catch((error) => {
+        console.error("Error", error);
+      });
+  };
+
   const onSubmit = (data) => {
     const { nickname, password } = data;
     console.log(data);
@@ -89,19 +113,33 @@ const EditProfile = ({
         setNickname(nickname);
         setPassword(password);
         alert("변경 되었습니다!");
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
-  const onLoadFile = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    setImg(file);
+  const updateProfileImg = (res) => {
+    console.log(res);
+    axios
+      .put(
+        `${localURL}/users/${userId}`,
+        { profileImg: res },
+        {
+          headers: { "Content-Type": "application/json", token: token },
+          withCredentials: true,
+        }
+      )
+      .then((res) =>
+        setProfileImg(
+          process.env.REACT_APP_LOCALSERVER_URL + "/" + res.data.profileImg
+        )
+      )
+      .catch((err) => console.log(err));
   };
 
   function previewFile() {
-    const preview = document.getElementById("preview");
-    const file = document.querySelector("input[type=file]").files[0];
-    const reader = new FileReader();
+    var preview = document.getElementById("preview");
+    var file = document.querySelector("input[type=file]").files[0];
+    var reader = new FileReader();
 
     reader.addEventListener(
       "load",
@@ -115,26 +153,6 @@ const EditProfile = ({
       reader.readAsDataURL(file);
     }
   }
-  const handleClick = async (e) => {
-    const formData = new FormData();
-    console.log("click");
-    formData.append("file", img);
-
-    const config = {
-      Hedaers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-    const res = await axios.post(
-      `http://localhost:5000/upload`,
-      formData,
-      config
-    );
-    console.log(res);
-    setProfileImg(...profileImg, res.data.url);
-    console.log(profileImg);
-  };
-
   return (
     <div className="flex items-center w-80% h-auto">
       <button
@@ -145,10 +163,11 @@ const EditProfile = ({
       </button>
 
       <div className="flex flex-col">
-        <img className="w-40 h-40 rounded-full" id="preview"></img>
+        <img className="w-40 h-40 rounded-full " id="preview"></img>
+
         <input
           type="file"
-          id="image"
+          name="file"
           accept="img/*"
           onChange={(e) => {
             onLoadFile(e);
