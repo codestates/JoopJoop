@@ -18,7 +18,7 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
     author,
     participants,
   } = selectedGathering;
-  console.log(author);
+  // console.log(author);
 
   const [isCreator, setIsCreator] = useState(false);
   const [isJoin, setIsJoin] = useState(false);
