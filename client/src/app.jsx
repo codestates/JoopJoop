@@ -29,6 +29,7 @@ const mapDispatchToProps = dispatch => {
     setEmail: email => dispatch(action.setEmail(email)),
     setNickname: nickname => dispatch(action.setNickname(nickname)),
     setAccessToken: accessToken => dispatch(action.setAccessToken(accessToken)),
+    setGatherings: data => dispatch(action.setGatherings(data)),
   };
 };
 
@@ -41,6 +42,8 @@ function App({
   setAccessToken,
   userId,
   token,
+  setGatherings,
+  setIsLoading,
 }) {
   const onLogin = (email, password) => {
     console.log("로그인요청");
@@ -141,8 +144,7 @@ function App({
 
   const onLoginSuccess = res => {
     const { accessToken, email, nickname, _id } = res.data;
-    // console.log("onloginsuccess");
-    //login state true
+    getGatherings();
     setIsLogin(true);
     setEmail(email);
     setNickname(nickname);
@@ -150,10 +152,6 @@ function App({
     setAccessToken(accessToken);
     // accessToken 설정
     // axios.defaults.headers.common["token"] = token;
-
-    // accessToken 만료하기 1분 전에 로그인 연장
-    // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
-    // getGatherings(accessToken);
   };
 
   const getGatherings = () => {
@@ -163,7 +161,6 @@ function App({
       })
       .then(data => {
         setGatherings([...data.data]);
-        setIsLoading(true);
       });
   };
 

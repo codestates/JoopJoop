@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userNickname: state.loginNickname,
     profileImg: state.profileImg,
@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
 };
 
 const Navbar = ({ toggle, userNickname, profileImg }) => {
-  console.log(profileImg);
+  // console.log(profileImg);
   return (
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">
