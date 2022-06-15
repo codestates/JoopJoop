@@ -18,13 +18,21 @@ const Mypage = ({ userEmail, userNickname, profileImg }) => {
     setEditMode(!editMode);
   };
 
+  const handleImgError = (e) => {
+    e.target.src = "img/default.png";
+  };
+
   return (
     <div className="h-647 flex justify-center ">
       {editMode ? (
         <EditProfile switchEditMode={switchEditMode} />
       ) : (
         <div className="flex items-center w-80% h-auto">
-          <img className="w-40 h-40 rounded-full " src={profileImg} alt="" />
+          <img
+            className="w-40 h-40 rounded-full "
+            src={profileImg}
+            onError={handleImgError}
+          />
           <div className="flex flex-col ">
             <label>이메일</label>
             <p className="w-72 h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70">

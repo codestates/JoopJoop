@@ -17,8 +17,15 @@ const kakaoPassportConfig = require("./passport/kakao");
 const googlePassportConfig = require("./passport/google");
 const PORT = 5000;
 const cookieParser = require("cookie-parser");
+const fileupload = require("express-fileupload");
 
 dotenv.config();
+
+app.use(
+  fileupload({
+    createParentPath: true,
+  })
+);
 
 app.use(
   session({
@@ -80,20 +87,17 @@ app.use("/gatherings", gatheringsRoute);
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "uploads/");
+    callback(null, "../client/public/img");
   },
   filename: (req, file, callback) => {
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
 
-const upload = multer({ storage: storage }).single("profile_img");
+const upload = multer({ storage: storage }).single("file");
 app.post("/upload", upload, (req, res) => {
-  return res.json({
-    success: true,
-    image: req.file.path,
-    fileName: req.file.filename,
-  });
+  console.log(req.file);
+  res.json({ url: `img/${req.file.filename}` });
 });
 
 app.listen(PORT, () => {
