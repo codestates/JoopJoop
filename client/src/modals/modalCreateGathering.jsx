@@ -48,6 +48,7 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
   const [longitude, setLongitude] = useState(126.570667);
   const [latitude, setLatitude] = useState(33.450701);
   const gatherInfo = { title, town, place, date, longitude, latitude };
+  // console.log(gatherInfo);
 
   const createGathering = data => {
     axios
@@ -91,7 +92,7 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
               options={townOptions}
               placeholder="지역를 선택해주세요"
               value={town}
-              onChange={setTown}
+              onChange={() => setTown(town)}
             ></Select>
             <input
               type="text"
@@ -104,7 +105,7 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
               locale={ko}
               dateFormat="yy/MM/dd"
               selected={date}
-              onChange={date => setDate(date)}
+              onChange={() => setDate(date)}
               placeholderText="날짜를 선택하세요"
             />
             <div className="flex flex-row gap-4">
@@ -113,14 +114,14 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
                 options={hourOptions}
                 placeholder="시"
                 value={hour}
-                onChange={setHour}
+                onChange={() => setHour(hour)}
               ></Select>
               <Select
                 className="w-[160px] h-[46px] rounded-3xl text-center"
                 options={hourOptions}
                 placeholder="분"
                 value={minute}
-                onChange={setMinute}
+                onChange={() => setMinute(minute)}
               ></Select>
             </div>
             <Button

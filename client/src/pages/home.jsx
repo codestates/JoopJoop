@@ -29,51 +29,51 @@ const Home = ({
   const [selectedGathering, setSelectedGathering] = useState(gatherings[0]);
 
   let filteredGatherings = gatherings;
-  if (isLoading) {
-    const filter = (gatherings, searchTown, searchDate, searchTime) => {
-      gatherings = gatherings.filter(
-        gathering =>
-          !!gathering.title &&
-          !!gathering.town &&
-          !!gathering.place &&
-          !!gathering.date &&
-          !!gathering.time &&
-          !!gathering.longitude &&
-          !!gathering.latitude &&
-          !!gathering.author,
+  // if (isLoading) {
+  const filter = (gatherings, searchTown, searchDate, searchTime) => {
+    gatherings = gatherings.filter(
+      gathering =>
+        !!gathering.title &&
+        !!gathering.town &&
+        !!gathering.place &&
+        !!gathering.date &&
+        !!gathering.time &&
+        !!gathering.longitude &&
+        !!gathering.latitude &&
+        !!gathering.author,
+    );
+    if (searchTown.length > 0 && searchTown.length < 25) {
+      gatherings = gatherings.filter(gathering =>
+        searchTown.includes(gathering.town),
       );
-      if (searchTown.length > 0 && searchTown.length < 25) {
-        gatherings = gatherings.filter(gathering =>
-          searchTown.includes(gathering.town),
-        );
-      }
-      if (searchDate !== "") {
-        const convertedSearchDate = format(searchDate, "yyyy-MM-dd").toString();
-        gatherings = gatherings.filter(gathering => {
-          return gathering.date === convertedSearchDate;
-        });
-      }
-      if (searchTime.length === 1) {
-        searchTime.forEach(filterTime => {
-          if (filterTime === "오전") {
-            gatherings = gatherings.filter(gathering => {
-              return gathering.time.split(" ")[1] === "AM";
-            });
-          }
-          if (filterTime === "오후") {
-            gatherings = gatherings.filter(gathering => {
-              return gathering.time.split(" ")[1] === "PM";
-            });
-          }
-        });
-      }
-      return gatherings;
-    };
+    }
+    if (searchDate !== "") {
+      const convertedSearchDate = format(searchDate, "yyyy-MM-dd").toString();
+      gatherings = gatherings.filter(gathering => {
+        return gathering.date === convertedSearchDate;
+      });
+    }
+    if (searchTime.length === 1) {
+      searchTime.forEach(filterTime => {
+        if (filterTime === "오전") {
+          gatherings = gatherings.filter(gathering => {
+            return gathering.time.split(" ")[1] === "AM";
+          });
+        }
+        if (filterTime === "오후") {
+          gatherings = gatherings.filter(gathering => {
+            return gathering.time.split(" ")[1] === "PM";
+          });
+        }
+      });
+    }
+    return gatherings;
+  };
 
-    filteredGatherings = filter(gatherings, searchTown, searchDate, searchTime);
-  } else {
-    return null;
-  }
+  filteredGatherings = filter(gatherings, searchTown, searchDate, searchTime);
+  // } else {
+  //   return null;
+  // }
 
   const setGatherToModal = idx => {
     setSelectedGathering(gatherings[idx]);
