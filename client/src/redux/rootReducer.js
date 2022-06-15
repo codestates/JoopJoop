@@ -9,12 +9,30 @@ const initialState = {
   userId: "",
   accessToken: "",
   profileImg: "",
+  gatherings: [
+    {
+      author: {
+        _id: "",
+        nickname: "",
+        profileImg: "",
+      },
+      date: "",
+      latitude: "",
+      longitude: "",
+      paricipants: [],
+      place: "",
+      time: "",
+      title: "",
+      town: "",
+      __v: 0,
+      _id: "",
+    },
+  ],
+  isLoading: false,
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_DOGS":
-      return { ...state, dogData: action.payload };
     case "SET_ISLOGIN":
       return { ...state, isLogin: action.payload };
     case "SET_SEARCHTOWN":
@@ -35,6 +53,10 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, accessToken: action.payload };
     case "SET_PROFILEIMG":
       return { ...state, profileImg: action.payload };
+    case "SET_GATHERINGS":
+      return { ...state, gatherings: action.payload };
+    case "SET_ISLOADING":
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }

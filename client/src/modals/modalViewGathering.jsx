@@ -1,19 +1,48 @@
 import React, { useState } from "react";
-import axios from "axios";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import { XIcon } from "@heroicons/react/solid";
-import profileImg from "../img/profile.png";
 import Participant from "../components/participant";
+import MapContainer from "../components/container_map";
+import { useEffect } from "react";
 
 const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
-  const { title, town, place, date, time, location, author, participants } =
-    selectedGathering;
+  const {
+    title,
+    town,
+    place,
+    date,
+    time,
+    longitude,
+    latitude,
+    author,
+    participants,
+  } = selectedGathering;
+  console.log(author);
 
-  const [isCreator, SetIsCreator] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
+  const [isJoin, setIsJoin] = useState(false);
+
+  //! redux state로 관리하는 userId와 props로 받아온 author._id 가 같다면 isCreator true
+  // useEffect(() => {
+  //   if (userId === author._id) {
+  //     setIsCreator(true);
+  //   } else {
+  //     setIsCreator(false);
+  //   }
+  // }, [author]);
+
+  //! redux state로 관리하는 userId가 props로 받아온 participants에 포함되어 있다면 isJoin true
+  // useEffect(() => {
+  //   const idArr = participants.map(user => user._id);
+  //   if (idArr.includes(userId)) {
+  //     setIsJoin(true);
+  //   } else {
+  //     setIsJoin(false);
+  //   }
+  // }, [participants]);
 
   //! redux로 로그인한 유저 id를 관리하고 creator.nickname? id? 와 redux의 정보가 같다면 삭제버튼 활성화 기능 추가 필요
-
   if (!modalOpen) return null;
   return ReactDom.createPortal(
     <div className="container-modal">
@@ -28,11 +57,9 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
         </div>
         <div className="flex flex-ro items-start gap-4 w-[669px] h-[379px]">
           <div className="flex flex-col items-center gap-4 w-[313px] h-[353px]">
-            <div className="w-[313px] h-[313px] border-2">
-              지도 API 추가 필요
-            </div>
+            <MapContainer longitude={longitude} latitude={latitude} />
             <div className="flex flex-row items-center gap-1">
-              <img src={profileImg} alt="err" className="w-5 h-5" />
+              <img src={author.profileImg} alt="err" className="w-5 h-5" />
               <div className="text-[16px]">{author.nickname}</div>
             </div>
           </div>
@@ -56,17 +83,20 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
             </div>
             <div className="flex flex-col items-start gap-2">
               <div className="grid grid-cols-3 gap-1">
-                {participants.map((participant, idx) => (
-                  <Participant key={idx} participant={participant} />
-                ))}
+                {!!participants
+                  ? participants.map((participant, idx) => (
+                      <Participant key={idx} participant={participant} />
+                    ))
+                  : null}
               </div>
             </div>
             <div className="flex flex-col items-center w-full">
-              <Button
-                className={"btn btn-green"}
-                children={"참여하기"}
-              ></Button>
-              참여한 모임이면 채팅, 모임 나가기 버튼 표시 필요
+              {isCreator ? null : (
+                <Button
+                  className={"btn btn-green"}
+                  children={"참여하기"}
+                ></Button>
+              )}
             </div>
           </div>
         </div>

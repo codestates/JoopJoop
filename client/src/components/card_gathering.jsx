@@ -1,8 +1,7 @@
 import React from "react";
-import defaultImg from "../img/profile.png";
 
 const card_gathering = ({ props, onClick }) => {
-  const { date, time, town, place, title, author, location } = props;
+  const { date, time, town, place, title, author } = props;
   return (
     <>
       <div
@@ -28,16 +27,6 @@ const card_gathering = ({ props, onClick }) => {
       </div>
     </>
   );
-};
-
-card_gathering.defaultProps = {
-  date: "7월 13일",
-  time: "7:00 PM",
-  town: "강남구",
-  place: "학동공원",
-  title: "가볍게 줍깅하실 분 구해요!",
-  profileImg: defaultImg,
-  nickname: "hound_bae",
 };
 
 export default card_gathering;

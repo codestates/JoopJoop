@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import Card from "../components/card_gathering";
 import ModalViewGathering from "../modals/modalViewGathering";
+import ModalCreateGathering from "../modals/modalCreateGathering";
 import { format } from "date-fns";
-
-import mockGatherings from "../mockData/mock_gather.json";
-//! mockGatherings를 필터링된 모임정보로 대치한다.
-
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
@@ -15,96 +12,90 @@ const mapStateToProps = state => {
     searchTown: state.searchTown,
     searchDate: state.searchDate,
     searchTime: state.searchTime,
+    gatherings: state.gatherings,
+    isLoading: state.isLoading,
   };
 };
 
-// const getGatherings = () => {
-//   axios
-//     .get("http://localhost:80/gatherings", {
-//       withCredentials: true,
-//       token: accessToken,
-//     })
-//     .then(data => console.log(data));
-// };
-
-//! date 형식 변경이 있을 수 있어 console.log 남겨놓겠습니다.
-
-const Home = ({ searchTown, searchDate, searchTime }) => {
+const Home = ({
+  isLoading,
+  gatherings,
+  searchTown,
+  searchDate,
+  searchTime,
+}) => {
   const [gatherModalOpen, setGatherModalOpen] = useState(false);
-  const [selectedIdx, setSelectedIdx] = useState(0);
-  const [selectedGathering, setSelectedGathering] = useState(mockGatherings[0]);
+  const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
+  const [selectedGathering, setSelectedGathering] = useState(gatherings[0]);
 
-  let filteredGatherings = mockGatherings;
-
-  useEffect(() => {
-    setSelectedGathering(mockGatherings[selectedIdx]);
-  }, [selectedIdx]);
-
-  useEffect(() => {
-    // console.log(searchDate);
-    // console.log(searchTime);
-  }, [searchDate]);
-
-  const filter = (gatherings, searchTown, searchDate, searchTime) => {
-    if (searchTown.length > 0 && searchTown.length < 25) {
-      gatherings = gatherings.filter(gathering =>
-        searchTown.includes(gathering.town),
+  let filteredGatherings = gatherings;
+  if (isLoading) {
+    const filter = (gatherings, searchTown, searchDate, searchTime) => {
+      gatherings = gatherings.filter(
+        gathering =>
+          !!gathering.title &&
+          !!gathering.town &&
+          !!gathering.place &&
+          !!gathering.date &&
+          !!gathering.time &&
+          !!gathering.longitude &&
+          !!gathering.latitude &&
+          !!gathering.author,
       );
-    }
+      if (searchTown.length > 0 && searchTown.length < 25) {
+        gatherings = gatherings.filter(gathering =>
+          searchTown.includes(gathering.town),
+        );
+      }
+      if (searchDate !== "") {
+        const convertedSearchDate = format(searchDate, "yyyy-MM-dd").toString();
+        gatherings = gatherings.filter(gathering => {
+          return gathering.date === convertedSearchDate;
+        });
+      }
+      if (searchTime.length === 1) {
+        searchTime.forEach(filterTime => {
+          if (filterTime === "오전") {
+            gatherings = gatherings.filter(gathering => {
+              return gathering.time.split(" ")[1] === "AM";
+            });
+          }
+          if (filterTime === "오후") {
+            gatherings = gatherings.filter(gathering => {
+              return gathering.time.split(" ")[1] === "PM";
+            });
+          }
+        });
+      }
+      return gatherings;
+    };
 
-    if (searchDate !== "") {
-      // console.log(searchDate);
-      const convertedSearchDate = format(searchDate, "yyyy-MM-dd").toString();
-      // console.log(convertedSearchDate);
+    filteredGatherings = filter(gatherings, searchTown, searchDate, searchTime);
+  } else {
+    return null;
+  }
 
-      gatherings = gatherings.filter(gathering => {
-        // console.log(gathering.date);
-        // console.log(convertedSearchDate);
-        // console.log(gathering.date === convertedSearchDate);
-        return gathering.date === convertedSearchDate;
-      });
-    }
-
-    if (searchTime.length === 1) {
-      searchTime.forEach(filterTime => {
-        if (filterTime === "오전") {
-          gatherings = gatherings.filter(gathering => {
-            // console.log(gathering.time.split(" ")[1]);
-            return gathering.time.split(" ")[1] === "AM";
-          });
-        }
-        if (filterTime === "오후") {
-          gatherings = gatherings.filter(gathering => {
-            return gathering.time.split(" ")[1] === "PM";
-          });
-        }
-      });
-    }
-    return gatherings;
+  const setGatherToModal = idx => {
+    setSelectedGathering(gatherings[idx]);
+    setGatherModalOpen(true);
   };
-
-  filteredGatherings = filter(
-    mockGatherings,
-    searchTown,
-    searchDate,
-    searchTime,
-  );
 
   return (
     <div className="flex flex-col items-center gap-5">
       <div className="h-6"></div>
       <SearchGathering className="flex flex-row items-center" />
-      <Button className={"btn btn-green"} children={"모임 만들기"}></Button>
+      <Button
+        className={"btn btn-green"}
+        children={"모임 만들기"}
+        onClick={() => setCreateGatherModalOpen(true)}
+      ></Button>
       <hr className="w-full border-[1px] border-grey-50" />
       <div className="grid grid-cols-4 gap-4">
-        {filteredGatherings.map(gather => (
+        {filteredGatherings.map((gather, idx) => (
           <Card
-            key={gather.id}
+            key={idx}
             props={gather}
-            onClick={() => {
-              setSelectedIdx(gather.id - 1);
-              setGatherModalOpen(true);
-            }}
+            onClick={() => setGatherToModal(idx)}
           ></Card>
         ))}
       </div>
@@ -112,6 +103,10 @@ const Home = ({ searchTown, searchDate, searchTime }) => {
         modalOpen={gatherModalOpen}
         closeModal={() => setGatherModalOpen(false)}
         selectedGathering={selectedGathering}
+      />
+      <ModalCreateGathering
+        modalOpen={createGatherModalOpen}
+        closeModal={() => setCreateGatherModalOpen(false)}
       />
     </div>
   );

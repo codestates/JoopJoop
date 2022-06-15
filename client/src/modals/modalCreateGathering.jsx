@@ -3,24 +3,63 @@ import axios from "axios";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import { XIcon } from "@heroicons/react/solid";
+import Select from "react-select";
+import { ko } from "date-fns/esm/locale";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import CreateMapContainer from "../components/container_createmap";
+
+const townOptions = [
+  { value: "종로구", label: "종로구" },
+  { value: "중구", label: "중구" },
+  { value: "용산구", label: "용산구" },
+  { value: "성동구", label: "성동구" },
+  { value: "광진구", label: "광진구" },
+  { value: "동대문구", label: "동대문구" },
+  { value: "중랑구", label: "중량구" },
+  { value: "성북구", label: "성북구" },
+  { value: "강북구", label: "강북구" },
+  { value: "도봉구", label: "도봉구" },
+  { value: "노원구", label: "노원구" },
+  { value: "은평구", label: "은평구" },
+  { value: "서대문구", label: "서대문구" },
+  { value: "마포구", label: "마포구" },
+  { value: "양천구", label: "양천구" },
+  { value: "강서구", label: "강서구" },
+  { value: "구로구", label: "구로구" },
+  { value: "금천구", label: "금천구" },
+  { value: "영등포구", label: "영등포구" },
+  { value: "동작구", label: "동작구" },
+  { value: "관악구", label: "관악구" },
+  { value: "서초구", label: "서초구" },
+  { value: "강남구", label: "강남구" },
+  { value: "송파구", label: "송파구" },
+  { value: "강동구", label: "강동구" },
+];
+const hourOptions = [{ value: "종로구", label: "종로구" }];
 
 const ModalCreateGathering = ({ modalOpen, closeModal }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [town, setTown] = useState("");
+  const [place, setPlace] = useState("");
+  const [date, setDate] = useState("");
+  const [hour, setHour] = useState("");
+  const [minute, setMinute] = useState("");
+  const [longitude, setLongitude] = useState(126.570667);
+  const [latitude, setLatitude] = useState(33.450701);
+  const gatherInfo = { title, town, place, date, longitude, latitude };
 
-  const loginRequestHandler = () => {
+  const createGathering = data => {
     axios
       .post(
-        process.env.REACT_APP_LOCALSERVER_URL + "/auth/login",
-        { email, password },
+        process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/:" + "userid추가",
+        { data },
         {
-          headers: { "Content-Type": "application/json" },
           withCredentials: true,
         },
       )
-      .then(res => {
-        console.log(res);
-      });
+      .then(res => {})
+      .catch(error => {});
   };
 
   if (!modalOpen) return null;
@@ -39,33 +78,55 @@ const ModalCreateGathering = ({ modalOpen, closeModal }) => {
           모임 만들기
         </div>
         <div className="flex felx-row items-start gap-4">
-          <div className="w-[313px] h-[313px] rounded-2xl border-2">
-            지도 API 추가 후 수정 필요
-          </div>
+          <CreateMapContainer longitude={longitude} latitude={latitude} />
           <div className="flex flex-col items-center gap-4">
             <input
               type="text"
               className=" w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
               placeholder="모임 제목을 입력하세요."
+              onChange={e => setTitle(e.target.value)}
             />
+            <Select
+              className="w-[340px] h-[46px] rounded-3xl text-center"
+              options={townOptions}
+              placeholder="지역를 선택해주세요"
+              value={town}
+              onChange={setTown}
+            ></Select>
             <input
               type="text"
               className=" w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
-              placeholder="장소 선택 기능 추가 필요"
+              placeholder="장소를 입력하세요"
+              onChange={e => setPlace(e.target.value)}
             />
-            <input
-              type="text"
-              className=" w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
-              placeholder="날짜를 선택하세요."
+            <DatePicker
+              className="w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
+              locale={ko}
+              dateFormat="yy/MM/dd"
+              selected={date}
+              onChange={date => setDate(date)}
+              placeholderText="날짜를 선택하세요"
             />
-            <input
-              type="text"
-              className=" w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
-              placeholder="시간을 선택하세요."
-            />
+            <div className="flex flex-row gap-4">
+              <Select
+                className="w-[160px] h-[46px] rounded-3xl text-center"
+                options={hourOptions}
+                placeholder="시"
+                value={hour}
+                onChange={setHour}
+              ></Select>
+              <Select
+                className="w-[160px] h-[46px] rounded-3xl text-center"
+                options={hourOptions}
+                placeholder="분"
+                value={minute}
+                onChange={setMinute}
+              ></Select>
+            </div>
             <Button
               className="btn btn-green w-[189px] h-[46px]"
               children={"모임 만들기"}
+              onClick={() => console.log(gatherInfo)}
             />
           </div>
         </div>
