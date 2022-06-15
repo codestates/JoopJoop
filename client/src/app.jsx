@@ -32,6 +32,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(action.setAccessToken(accessToken)),
     setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
     setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
+    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
@@ -46,9 +47,10 @@ function App({
   token,
   setIsLoading,
   setGatherings,
+  profileImg,
+  setProfileImg,
 }) {
   const onLogin = (email, password) => {
-    console.log("로그인요청");
     const data = {
       email,
       password,
@@ -150,16 +152,14 @@ function App({
 
   const onLoginSuccess = (res) => {
     const { accessToken, email, nickname, _id, profileImg } = res.data;
-    // console.log("onloginsuccess");
-    //login state true
+
     getGatherings();
     setIsLogin(true);
     setEmail(email);
     setNickname(nickname);
     setUserId(_id);
     setAccessToken(accessToken);
-    // accessToken 설정
-    // axios.defaults.headers.common["token"] = token;
+    setProfileImg(process.env.REACT_APP_LOCALSERVER_URL + "/" + profileImg);
   };
 
   const getGatherings = () => {
@@ -171,7 +171,6 @@ function App({
         setGatherings([...data.data]);
       });
   };
-
   useEffect(() => {
     setIsLogin(false);
     onSilentRefresh();

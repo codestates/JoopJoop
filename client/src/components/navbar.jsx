@@ -10,8 +10,6 @@ const mapStateToProps = (state) => {
 };
 
 const Navbar = ({ toggle, userNickname, profileImg }) => {
-  console.log(profileImg);
-
   return (
     <header className="flex items-center bg-green-90 h-12">
       <nav className="flex items-center">
@@ -44,7 +42,7 @@ const Navbar = ({ toggle, userNickname, profileImg }) => {
 
       <div className="flex absolute right-12 p-4" onClick={toggle}>
         <img
-          src={{ profileImg }}
+          src={profileImg}
           className="w-5 h-5 mr-4 cursor-pointer"
           alt="error"
         />

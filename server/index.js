@@ -33,18 +33,15 @@ const googlePassportConfig = require("./passport/google");
 const PORT = 5000;
 const cookieParser = require("cookie-parser");
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 580291bd (try edit profileImg)
 =======
 const fileupload = require("express-fileupload");
 >>>>>>> 3a900fae (fix)
+=======
+>>>>>>> 0b264aa7 (add profileImg update)
 
 dotenv.config();
-
-app.use(
-  fileupload({
-    createParentPath: true,
-  })
-);
 
 app.use(
   session({
@@ -103,20 +100,29 @@ app.use("/posts", postsRoute);
 app.use("/mail", mailRoute);
 app.use("/posts_comments", poCommentsRoute);
 app.use("/gatherings", gatheringsRoute);
+app.use("/uploads", express.static("uploads"));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "../client/public/img");
+    callback(null, "uploads/");
   },
   filename: (req, file, callback) => {
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
-
 const upload = multer({ storage: storage }).single("file");
-app.post("/upload", upload, (req, res) => {
-  console.log(req.file);
-  res.json({ url: `img/${req.file.filename}` });
+app.post("/upload", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      console.log(err);
+      return res.json({ success: false, err });
+    }
+    return res.json({
+      success: true,
+      image: res.req.file.path,
+      fileName: res.req.file.filename,
+    });
+  });
 });
 
 app.listen(PORT, () => {
