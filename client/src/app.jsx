@@ -75,9 +75,12 @@ function App({
     axios
 <<<<<<< HEAD
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
+<<<<<<< HEAD
 =======
       .get("http://localhost:80/auth/logout", {
 >>>>>>> 403d60bf (fix loginHandler Function)
+=======
+>>>>>>> 580291bd (try edit profileImg)
         headers: {
           "Content-Type": "application/json",
         },
@@ -89,12 +92,15 @@ function App({
         console.log("로그아웃 완료");
 <<<<<<< HEAD
         setIsLogin(false);
+<<<<<<< HEAD
 
         console.log("로그아웃 완료");
 
         setIsLogin(false);
 =======
 >>>>>>> 403d60bf (fix loginHandler Function)
+=======
+>>>>>>> 580291bd (try edit profileImg)
       })
       .catch((err) => {
         console.error(err);
@@ -102,7 +108,6 @@ function App({
   };
 
   const onSilentRefresh = () => {
-    console.log(process.env.REACT_APP_LOCALSERVER_URL);
     axios
       .post(
 <<<<<<< HEAD
@@ -116,16 +121,17 @@ function App({
         }
       )
       .then((res) => {
-        console.log(res);
         onLoginSuccess(res);
-        console.log("resfresh 성공");
       })
       .catch((error) => {
+<<<<<<< HEAD
         console.log("refresh 실패");
 <<<<<<< HEAD
 
 =======
 >>>>>>> 403d60bf (fix loginHandler Function)
+=======
+>>>>>>> 580291bd (try edit profileImg)
         setIsLogin(false);
       });
   };

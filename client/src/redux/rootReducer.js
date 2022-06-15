@@ -8,6 +8,7 @@ const initialState = {
   password: "",
   userId: "",
   accessToken: "",
+  profileImg: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -32,6 +33,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, userId: action.payload };
     case "SET_ACCESSTOKEN":
       return { ...state, accessToken: action.payload };
+    case "SET_PROFILEIMG":
+      return { ...state, profileImg: action.payload };
     default:
       return state;
   }
