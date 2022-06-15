@@ -132,6 +132,7 @@ function App({
   };
 
   useEffect(() => {
+    setIsLogin(false);
     onSilentRefresh();
   }, []);
 

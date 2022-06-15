@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import { XIcon } from "@heroicons/react/solid";
-import profileImg from "../img/profile.png";
 import Participant from "../components/participant";
 import MapContainer from "../components/container_map";
 import { useEffect } from "react";
@@ -19,8 +18,29 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
     author,
     participants,
   } = selectedGathering;
+  console.log(author);
 
-  const [isCreator, SetIsCreator] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
+  const [isJoin, setIsJoin] = useState(false);
+
+  //! redux state로 관리하는 userId와 props로 받아온 author._id 가 같다면 isCreator true
+  // useEffect(() => {
+  //   if (userId === author._id) {
+  //     setIsCreator(true);
+  //   } else {
+  //     setIsCreator(false);
+  //   }
+  // }, [author]);
+
+  //! redux state로 관리하는 userId가 props로 받아온 participants에 포함되어 있다면 isJoin true
+  // useEffect(() => {
+  //   const idArr = participants.map(user => user._id);
+  //   if (idArr.includes(userId)) {
+  //     setIsJoin(true);
+  //   } else {
+  //     setIsJoin(false);
+  //   }
+  // }, [participants]);
 
   //! redux로 로그인한 유저 id를 관리하고 creator.nickname? id? 와 redux의 정보가 같다면 삭제버튼 활성화 기능 추가 필요
   if (!modalOpen) return null;
@@ -71,11 +91,12 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
               </div>
             </div>
             <div className="flex flex-col items-center w-full">
-              <Button
-                className={"btn btn-green"}
-                children={"참여하기"}
-              ></Button>
-              참여한 모임이면 채팅, 모임 나가기 버튼 표시 필요
+              {isCreator ? null : (
+                <Button
+                  className={"btn btn-green"}
+                  children={"참여하기"}
+                ></Button>
+              )}
             </div>
           </div>
         </div>

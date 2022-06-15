@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import Card from "../components/card_gathering";
@@ -6,7 +6,6 @@ import ModalViewGathering from "../modals/modalViewGathering";
 import ModalCreateGathering from "../modals/modalCreateGathering";
 import { format } from "date-fns";
 import { connect } from "react-redux";
-import action from "../redux/action";
 
 const mapStateToProps = state => {
   return {
@@ -18,17 +17,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setIsLoading: boolean => dispatch(action.setIsLoading(boolean)),
-  };
-};
-
-//! date 형식 변경이 있을 수 있어 console.log 남겨놓겠습니다.
-
 const Home = ({
   isLoading,
-  setIsLoading,
   gatherings,
   searchTown,
   searchDate,
@@ -36,17 +26,22 @@ const Home = ({
 }) => {
   const [gatherModalOpen, setGatherModalOpen] = useState(false);
   const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
-  const [selectedIdx, setSelectedIdx] = useState(0);
   const [selectedGathering, setSelectedGathering] = useState(gatherings[0]);
-
-  useEffect(() => {
-    setSelectedGathering(gatherings[selectedIdx]);
-    setIsLoading(true);
-  }, [selectedIdx]);
 
   let filteredGatherings = gatherings;
   if (isLoading) {
     const filter = (gatherings, searchTown, searchDate, searchTime) => {
+      gatherings = gatherings.filter(
+        gathering =>
+          !!gathering.title &&
+          !!gathering.town &&
+          !!gathering.place &&
+          !!gathering.date &&
+          !!gathering.time &&
+          !!gathering.longitude &&
+          !!gathering.latitude &&
+          !!gathering.author,
+      );
       if (searchTown.length > 0 && searchTown.length < 25) {
         gatherings = gatherings.filter(gathering =>
           searchTown.includes(gathering.town),
@@ -80,33 +75,35 @@ const Home = ({
     return null;
   }
 
+  const setGatherToModal = idx => {
+    setSelectedGathering(gatherings[idx]);
+    setGatherModalOpen(true);
+  };
+
   return (
     <div className="flex flex-col items-center gap-5">
       <div className="h-6"></div>
       <SearchGathering className="flex flex-row items-center" />
-      <Button className={"btn btn-green"} children={"모임 만들기"}></Button>
+      <Button
+        className={"btn btn-green"}
+        children={"모임 만들기"}
+        onClick={() => setCreateGatherModalOpen(true)}
+      ></Button>
       <hr className="w-full border-[1px] border-grey-50" />
-      {isLoading ? (
-        <div className="grid grid-cols-4 gap-4">
-          {filteredGatherings.map((gather, idx) => (
-            <Card
-              key={idx}
-              props={gather}
-              onClick={() => {
-                setSelectedIdx(idx);
-                setGatherModalOpen(true);
-              }}
-            ></Card>
-          ))}
-        </div>
-      ) : null}
-      {isLoading ? (
-        <ModalViewGathering
-          modalOpen={gatherModalOpen}
-          closeModal={() => setGatherModalOpen(false)}
-          selectedGathering={selectedGathering}
-        />
-      ) : null}
+      <div className="grid grid-cols-4 gap-4">
+        {filteredGatherings.map((gather, idx) => (
+          <Card
+            key={idx}
+            props={gather}
+            onClick={() => setGatherToModal(idx)}
+          ></Card>
+        ))}
+      </div>
+      <ModalViewGathering
+        modalOpen={gatherModalOpen}
+        closeModal={() => setGatherModalOpen(false)}
+        selectedGathering={selectedGathering}
+      />
       <ModalCreateGathering
         modalOpen={createGatherModalOpen}
         closeModal={() => setCreateGatherModalOpen(false)}
@@ -115,4 +112,4 @@ const Home = ({
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);
