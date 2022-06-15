@@ -70,7 +70,6 @@ function App({
   const onLogout = (e) => {
     axios
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
-
         headers: {
           "Content-Type": "application/json",
         },
@@ -81,7 +80,6 @@ function App({
       .then((res) => {
         console.log("로그아웃 완료");
         setIsLogin(false);
-
       })
       .catch((err) => {
         console.error(err);
@@ -89,7 +87,6 @@ function App({
   };
 
   const onSilentRefresh = () => {
-    console.log(process.env.REACT_APP_LOCALSERVER_URL);
     axios
       .post(
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
@@ -100,12 +97,9 @@ function App({
         }
       )
       .then((res) => {
-        console.log(res);
         onLoginSuccess(res);
-        console.log("resfresh 성공");
       })
       .catch((error) => {
-        console.log("refresh 실패");
         setIsLogin(false);
       });
   };
