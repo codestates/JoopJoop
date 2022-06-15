@@ -54,29 +54,6 @@ const EditProfile = ({
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = (data) => {
-    const { nickname, password, profileImg } = data;
-    console.log(data);
-    axios
-      .put(
-        `${localURL}/users/${userId}`,
-        {
-          nickname: nickname,
-          password: password,
-          profileImg: profileImg,
-        },
-        {
-          headers: { "Content-Type": "application/json", token: token },
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        setNickname(nickname);
-        setPassword(password);
-        alert("변경 되었습니다!");
-      });
-  };
-
   const onDeleteAccount = () => {
     axios
       .delete(
@@ -93,30 +70,32 @@ const EditProfile = ({
       });
   };
 
+  const onSubmit = (data) => {
+    const { nickname, password } = data;
+    console.log(data);
+    axios
+      .put(
+        `${localURL}/users/${userId}`,
+        {
+          nickname: nickname,
+          password: password,
+        },
+        {
+          headers: { "Content-Type": "application/json", token: token },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        setNickname(nickname);
+        setPassword(password);
+        alert("변경 되었습니다!");
+      });
+  };
+
   const onLoadFile = (e) => {
     const file = e.target.files[0];
     console.log(file);
     setImg(file);
-  };
-  console.log(img);
-
-  const handleClick = async (e) => {
-    const formData = new FormData();
-    formData.append("profile_img", img);
-
-    const config = {
-      Hedaers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-    const res = await axios.post(
-      `http://localhost:5000/upload`,
-      formData,
-      config
-    );
-    console.log(res.data.image);
-    setProfileImg(`http://localhost:5000/` + res.data.image);
-    console.log(profileImg);
   };
 
   function previewFile() {
@@ -136,6 +115,25 @@ const EditProfile = ({
       reader.readAsDataURL(file);
     }
   }
+  const handleClick = async (e) => {
+    const formData = new FormData();
+    console.log("click");
+    formData.append("file", img);
+
+    const config = {
+      Hedaers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    const res = await axios.post(
+      `http://localhost:5000/upload`,
+      formData,
+      config
+    );
+    console.log(res);
+    setProfileImg(...profileImg, res.data.url);
+    console.log(profileImg);
+  };
 
   return (
     <div className="flex items-center w-80% h-auto">
@@ -145,27 +143,28 @@ const EditProfile = ({
       >
         <XIcon className="h-5 w-5" />
       </button>
-      {/* <img className="w-40 h-40 rounded-full " src="img/favicon.png" alt="" /> */}
 
+      <div className="flex flex-col">
+        <img className="w-40 h-40 rounded-full" id="preview"></img>
+        <input
+          type="file"
+          id="image"
+          accept="img/*"
+          onChange={(e) => {
+            onLoadFile(e);
+            previewFile();
+          }}
+        />
+
+        <button
+          type="submit"
+          className="bg-green-100 w-32 text-white rounded-full"
+          onClick={handleClick}
+        >
+          저장하기
+        </button>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col">
-          <img className="w-40 h-40 rounded-full" id="preview"></img>
-          <input
-            type="file"
-            id="image"
-            accept="img/*"
-            onChange={(e) => {
-              onLoadFile(e);
-              previewFile();
-            }}
-          />
-          <button
-            className="bg-green-100 w-32 text-white rounded-full"
-            onClick={handleClick}
-          >
-            저장하기
-          </button>
-        </div>
         <div className="flex flex-col">
           <label>이메일</label>
           <p

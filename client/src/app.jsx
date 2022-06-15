@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Chat from "./pages/chat";
 import Community from "./pages/community";
@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import action from "./redux/action";
 import Mypage from "./pages/mypage";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
     userId: state.userId,
@@ -22,14 +22,16 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setUserId: id => dispatch(action.setUserId(id)),
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
-    setEmail: email => dispatch(action.setEmail(email)),
-    setNickname: nickname => dispatch(action.setNickname(nickname)),
-    setAccessToken: accessToken => dispatch(action.setAccessToken(accessToken)),
-    setGatherings: data => dispatch(action.setGatherings(data)),
+    setUserId: (id) => dispatch(action.setUserId(id)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setEmail: (email) => dispatch(action.setEmail(email)),
+    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
+    setAccessToken: (accessToken) =>
+      dispatch(action.setAccessToken(accessToken)),
+    setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
+    setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
   };
 };
 
@@ -42,8 +44,8 @@ function App({
   setAccessToken,
   userId,
   token,
-  setGatherings,
   setIsLoading,
+  setGatherings,
 }) {
   const onLogin = (email, password) => {
     console.log("로그인요청");
@@ -64,16 +66,16 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
         console.log(res);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("onLogin 함수");
       });
   };
 
-  const onLogout = e => {
+  const onLogout = (e) => {
     axios
 <<<<<<< HEAD
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
@@ -90,7 +92,7 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then(res => {
+      .then((res) => {
         console.log("로그아웃 완료");
 <<<<<<< HEAD
         setIsLogin(false);
@@ -104,7 +106,7 @@ function App({
 =======
 >>>>>>> 580291bd (try edit profileImg)
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   };
@@ -120,11 +122,12 @@ function App({
         { data: "refresh" },
         {
           withCredentials: true,
-        },
+        }
       )
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
       })
+<<<<<<< HEAD
 <<<<<<< HEAD
       .catch((error) => {
 <<<<<<< HEAD
@@ -138,12 +141,17 @@ function App({
 =======
       .catch(error => {
 >>>>>>> d3c5e061 (fix home page)
+=======
+      .catch((error) => {
+>>>>>>> 3a900fae (fix)
         setIsLogin(false);
       });
   };
 
-  const onLoginSuccess = res => {
-    const { accessToken, email, nickname, _id } = res.data;
+  const onLoginSuccess = (res) => {
+    const { accessToken, email, nickname, _id, profileImg } = res.data;
+    // console.log("onloginsuccess");
+    //login state true
     getGatherings();
     setIsLogin(true);
     setEmail(email);
@@ -159,7 +167,7 @@ function App({
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
         withCredentials: true,
       })
-      .then(data => {
+      .then((data) => {
         setGatherings([...data.data]);
       });
   };
