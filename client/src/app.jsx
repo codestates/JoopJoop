@@ -156,20 +156,20 @@ function App({
     // getGatherings(accessToken);
   };
 
-  //! gatherings 정보가져오기, 분리 필요
-  // const getGatherings = () => {
-  //   axios
-  //     .get("http://localhost:80/gatherings", {
-  //       withCredentials: true,
-  //       token: accessToken,
-  //     })
-  //     .then(data => console.log(data));
-  // };
-
-  const componentDidMount = () => {
-    onSilentRefresh();
+  const getGatherings = () => {
+    axios
+      .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
+        withCredentials: true,
+      })
+      .then(data => {
+        setGatherings([...data.data]);
+        setIsLoading(true);
+      });
   };
-  componentDidMount();
+
+  useEffect(() => {
+    onSilentRefresh();
+  }, []);
 
   const [isOpen, setIsOpen] = useState(false);
 
