@@ -7,10 +7,11 @@ const mapStateToProps = (state) => {
   return {
     userEmail: state.loginEmail,
     userNickname: state.loginNickname,
+    profileImg: state.profileImg,
   };
 };
 
-const Mypage = ({ userEmail, userNickname }) => {
+const Mypage = ({ userEmail, userNickname, profileImg }) => {
   const [editMode, setEditMode] = useState(false);
 
   const switchEditMode = () => {
@@ -23,11 +24,7 @@ const Mypage = ({ userEmail, userNickname }) => {
         <EditProfile switchEditMode={switchEditMode} />
       ) : (
         <div className="flex items-center w-80% h-auto">
-          <img
-            className="w-40 h-40 rounded-full "
-            src="img/favicon.png"
-            alt=""
-          />
+          <img className="w-40 h-40 rounded-full " src={profileImg} alt="" />
           <div className="flex flex-col ">
             <label>이메일</label>
             <p className="w-72 h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70">

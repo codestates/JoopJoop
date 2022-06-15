@@ -6,6 +6,7 @@ import action from "../redux/action";
 import axios from "axios";
 import ModalConfirmSignOut from "../modals/modalConfirmSignOut";
 import { useHistory } from "react-router-dom";
+
 const localURL = "http://localhost:5000";
 
 const mapStateToProps = (state) => {
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => {
     userNickname: state.loginNickname,
     userId: state.userId,
     token: state.accessToken,
+    profileImg: state.profileImg,
   };
 };
 
@@ -22,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
     setEmail: (email) => dispatch(action.setEmail(email)),
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setPassword: (password) => dispatch(action.setPassword(password)),
+    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
@@ -31,12 +34,15 @@ const EditProfile = ({
   userNickname,
   setNickname,
   setPassword,
+  setProfileImg,
+  profileImg,
   userId,
   token,
 }) => {
   const history = useHistory();
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [img, setImg] = useState("");
 
   const {
     register,
@@ -49,11 +55,16 @@ const EditProfile = ({
   password.current = watch("password");
 
   const onSubmit = (data) => {
-    const { email, nickname, password } = data;
+    const { nickname, password, profileImg } = data;
+    console.log(data);
     axios
       .put(
         `${localURL}/users/${userId}`,
-        { email: email, nickname: nickname, password: password },
+        {
+          nickname: nickname,
+          password: password,
+          profileImg: profileImg,
+        },
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
@@ -82,6 +93,50 @@ const EditProfile = ({
       });
   };
 
+  const onLoadFile = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    setImg(file);
+  };
+  console.log(img);
+
+  const handleClick = async (e) => {
+    const formData = new FormData();
+    formData.append("profile_img", img);
+
+    const config = {
+      Hedaers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    const res = await axios.post(
+      `http://localhost:5000/upload`,
+      formData,
+      config
+    );
+    console.log(res.data.image);
+    setProfileImg(`http://localhost:5000/` + res.data.image);
+    console.log(profileImg);
+  };
+
+  function previewFile() {
+    const preview = document.getElementById("preview");
+    const file = document.querySelector("input[type=file]").files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener(
+      "load",
+      function () {
+        preview.src = reader.result;
+      },
+      false
+    );
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
   return (
     <div className="flex items-center w-80% h-auto">
       <button
@@ -90,8 +145,27 @@ const EditProfile = ({
       >
         <XIcon className="h-5 w-5" />
       </button>
-      <img className="w-40 h-40 rounded-full " src="img/favicon.png" alt="" />
+      {/* <img className="w-40 h-40 rounded-full " src="img/favicon.png" alt="" /> */}
+
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col">
+          <img className="w-40 h-40 rounded-full" id="preview"></img>
+          <input
+            type="file"
+            id="image"
+            accept="img/*"
+            onChange={(e) => {
+              onLoadFile(e);
+              previewFile();
+            }}
+          />
+          <button
+            className="bg-green-100 w-32 text-white rounded-full"
+            onClick={handleClick}
+          >
+            저장하기
+          </button>
+        </div>
         <div className="flex flex-col">
           <label>이메일</label>
           <p

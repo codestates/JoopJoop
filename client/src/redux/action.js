@@ -35,4 +35,8 @@ module.exports = {
     type: "SET_ACCESSTOKEN",
     payload: accessToken,
   }),
+  setProfileImg: (profileImg) => ({
+    type: "SET_PROFILEIMG",
+    payload: profileImg,
+  }),
 };
