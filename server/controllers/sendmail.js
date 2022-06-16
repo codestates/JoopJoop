@@ -1,15 +1,22 @@
-const nodemailer = require("nodemailer");
-const dotenv = require("dotenv");
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
 
 dotenv.config();
+
+const generateRandom = (min, max) => {
+  let randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+  return randomNum;
+};
+
+// console.log('nodemaile user', process.env.NODEMAILER_USER);
 
 const mailSender = {
   // 메일발송 함수
   sendGmail: function (mailcontent) {
     var transporter = nodemailer.createTransport({
-      service: "Naver", // 메일 보내는 곳
+      service: 'Naver', // 메일 보내는 곳
       port: 587,
-      host: "smtp.naver.com",
+      host: 'smtp.naver.com',
       secure: false,
       auth: {
         user: process.env.NODEMAILER_USER, // 보내는 메일의 주소
@@ -30,7 +37,7 @@ const mailSender = {
       if (error) {
         console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        console.log('Email sent: ' + info.response);
       }
     });
   },

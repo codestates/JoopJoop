@@ -15,6 +15,7 @@ const mailRoute = require("./routes/mail");
 const multer = require("multer");
 const kakaoPassportConfig = require("./passport/kakao");
 const googlePassportConfig = require("./passport/google");
+const PORT = 5000;
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
@@ -27,13 +28,6 @@ app.use(
     cookie: { secure: true },
   })
 );
-// app.use(
-//   cookieSession({
-//     name: 'session',
-//     keys: ['Minhyuk'],
-//     maxAge: 24 * 60 * 60 * 100,
-//   })
-// );
 
 mongoose
   .connect(`${process.env.ATLAS}`, {
@@ -43,26 +37,8 @@ mongoose
   .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
   .catch((err) => console.log(err));
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, callback) => {
-//     callback(null, "images");
-//   },
-//   filename: (req, file, callback) => {
-//     callback(null, "hello.jpeg");
-//   },
-// });
-
-// const upload = multer({ storage: storage });
-// app.post("/upload", upload.single("file"), (req, res) => {
-//   res.status(200).json("파일이 업로드 되었습니다.");
-// });
-
 const corsOptions = {
-<<<<<<< HEAD
   origin: "http://localhost:3000",
-=======
-  origin: process.env.CLIENT_URL,
->>>>>>> 63216d85 (fix double_quote)
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -80,6 +56,7 @@ app.use("/posts", postsRoute);
 app.use("/mail", mailRoute);
 app.use("/posts_comments", poCommentsRoute);
 app.use("/gatherings", gatheringsRoute);
+app.use("/uploads", express.static("uploads"));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -89,8 +66,6 @@ const storage = multer.diskStorage({
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
-
-<<<<<<< HEAD
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
   upload(req, res, (err) => {
@@ -103,19 +78,9 @@ app.post("/upload", (req, res) => {
       image: res.req.file.path,
       fileName: res.req.file.filename,
     });
-=======
-const upload = multer({ storage: storage }).single("profile_img");
-app.post("/upload", upload, (req, res) => {
-  return res.json({
-    success: true,
-    image: req.file.path,
-    fileName: req.file.filename,
->>>>>>> 63216d85 (fix double_quote)
   });
 });
 
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(
-    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`
-  );
+app.listen(PORT, () => {
+  console.log(`JoopJoop Server is running. http://localhost:${PORT}`);
 });

@@ -2,7 +2,7 @@ import React from "react";
 import SearchTown from "./select_town";
 import SearchDate from "./select_date";
 import SearchTime from "./select_time";
-import { RefreshIcon } from "@heroicons/react/solid";
+import Button from "./button";
 
 const location = [
   { value: "종로구", label: "종로구" },
@@ -40,23 +40,26 @@ const time = [
 const Search_gathering = () => {
   return (
     <>
-      <div className="border-2 w-[22rem] md:w-[45rem] md:h-20 md:border-green-100 rounded-2xl md:rounded-full">
-        <div className="flex flex-col md:flex-row items-center place-content-between gap-1 md:pt-1">
-          <div className="md:pl-10 w-80 md:w-[24rem]">
-            <div className="text-center">장소</div>
-            <SearchTown className="" options={location} />
+      <div className="border-2 w-[45rem] border-green-100 rounded-full">
+        <div className="flex place-content-between gap-1">
+          <div className="pl-10 w-[24rem] justify-center">
+            <div className="">장소</div>
+            <SearchTown options={location} />
           </div>
-          <div className="w-80 md:w-[6rem]">
-            <div className="text-center">날짜</div>
+          <div className="w-[6rem]">
+            <div>날짜</div>
             <SearchDate />
           </div>
-          <div className="w-80 md:w-[7rem]">
-            <div className="text-center">시간</div>
+          <div className="w-[7rem]">
+            <div>시간</div>
             <SearchTime options={time} />
           </div>
-          <button className="flex items-center place-content-center w-10 h-10 bg-green-90 rounded-full md:mr-3">
-            <RefreshIcon className="w-5 h-5 text-white mr-0" />
-          </button>
+          <div className="pr-10 w-[3rem]">
+            <Button
+              className="btn btn-green w-10 h-10 text-sm"
+              children={"초기화"}
+            />
+          </div>
         </div>
       </div>
     </>

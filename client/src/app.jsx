@@ -17,18 +17,40 @@ import Mypage from "./pages/mypage";
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
+    userId: state.userId,
+    token: state.accessToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setUserId: (id) => dispatch(action.setUserId(id)),
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setEmail: (email) => dispatch(action.setEmail(email)),
+    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
+    setAccessToken: (accessToken) =>
+      dispatch(action.setAccessToken(accessToken)),
+    setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
+    setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
+    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
-function App({ isLogin, setIsLogin }) {
+function App({
+  isLogin,
+  setIsLogin,
+  setEmail,
+  setNickname,
+  setUserId,
+  setAccessToken,
+  userId,
+  token,
+  setIsLoading,
+  setGatherings,
+  profileImg,
+  setProfileImg,
+}) {
   const onLogin = (email, password) => {
-    console.log("로그인요청");
     const data = {
       email,
       password,
@@ -44,11 +66,76 @@ function App({ isLogin, setIsLogin }) {
       })
       .then((res) => {
         onLoginSuccess(res);
+        console.log(res);
       })
-      .catch((error) => {
-        console.log("onLogin 함수");
+      .catch((err) => {
+        console.log(err);
       });
   };
+
+  const onLoginSuccess = (res) => {
+    const { accessToken, email, nickname, _id, profileImg } = res.data;
+    getGatherings();
+    setIsLogin(true);
+    setEmail(email);
+    setNickname(nickname);
+    setUserId(_id);
+    setAccessToken(accessToken);
+    setProfileImg(`${process.env.REACT_APP_LOCALSERVER_URL}/${profileImg}`);
+    console.log(profileImg);
+  };
+
+  const guestRegister = () => {
+    const data = {
+      email: Math.random().toString(36).substring(2, 12),
+      nickname: Math.random().toString(36).substring(2, 12),
+    };
+
+    axios
+      .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/register", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        HttpOnly: true,
+        samesite: "Secure",
+      })
+      .then(async (data) => {
+        const loginData = await guestLogin(data);
+        console.log(loginData);
+      });
+  };
+  const guestLogin = (req) => {
+    const data = {
+      email: req.data.message.split(".")[0],
+    };
+    axios
+      .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/guest-login", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        HttpOnly: true,
+        samesite: "Secure",
+      })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        return "err";
+      });
+  };
+
+  // const onGuestLoginSuccess = (res) => {
+  //   const { accessToken, email, nickname, _id, profileImg } = res.data;
+  //   getGatherings();
+  //   setIsLogin(true);
+  //   setEmail(email);
+  //   setNickname(nickname);
+  //   setUserId(_id);
+  //   setAccessToken(accessToken);
+  //   setProfileImg(process.env.REACT_APP_LOCALSERVER_URL + "/" + profileImg);
+  // };
 
   const onLogout = (e) => {
     axios
@@ -61,6 +148,7 @@ function App({ isLogin, setIsLogin }) {
         samesite: "Secure",
       })
       .then((res) => {
+        console.log("로그아웃 완료");
         setIsLogin(false);
       })
       .catch((err) => {
@@ -69,53 +157,44 @@ function App({ isLogin, setIsLogin }) {
   };
 
   const onSilentRefresh = () => {
-    console.log(process.env.REACT_APP_LOCALSERVER_URL);
     axios
       .post(
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
         { data: "refresh" },
+
         {
           withCredentials: true,
         }
       )
       .then((res) => {
-        console.log(res);
         onLoginSuccess(res);
-        console.log("resfresh 성공");
       })
       .catch((error) => {
-        console.log("refresh 실패");
         setIsLogin(false);
       });
   };
 
-  const onLoginSuccess = (res) => {
-    const { accessToken } = res.data;
-    // console.log("onloginsuccess");
-    // console.log(accessToken);
-    //login state true
-    setIsLogin(true);
-    // accessToken 설정
-    axios.defaults.headers.common["token"] = accessToken;
-    // accessToken 만료하기 1분 전에 로그인 연장
-    // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
-    // getGatherings(accessToken);
-  };
+  // const guestLoginSuccess = (res) => {
+  //   const { accessToken, setProfileImg } = res.data;
 
-  //! gatherings 정보가져오기, 분리 필요
-  // const getGatherings = () => {
-  //   axios
-  //     .get("http://localhost:80/gatherings", {
-  //       withCredentials: true,
-  //       token: accessToken,
-  //     })
-  //     .then(data => console.log(data));
+  //   setNickname("Guest");
+  //   setAccessToken(accessToken);
+  //   setProfileImg("img/default.png");
   // };
 
-  const componentDidMount = () => {
-    onSilentRefresh();
+  const getGatherings = () => {
+    axios
+      .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
+        withCredentials: true,
+      })
+      .then((data) => {
+        setGatherings([...data.data]);
+      });
   };
-  componentDidMount();
+  useEffect(() => {
+    setIsLogin(false);
+    onSilentRefresh();
+  }, []);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -140,7 +219,7 @@ function App({ isLogin, setIsLogin }) {
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} logout={onLogout} />
-        {isLogin ? <Navbar toggle={toggle} logout={onLogout} /> : null}
+        {isLogin ? <Navbar toggle={toggle} /> : null}
         {isLogin ? (
           <Switch>
             <Route path="/" exact component={Landing} />
@@ -151,7 +230,7 @@ function App({ isLogin, setIsLogin }) {
             <Route path="/mypage" component={Mypage} />
           </Switch>
         ) : (
-          <Landing onLogin={onLogin} />
+          <Landing onLogin={onLogin} guestRegisterLogin={guestRegister} />
         )}
         <Footer></Footer>
       </BrowserRouter>

@@ -3,7 +3,7 @@ import ReactDom from "react-dom";
 import Button from "../components/button";
 import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
-import { Link } from "react-router-dom";
+
 //! redux state 받아오기 import
 import { connect } from "react-redux";
 //! redux dispatch 함수 받아오기 import
@@ -70,7 +70,6 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-
         <div className="">
           <Button
             className="w-[8.4rem] h-[2.9rem] btn-green rounded-3xl text-center outline text-white"

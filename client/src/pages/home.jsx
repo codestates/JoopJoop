@@ -7,7 +7,7 @@ import ModalCreateGathering from "../modals/modalCreateGathering";
 import { format } from "date-fns";
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     searchTown: state.searchTown,
     searchDate: state.searchDate,
@@ -27,11 +27,12 @@ const Home = ({
   const [gatherModalOpen, setGatherModalOpen] = useState(false);
   const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
   const [selectedGathering, setSelectedGathering] = useState(gatherings[0]);
+
   let filteredGatherings = gatherings;
   // if (isLoading) {
   const filter = (gatherings, searchTown, searchDate, searchTime) => {
     gatherings = gatherings.filter(
-      gathering =>
+      (gathering) =>
         !!gathering.title &&
         !!gathering.town &&
         !!gathering.place &&
@@ -39,28 +40,28 @@ const Home = ({
         !!gathering.time &&
         !!gathering.longitude &&
         !!gathering.latitude &&
-        !!gathering.author,
+        !!gathering.author
     );
     if (searchTown.length > 0 && searchTown.length < 25) {
-      gatherings = gatherings.filter(gathering =>
-        searchTown.includes(gathering.town),
+      gatherings = gatherings.filter((gathering) =>
+        searchTown.includes(gathering.town)
       );
     }
     if (searchDate !== "") {
       const convertedSearchDate = format(searchDate, "yyyy-M-dd").toString();
-      gatherings = gatherings.filter(gathering => {
+      gatherings = gatherings.filter((gathering) => {
         return gathering.date === convertedSearchDate;
       });
     }
     if (searchTime.length === 1) {
-      searchTime.forEach(filterTime => {
+      searchTime.forEach((filterTime) => {
         if (filterTime === "오전") {
-          gatherings = gatherings.filter(gathering => {
+          gatherings = gatherings.filter((gathering) => {
             return gathering.time.split(" ")[1] === "AM";
           });
         }
         if (filterTime === "오후") {
-          gatherings = gatherings.filter(gathering => {
+          gatherings = gatherings.filter((gathering) => {
             return gathering.time.split(" ")[1] === "PM";
           });
         }
@@ -71,7 +72,7 @@ const Home = ({
 
   filteredGatherings = filter(gatherings, searchTown, searchDate, searchTime);
 
-  const setGatherToModal = idx => {
+  const setGatherToModal = (idx) => {
     setSelectedGathering(gatherings[idx]);
     setGatherModalOpen(true);
   };
@@ -86,7 +87,7 @@ const Home = ({
         onClick={() => setCreateGatherModalOpen(true)}
       ></Button>
       <hr className="w-full border-[1px] border-grey-50" />
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-4">
         {filteredGatherings.map((gather, idx) => (
           <Card
             key={idx}
