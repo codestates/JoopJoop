@@ -3,13 +3,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const generateRandom = (min, max) => {
-  let randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-  return randomNum;
-};
-
-// console.log('nodemaile user', process.env.NODEMAILER_USER);
-
 const mailSender = {
   // 메일발송 함수
   sendGmail: function (mailcontent) {

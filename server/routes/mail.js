@@ -17,7 +17,12 @@ router.post('/', (req, res) => {
   };
 
   mailer.sendGmail(mailcontent);
-  res.status(200).json({ authnum: `${authnum}` });
+
+  try {
+    res.status(200).json({ authnum: `${authnum}` });
+  } catch (err) {
+    res.status(401).json({ message: `${err}` });
+  }
 });
 
 module.exports = router;

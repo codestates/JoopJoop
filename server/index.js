@@ -57,12 +57,19 @@ const mailRoute = require('./routes/mail');
 const multer = require('multer');
 const kakaoPassportConfig = require('./passport/kakao');
 const googlePassportConfig = require('./passport/google');
-const PORT = 80;
 const cookieParser = require('cookie-parser');
 >>>>>>> 5b3d20dd (for https deploy please)
 >>>>>>> d78d8355 (for https deploy please)
 
 dotenv.config();
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
+  })
+);
 
 app.use(
   session({
@@ -102,18 +109,26 @@ mongoose
 //   res.status(200).json("파일이 업로드 되었습니다.");
 // });
 
+<<<<<<< HEAD
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
   optionSuccessStatus: 200,
 };
+=======
+// const corsOptions = {
+//   origin: process.env.CLIENT_URL,
+//   credentials: true,
+//   optionSuccessStatus: 200,
+// };
+>>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
 
 kakaoPassportConfig(app);
 app.use(express());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/users", usersRoute);
@@ -146,6 +161,8 @@ app.post("/upload", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`JoopJoop Server is running. http://localhost:${PORT}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(
+    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`
+  );
 });
