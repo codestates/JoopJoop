@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const passport = require('passport');
+const CLIENT_URL = 'http://localhost:3000/';
 const User = require('../models/user');
 const CryptoJS = require('crypto-js');
-
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -53,7 +53,6 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({
       email: req.body.email,
     });
-    // console.log(user);
 
     if (!user) {
       return res.status(401).json('등록되지않은 이메일입니다.');
@@ -100,7 +99,7 @@ router.post('/refresh', async (req, res) => {
       process.env.REFRESH_SECRET,
       (err, decoded) => {
         if (err) {
-          // console.log(err);
+          console.log(err);
           return null;
         }
         return decoded;
@@ -166,8 +165,7 @@ router.post('/kakao', (req, res) => {
 //   }
 // });
 
-// GOOGLE LOGIN
-
+// Oauth2 Goggle Login
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
@@ -191,10 +189,9 @@ router.get(
     const { oAuthId, nickname, isAdmin } = req.user._doc;
     // Successful authentication, redirect home.\
     const userGoogle = await User.findOne({ oAuthId });
-    // console.log(userGoogle);
+    console.log(userGoogle);
 
     const accessToken = generateAccessToken(userGoogle);
-    const refreshToken = generateRefreshToken(userGoogle);
     // const accessToken = jwt.sign(
     //   { userId: userGoogle._doc.oAuthId },
     //   process.env.JWT_SEC

@@ -1,18 +1,14 @@
-const router = require("express").Router();
-const User = require("../models/user");
-const Gathering = require("../models/gathering");
+const router = require('express').Router();
+const User = require('../models/user');
+const Gathering = require('../models/gathering');
 const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require("./tokenfunction");
+} = require('./tokenfunction');
 
 //CREATE GATHERING
-<<<<<<< HEAD
-router.post("/", async (req, res) => {
-=======
 router.post('/', async (req, res) => {
->>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
@@ -23,11 +19,7 @@ router.post('/', async (req, res) => {
 });
 
 //UPDATE GATHERING
-<<<<<<< HEAD
-router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
-=======
 router.put('/:id', async (req, res) => {
->>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
   try {
     const gathering = await Gathering.findById(req.params.id)
       .populate('author', ['nickname', 'profileImg'])
@@ -40,22 +32,17 @@ router.put('/:id', async (req, res) => {
           {
             $set: req.body,
           },
-<<<<<<< HEAD
-          { new: true },
-        );
-=======
           { new: true }
         )
           .populate('author', ['nickname', 'profileImg'])
           .populate('participants', ['nickname', 'profileImg']);
->>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
         res.status(200).json(updatedGathering);
       } catch (err) {
         console.log(err);
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json("자신이 만든 모임만 수정할 수 있습니다");
+      res.status(401).json('자신이 만든 모임만 수정할 수 있습니다');
     }
   } catch (err) {
     res.status(500).json(err);
@@ -63,40 +50,29 @@ router.put('/:id', async (req, res) => {
 });
 
 //DELETE GATHERING
-<<<<<<< HEAD
-router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
-=======
 router.delete('/:id', async (req, res) => {
->>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
   try {
     const gathering = await Gathering.findById(req.params.id);
     if (gathering.creator.nickname === req.body.nickname) {
       try {
         await gathering.delete();
-        res.status(200).json("모임이 삭제 되었습니다.");
+        res.status(200).json('모임이 삭제 되었습니다.');
       } catch (err) {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json("자신이 만든 모임만 삭제할 수 있습니다");
+      res.status(401).json('자신이 만든 모임만 삭제할 수 있습니다');
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 //GET GATHERING
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-<<<<<<< HEAD
-    const gathering = await Gathering.findById(req.params.id).populate(
-      "author",
-      ["nickname", "profileImg"],
-    );
-=======
     const gathering = await Gathering.findById(req.params.id)
       .populate('author', ['nickname', 'profileImg'])
       .populate('participants', ['nickname', 'profileImg']);
->>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
     res.status(200).json(gathering);
   } catch (err) {
     res.status(500).json(err);
@@ -104,23 +80,16 @@ router.get("/:id", async (req, res) => {
 });
 
 //GET ALL GATHERING
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   const nickname = req.query.nickname;
   try {
     let gatherings;
     if (nickname) {
       gatherings = await Gathering.find({ nickname });
     } else {
-<<<<<<< HEAD
-      gatherings = await Gathering.find().populate("author", [
-        "nickname",
-        "profileImg",
-      ]);
-=======
       gatherings = await Gathering.find()
         .populate('author', ['nickname', 'profileImg'])
         .populate('participants', ['nickname', 'profileImg']);
->>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
     }
     res.status(200).json(gatherings);
   } catch (err) {

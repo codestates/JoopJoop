@@ -1,9 +1,10 @@
-const express = require("express");
-const session = require("express-session");
-const cookieSession = require("cookie-session");
-const passport = require("passport");
-const cors = require("cors");
+const express = require('express');
+const session = require('express-session');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const cors = require('cors');
 const app = express();
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 const dotenv = require('dotenv');
@@ -46,6 +47,8 @@ const fileupload = require("express-fileupload");
 >>>>>>> 0b264aa7 (add profileImg update)
 =======
 =======
+=======
+>>>>>>> f01ae048 (for merge)
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
@@ -57,23 +60,19 @@ const mailRoute = require('./routes/mail');
 const multer = require('multer');
 const kakaoPassportConfig = require('./passport/kakao');
 const googlePassportConfig = require('./passport/google');
+const PORT = 80;
 const cookieParser = require('cookie-parser');
+<<<<<<< HEAD
 >>>>>>> 5b3d20dd (for https deploy please)
 >>>>>>> d78d8355 (for https deploy please)
+=======
+>>>>>>> f01ae048 (for merge)
 
 dotenv.config();
 
 app.use(
-  cors({
-    origin: true,
-    credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
-  })
-);
-
-app.use(
   session({
-    secret: "somethingsecretgoeshere",
+    secret: 'somethingsecretgoeshere',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },
@@ -92,7 +91,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
+  .then(console.log('Connected to MongoDB https://cloud.mongodb.com/'))
   .catch((err) => console.log(err));
 
 // const storage = multer.diskStorage({
@@ -109,45 +108,37 @@ mongoose
 //   res.status(200).json("파일이 업로드 되었습니다.");
 // });
 
-<<<<<<< HEAD
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: 'http://localhost:3000',
   credentials: true,
   optionSuccessStatus: 200,
 };
-=======
-// const corsOptions = {
-//   origin: process.env.CLIENT_URL,
-//   credentials: true,
-//   optionSuccessStatus: 200,
-// };
->>>>>>> 5bd511c4 (deploy_cors,api_logic,schema,server_env)
 
 kakaoPassportConfig(app);
 app.use(express());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/auth", authRoute);
-app.use("/users", usersRoute);
-app.use("/posts", postsRoute);
-app.use("/mail", mailRoute);
-app.use("/posts_comments", poCommentsRoute);
-app.use("/gatherings", gatheringsRoute);
-app.use("/uploads", express.static("uploads"));
+app.use('/auth', authRoute);
+app.use('/users', usersRoute);
+app.use('/posts', postsRoute);
+app.use('/mail', mailRoute);
+app.use('/posts_comments', poCommentsRoute);
+app.use('/gatherings', gatheringsRoute);
+app.use('/uploads', express.static('uploads'));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "uploads/");
+    callback(null, 'uploads/');
   },
   filename: (req, file, callback) => {
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
-const upload = multer({ storage: storage }).single("file");
-app.post("/upload", (req, res) => {
+const upload = multer({ storage: storage }).single('file');
+app.post('/upload', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       console.log(err);
@@ -161,8 +152,6 @@ app.post("/upload", (req, res) => {
   });
 });
 
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(
-    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`
-  );
+app.listen(PORT, () => {
+  console.log(`JoopJoop Server is running. http://localhost:${PORT}`);
 });
