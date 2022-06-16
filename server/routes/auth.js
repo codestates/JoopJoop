@@ -165,6 +165,7 @@ router.post("/kakao", (req, res) => {
 //   }
 // });
 
+// Oauth2 Goggle Login
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
