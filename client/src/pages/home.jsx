@@ -27,7 +27,6 @@ const Home = ({
   const [gatherModalOpen, setGatherModalOpen] = useState(false);
   const [createGatherModalOpen, setCreateGatherModalOpen] = useState(false);
   const [selectedGathering, setSelectedGathering] = useState(gatherings[0]);
-
   let filteredGatherings = gatherings;
   // if (isLoading) {
   const filter = (gatherings, searchTown, searchDate, searchTime) => {
@@ -71,9 +70,6 @@ const Home = ({
   };
 
   filteredGatherings = filter(gatherings, searchTown, searchDate, searchTime);
-  // } else {
-  //   return null;
-  // }
 
   const setGatherToModal = idx => {
     setSelectedGathering(gatherings[idx]);
@@ -90,7 +86,7 @@ const Home = ({
         onClick={() => setCreateGatherModalOpen(true)}
       ></Button>
       <hr className="w-full border-[1px] border-grey-50" />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {filteredGatherings.map((gather, idx) => (
           <Card
             key={idx}

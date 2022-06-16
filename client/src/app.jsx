@@ -127,13 +127,15 @@ function App({
         withCredentials: true,
       })
       .then(data => {
-        data.data.forEach(
-          gathering =>
-            (gathering.author.profileImg =
-              process.env.REACT_APP_LOCALSERVER_URL +
-              "/" +
-              gathering.author.profileImg),
-        );
+        data.data
+          .filter(gathering => gathering.author !== null)
+          .forEach(
+            gathering =>
+              (gathering.author.profileImg =
+                process.env.REACT_APP_LOCALSERVER_URL +
+                "/" +
+                gathering.author.profileImg),
+          );
         setGatherings([...data.data]);
       });
   };
