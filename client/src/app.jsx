@@ -81,7 +81,8 @@ function App({
     setNickname(nickname);
     setUserId(_id);
     setAccessToken(accessToken);
-    setProfileImg(profileImg);
+    setProfileImg(`${process.env.REACT_APP_LOCALSERVER_URL}/${profileImg}`);
+    console.log(profileImg);
   };
 
   const guestRegister = () => {
