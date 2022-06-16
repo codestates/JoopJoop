@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const passport = require('passport');
-const CLIENT_URL = 'https://www.joopjoop.site/';
 const User = require('../models/user');
 const CryptoJS = require('crypto-js');
 const {
@@ -183,7 +182,7 @@ router.get(
   '/google/callback',
 
   passport.authenticate('google', {
-    failureRedirect: CLIENT_URL,
+    failureRedirect: process.env.CLIENT_URL,
   }),
   async function (req, res) {
     const { oAuthId, nickname, isAdmin } = req.user._doc;
@@ -201,7 +200,7 @@ router.get(
     res
       .cookie('refreshToken', accessToken, cookieOption)
       .status(200)
-      .redirect(CLIENT_URL);
+      .redirect(process.env.CLIENT_URL);
   }
 );
 
