@@ -1,7 +1,5 @@
 # JoopJoop
 
-[JOOPJOOP](https://www.joopjoop.site)
-
 ## Logo
 
 ![JOOP JOOP triming](https://user-images.githubusercontent.com/96028495/171679334-d5fdcc16-b7c4-4333-b12a-950a6ee4788d.png)

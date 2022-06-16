@@ -1,28 +1,9 @@
-const express = require('express');
-const session = require('express-session');
-const cookieSession = require('cookie-session');
-const passport = require('passport');
-const cors = require('cors');
+const express = require("express");
+const session = require("express-session");
+const cookieSession = require("cookie-session");
+const passport = require("passport");
+const cors = require("cors");
 const app = express();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const authRoute = require('./routes/auth');
-const usersRoute = require('./routes/users');
-const postsRoute = require('./routes/posts');
-const poCommentsRoute = require('./routes/posts_comments');
-const gatheringsRoute = require('./routes/gatherings');
-const mailRoute = require('./routes/mail');
-const multer = require('multer');
-const kakaoPassportConfig = require('./passport/kakao');
-const googlePassportConfig = require('./passport/google');
-const PORT = 80;
-const cookieParser = require('cookie-parser');
-=======
-=======
->>>>>>> d78d8355 (for https deploy please)
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
@@ -36,43 +17,12 @@ const kakaoPassportConfig = require("./passport/kakao");
 const googlePassportConfig = require("./passport/google");
 const PORT = 5000;
 const cookieParser = require("cookie-parser");
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 580291bd (try edit profileImg)
-=======
-const fileupload = require("express-fileupload");
->>>>>>> 3a900fae (fix)
-=======
->>>>>>> 0b264aa7 (add profileImg update)
-=======
-=======
-=======
->>>>>>> f01ae048 (for merge)
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const authRoute = require('./routes/auth');
-const usersRoute = require('./routes/users');
-const postsRoute = require('./routes/posts');
-const poCommentsRoute = require('./routes/posts_comments');
-const gatheringsRoute = require('./routes/gatherings');
-const mailRoute = require('./routes/mail');
-const multer = require('multer');
-const kakaoPassportConfig = require('./passport/kakao');
-const googlePassportConfig = require('./passport/google');
-const PORT = 80;
-const cookieParser = require('cookie-parser');
-<<<<<<< HEAD
->>>>>>> 5b3d20dd (for https deploy please)
->>>>>>> d78d8355 (for https deploy please)
-=======
->>>>>>> f01ae048 (for merge)
 
 dotenv.config();
 
 app.use(
   session({
-    secret: 'somethingsecretgoeshere',
+    secret: "somethingsecretgoeshere",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },
@@ -91,7 +41,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(console.log('Connected to MongoDB https://cloud.mongodb.com/'))
+  .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
   .catch((err) => console.log(err));
 
 // const storage = multer.diskStorage({
@@ -109,7 +59,7 @@ mongoose
 // });
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: "http://localhost:3000",
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -137,8 +87,9 @@ const storage = multer.diskStorage({
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
-const upload = multer({ storage: storage }).single('file');
-app.post('/upload', (req, res) => {
+
+const upload = multer({ storage: storage }).single("file");
+app.post("/upload", (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       console.log(err);

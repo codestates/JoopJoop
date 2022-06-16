@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import action from "./redux/action";
 import Mypage from "./pages/mypage";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isLogin: state.isLogin,
     userId: state.userId,
@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     setUserId: (id) => dispatch(action.setUserId(id)),
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
@@ -56,11 +56,7 @@ function App({
       password,
     };
     axios
-<<<<<<< HEAD
       .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/login", data, {
-=======
-      .post("http://localhost:80/auth/login", data, {
->>>>>>> 403d60bf (fix loginHandler Function)
         headers: {
           "Content-Type": "application/json",
         },
@@ -68,7 +64,7 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then((res) => {
+      .then(res => {
         onLoginSuccess(res);
         console.log(res);
       })
@@ -77,16 +73,9 @@ function App({
       });
   };
 
-  const onLogout = (e) => {
+  const onLogout = e => {
     axios
-<<<<<<< HEAD
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
-<<<<<<< HEAD
-=======
-      .get("http://localhost:80/auth/logout", {
->>>>>>> 403d60bf (fix loginHandler Function)
-=======
->>>>>>> 580291bd (try edit profileImg)
         headers: {
           "Content-Type": "application/json",
         },
@@ -96,19 +85,9 @@ function App({
       })
       .then((res) => {
         console.log("로그아웃 완료");
-<<<<<<< HEAD
         setIsLogin(false);
-<<<<<<< HEAD
-
-        console.log("로그아웃 완료");
-
-        setIsLogin(false);
-=======
->>>>>>> 403d60bf (fix loginHandler Function)
-=======
->>>>>>> 580291bd (try edit profileImg)
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   };
@@ -116,41 +95,22 @@ function App({
   const onSilentRefresh = () => {
     axios
       .post(
-<<<<<<< HEAD
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
-=======
-        "http://localhost:80/auth/refresh",
->>>>>>> 403d60bf (fix loginHandler Function)
         { data: "refresh" },
         {
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
         onLoginSuccess(res);
       })
-<<<<<<< HEAD
-<<<<<<< HEAD
       .catch((error) => {
-<<<<<<< HEAD
         console.log("refresh 실패");
-<<<<<<< HEAD
-
-=======
->>>>>>> 403d60bf (fix loginHandler Function)
-=======
->>>>>>> 580291bd (try edit profileImg)
-=======
-      .catch(error => {
->>>>>>> d3c5e061 (fix home page)
-=======
-      .catch((error) => {
->>>>>>> 3a900fae (fix)
         setIsLogin(false);
       });
   };
 
-  const onLoginSuccess = (res) => {
+  const onLoginSuccess = res => {
     const { accessToken, email, nickname, _id, profileImg } = res.data;
 
     getGatherings();
@@ -167,7 +127,16 @@ function App({
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
         withCredentials: true,
       })
-      .then((data) => {
+      .then(data => {
+        data.data
+          .filter(gathering => gathering.author !== null)
+          .forEach(
+            gathering =>
+              (gathering.author.profileImg =
+                process.env.REACT_APP_LOCALSERVER_URL +
+                "/" +
+                gathering.author.profileImg),
+          );
         setGatherings([...data.data]);
       });
   };
@@ -199,7 +168,7 @@ function App({
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} logout={onLogout} />
-        {isLogin ? <Navbar toggle={toggle} /> : null}
+        {isLogin ? <Navbar toggle={toggle} logout={onLogout} /> : null}
         {isLogin ? (
           <Switch>
             <Route path="/" exact component={Landing} />

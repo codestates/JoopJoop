@@ -1,24 +1,23 @@
-const router = require('express').Router();
-const passport = require('passport');
-const CLIENT_URL = 'http://localhost:3000/';
-const User = require('../models/user');
-const CryptoJS = require('crypto-js');
+const router = require("express").Router();
+const passport = require("passport");
+const User = require("../models/user");
+const CryptoJS = require("crypto-js");
 const {
   generateAccessToken,
   generateRefreshToken,
   generateOauthToken,
-} = require('./tokenfunction');
-const jwt = require('jsonwebtoken');
+} = require("./tokenfunction");
+const jwt = require("jsonwebtoken");
 
 const cookieOption = {
   httpOnly: true,
-  sameSite: 'none',
+  sameSite: "none",
   secure: true,
-  domain: 'localhost',
+  domain: "localhost",
 };
 
 //REGISTER
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   const newUser = new User({
     nickname: req.body.nickname,
     email: req.body.email,
@@ -48,14 +47,14 @@ router.post('/register', async (req, res) => {
 });
 
 //LOGIN
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({
       email: req.body.email,
     });
 
     if (!user) {
-      return res.status(401).json('등록되지않은 이메일입니다.');
+      return res.status(401).json("등록되지않은 이메일입니다.");
     }
 
     const hashedPassword = CryptoJS.AES.decrypt(
@@ -68,7 +67,7 @@ router.post('/login', async (req, res) => {
     // console.log(`original :" ${originalPassword} input :" ${inputPassword}`);
 
     if (originalPassword != inputPassword) {
-      return res.status(401).json('패스워드를 다시 확인해주세요.');
+      return res.status(401).json("패스워드를 다시 확인해주세요.");
     }
 
     const accessToken = generateAccessToken(user);
@@ -76,7 +75,7 @@ router.post('/login', async (req, res) => {
 
     const { password, ...others } = user._doc;
     res
-      .cookie('refreshToken', refreshToken, cookieOption)
+      .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
       .json({ ...others, accessToken });
   } catch (err) {
@@ -86,12 +85,12 @@ router.post('/login', async (req, res) => {
 });
 
 //Refresh Login
-router.post('/refresh', async (req, res) => {
+router.post("/refresh", async (req, res) => {
   // console.log('리프레쉬');
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    return res.status(400).json('refresh token not provided');
+    return res.status(400).json("refresh token not provided");
   }
   const checkRefreshToken = (refreshToken) => {
     return jwt.verify(
@@ -110,7 +109,7 @@ router.post('/refresh', async (req, res) => {
   const refreshTokenData = checkRefreshToken(refreshToken);
 
   if (!refreshTokenData) {
-    return res.json('invalid refresh token, please login again');
+    return res.json("invalid refresh token, please login again");
   }
 
   const { id } = refreshTokenData;
@@ -123,13 +122,13 @@ router.post('/refresh', async (req, res) => {
   } catch {
     return res.status(400).json({
       data: null,
-      message: 'refresh token has been tempered',
+      message: "refresh token has been tempered",
     });
   }
 });
 
 // Oauth2 Kakao Login
-router.post('/kakao', (req, res) => {
+router.post("/kakao", (req, res) => {
   if (req.body.data.oAuthId) {
     //요청 body에 oAuthId 키가 존재하는지 체크한다.
     //만일 존재한다면, DB에 해당 oAuthId를 갖고있는 유저를 탐색한다.
@@ -147,7 +146,7 @@ router.post('/kakao', (req, res) => {
       //JWT 토큰 발급
       const accessToken = generateOauthToken(user);
       res
-        .cookie('x_auth', accessToken, cookieOption)
+        .cookie("x_auth", accessToken, cookieOption)
         .status(200)
         .json({ loginSuccess: true, userId: user._id });
     });
@@ -167,8 +166,8 @@ router.post('/kakao', (req, res) => {
 
 // Oauth2 Goggle Login
 router.get(
-  '/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 // router.get(
@@ -180,7 +179,7 @@ router.get(
 // );
 
 router.get(
-  '/google/callback',
+  "/google/callback",
 
   passport.authenticate('google', {
     failureRedirect: process.env.CLIENT_URL,
@@ -199,18 +198,18 @@ router.get(
     // res.cookie('refreshToken', token);
     // res.status(200).json(accessToken);
     res
-      .cookie('refreshToken', accessToken, cookieOption)
+      .cookie("refreshToken", accessToken, cookieOption)
       .status(200)
       .redirect(process.env.CLIENT_URL);
   }
 );
 
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   try {
-    res.clearCookie('refreshToken');
-    res.clearCookie('x_auth');
+    res.clearCookie("refreshToken");
+    res.clearCookie("x_auth");
     // res.redirect('/');
-    return res.status(200).json({ message: '로그아웃에 성공했습니다' });
+    return res.status(200).json({ message: "로그아웃에 성공했습니다" });
   } catch (err) {
     res.status(500).json(err);
   }

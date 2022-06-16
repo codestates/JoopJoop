@@ -31,29 +31,15 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
   const loginHandler = () => {
     if (email && password) {
       onLogin(email, password);
-<<<<<<< HEAD
-
-=======
->>>>>>> 403d60bf (fix loginHandler Function)
       setIsLogin(true);
     }
   };
 
   const google = () => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> d3c5e061 (fix home page)
     window.open(
       process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
       "_self",
     );
-<<<<<<< HEAD
-=======
-    window.open("http://localhost:80/auth/google", "_self");
->>>>>>> 403d60bf (fix loginHandler Function)
-=======
->>>>>>> d3c5e061 (fix home page)
   };
 
   if (!modalOpen) return null;
