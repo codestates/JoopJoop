@@ -33,7 +33,7 @@ const GatheringSchema = mongoose.Schema({
     ref: 'user',
     required: true,
   },
-  paricipants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
 });
 
 module.exports = mongoose.model('gathering', GatheringSchema);

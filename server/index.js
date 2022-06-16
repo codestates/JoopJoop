@@ -71,22 +71,23 @@ app.use(passport.session());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/auth", authRoute);
-app.use("/users", usersRoute);
-app.use("/posts", postsRoute);
-app.use("/mail", mailRoute);
-app.use("/posts_comments", poCommentsRoute);
-app.use("/gatherings", gatheringsRoute);
-app.use("/uploads", express.static("uploads"));
+app.use('/auth', authRoute);
+app.use('/users', usersRoute);
+app.use('/posts', postsRoute);
+app.use('/mail', mailRoute);
+app.use('/posts_comments', poCommentsRoute);
+app.use('/gatherings', gatheringsRoute);
+app.use('/uploads', express.static('uploads'));
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "uploads/");
+    callback(null, 'uploads/');
   },
   filename: (req, file, callback) => {
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
+
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
   upload(req, res, (err) => {

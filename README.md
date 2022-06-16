@@ -1,5 +1,4 @@
 # JoopJoop
-[JOOPJOOP](https://www.joopjoop.site)
 
 ## Logo
 

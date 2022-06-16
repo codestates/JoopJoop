@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  profileImg: { type: String, default: 'joopjoop.png' },
+  profileImg: { type: String, default: '/uploads/joopjoop.png' },
   introduction: String,
   gatherings: [
     {

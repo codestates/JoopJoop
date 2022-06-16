@@ -5,7 +5,12 @@ const PostCommentSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    post_id: { type: String, required: true },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   { timestamp: true }
 );

@@ -31,7 +31,6 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
   const loginHandler = () => {
     if (email && password) {
       onLogin(email, password);
-
       setIsLogin(true);
     }
   };

@@ -101,6 +101,17 @@ const Navbar = ({ toggle, userNickname, profileImg, logout }) => {
           </li>
           <button onClick={() => logout()}>로그아웃</button>
         </ul>
+      </nav>
+
+      <div className="flex absolute right-12 p-4" onClick={toggle}>
+        <img
+          src={profileImg}
+          className="w-5 h-5 mr-4 cursor-pointer"
+          alt="error"
+        />
+        <div className="cursor-pointer" onClick={toggle}>
+          {userNickname}
+        </div>
       </div>
     </div>
   );

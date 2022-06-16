@@ -24,14 +24,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUserId: id => dispatch(action.setUserId(id)),
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
-    setEmail: email => dispatch(action.setEmail(email)),
-    setNickname: nickname => dispatch(action.setNickname(nickname)),
-    setAccessToken: accessToken => dispatch(action.setAccessToken(accessToken)),
-    setIsLoading: boolean => dispatch(action.setIsLoading(boolean)),
-    setGatherings: gathering => dispatch(action.setGatherings(gathering)),
-    setProfileImg: profileImg => dispatch(action.setProfileImg(profileImg)),
+    setUserId: (id) => dispatch(action.setUserId(id)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setEmail: (email) => dispatch(action.setEmail(email)),
+    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
+    setAccessToken: (accessToken) =>
+      dispatch(action.setAccessToken(accessToken)),
+    setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
+    setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
+    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
@@ -67,7 +68,7 @@ function App({
         onLoginSuccess(res);
         console.log(res);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("onLogin 함수");
       });
   };
@@ -82,7 +83,7 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then(res => {
+      .then((res) => {
         console.log("로그아웃 완료");
         setIsLogin(false);
       })
@@ -96,15 +97,15 @@ function App({
       .post(
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
         { data: "refresh" },
-
         {
           withCredentials: true,
         },
       )
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
       })
-      .catch(error => {
+      .catch((error) => {
+        console.log("refresh 실패");
         setIsLogin(false);
       });
   };
