@@ -5,14 +5,19 @@ import Button from "../components/button";
 import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
 import { useForm } from "react-hook-form";
+import { lightFormat } from "date-fns";
+import KakaoLogin from "react-kakao-login";
 
 const localURL = "http://localhost:5000";
 
 const ModalSignUp = ({ modalOpen, closeModal }) => {
+  const [verifyNumber, setVerifyNumber] = useState("");
+
   const {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
   } = useForm();
   const password = useRef();
@@ -20,9 +25,8 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
 
   const onSubmit = (data) => {
     const { email, password, nickname } = data;
-    console.log("버튼 work!");
     console.log(data);
-
+    console.log(verifyEmail);
     axios
       .post(
         `${localURL}/auth/register`,
@@ -37,14 +41,31 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         }
       )
       .then((res) => {
-        console.log(res);
         alert("회원가입 되었습니다! 로그인하세요");
         closeModal();
       });
   };
 
-  if (!modalOpen) return null;
+  const verifyEmail = (email) => {
+    axios
+      .post(
+        `${localURL}/mail`,
+        {
+          email: email,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        const verifyNumber = res.data.authnum;
+        setVerifyNumber(verifyNumber);
+      })
+      .catch((err) => console.log(err));
+  };
 
+  if (!modalOpen) return null;
   return ReactDom.createPortal(
     <div className="container-modal">
       <div className="modal-normal gap-3" onSubmit={(e) => e.preventDefault()}>
@@ -71,10 +92,45 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           {errors.email && (
             <p className="text-xs text-red"> 필수 입력 사항입니다.</p>
           )}
+          <button
+            type="button"
+            onClick={() => {
+              const email = getValues("email");
+              verifyEmail(email);
+            }}
+          >
+            이메일 인증
+          </button>
           <input
+            name="verifyNumber"
+            type="password"
+            className="w-30 h-6   bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
+            placeholder="인증번호를 입력하세요."
+            {...register("verifyNumber", { required: true })}
+          />
+          {errors.verifyNumber && (
+            <p className="text-xs text-red"> 필수 입력 사항입니다.</p>
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              const inputVerifyNumber = getValues("verifyNumber");
+              if (inputVerifyNumber === verifyNumber) {
+                const target = document.querySelector(".verified");
+                target.disabled = false;
+                alert("인증 번호가 일치합니다. 계속해서 회원가입 진행해주세요");
+              } else {
+                alert("인증번호를 다시 확인해주세요");
+              }
+            }}
+          >
+            확인
+          </button>
+          <input
+            disabled
             name="password"
             type="password"
-            className="w-367 h-10   bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
+            className="verified w-367 h-10   bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
             placeholder="비밀번호를 입력하세요."
             {...register("password", { required: true, minLength: 6 })}
           />
@@ -89,7 +145,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           <input
             name="passwordConfirm"
             type="password"
-            className="w-367 h-10   bg-white text-center rounded-3xl mb-3 outline md:outline-2 placeholder:text-grey-70"
+            className=" w-367 h-10  bg-white text-center rounded-3xl mb-3 outline md:outline-2 placeholder:text-grey-70"
             placeholder="비밀번호를 다시 입력하세요."
             {...register("passwordConfirm", {
               required: true,
@@ -107,7 +163,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           <input
             name="nickname"
             type="text"
-            className="w-72  h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
+            className=" w-72  h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
             placeholder="닉네임을 입력하세요."
             {...register("nickname", { required: true, maxLength: 10 })}
           />
