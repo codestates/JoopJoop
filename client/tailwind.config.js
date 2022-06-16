@@ -24,7 +24,6 @@ module.exports = {
       },
       grey: {
         80: "#808080",
-        70: "#CCCCCC",
         50: "#DBDDD8",
       },
       red: "#F55C47",

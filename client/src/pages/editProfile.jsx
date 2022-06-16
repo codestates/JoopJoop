@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { XIcon } from "@heroicons/react/solid";
 import { connect } from "react-redux";
-import action from "../redux/action";
+import action, { setIsLogin } from "../redux/action";
 import axios from "axios";
 import ModalConfirmSignOut from "../modals/modalConfirmSignOut";
-import { useHistory } from "react-router-dom";
 
 const localURL = "http://localhost:5000";
 
@@ -21,6 +20,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
     setEmail: (email) => dispatch(action.setEmail(email)),
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setPassword: (password) => dispatch(action.setPassword(password)),
@@ -39,7 +39,7 @@ const EditProfile = ({
   userId,
   token,
 }) => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [files, setFiles] = useState("");
@@ -66,13 +66,13 @@ const EditProfile = ({
       )
       .then((res) => {
         alert("계정이 삭제 되었습니다.");
-        history.push("/");
+        // history.push("/");
+        setIsLogin(false);
       });
   };
 
   const onLoadFile = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setFiles(file);
   };
 
@@ -128,11 +128,12 @@ const EditProfile = ({
           withCredentials: true,
         }
       )
-      .then((res) =>
+      .then((res) => {
+        console.log(res);
         setProfileImg(
           process.env.REACT_APP_LOCALSERVER_URL + "/" + res.data.profileImg
-        )
-      )
+        );
+      })
       .catch((err) => console.log(err));
   };
 

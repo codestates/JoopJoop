@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
+const CLIENT_URL = "http://localhost:3000/";
 const User = require("../models/user");
 const CryptoJS = require("crypto-js");
 const {
@@ -33,12 +34,11 @@ router.post("/register", async (req, res) => {
       message: "중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요",
     });
   }
-  // console.log('user!! :', user);
 
   try {
     const savedUser = await newUser.save();
     res.status(201).json({
-      message: `Congratulations! ${savedUser.nickname} sir. You successfully registered as a JoopJoop member`,
+      message: `${savedUser.email}.You successfully registered as a JoopJoop member`,
     });
   } catch (err) {
     console.log(err);
@@ -74,6 +74,31 @@ router.post("/login", async (req, res) => {
     const refreshToken = generateRefreshToken(user);
 
     const { password, ...others } = user._doc;
+    res
+      .cookie("refreshToken", refreshToken, cookieOption)
+      .status(200)
+      .json({ ...others, accessToken });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+//GUEST LOGIN
+router.post("/guest-login", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      email: req.body.email,
+    });
+
+    if (!user) {
+      return res.status(401).json("등록되지않은 이메일입니다.");
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+    const { password, ...others } = user._doc;
+
     res
       .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
@@ -177,12 +202,11 @@ router.get(
 //     failureRedirect: CLIENT_URL,
 //   })
 // );
-
 router.get(
   "/google/callback",
 
   passport.authenticate("google", {
-    failureRedirect: process.env.CLIENT_URL,
+    failureRedirect: CLIENT_URL,
   }),
   async function (req, res) {
     const { oAuthId, nickname, isAdmin } = req.user._doc;
@@ -200,7 +224,7 @@ router.get(
     res
       .cookie("refreshToken", accessToken, cookieOption)
       .status(200)
-      .redirect(process.env.CLIENT_URL);
+      .redirect(CLIENT_URL);
   }
 );
 

@@ -17,28 +17,21 @@ router.post("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 //UPDATE GATHERING
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
-    const gathering = await Gathering.findById(req.params.id)
-      .populate("author", ["nickname", "profileImg"])
-      .populate("participants", ["nickname", "profileImg"]);
-    // console.log(gathering.author._id.toString());
-    if (gathering.author._id.toString() === req.body.author) {
+    const gathering = await Gathering.findById(req.params.id);
+    if (gathering.creator.nickname === req.body.nickname) {
       try {
         const updatedGathering = await Gathering.findByIdAndUpdate(
           req.params.id,
           {
             $set: req.body,
           },
-          { new: true }
-        )
-          .populate("author", ["nickname", "profileImg"])
-          .populate("participants", ["nickname", "profileImg"]);
+          { new: true },
+        );
         res.status(200).json(updatedGathering);
       } catch (err) {
-        console.log(err);
         res.status(500).json(err);
       }
     } else {
@@ -48,9 +41,8 @@ router.put("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 //DELETE GATHERING
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     if (gathering.creator.nickname === req.body.nickname) {
@@ -70,15 +62,15 @@ router.delete("/:id", async (req, res) => {
 //GET GATHERING
 router.get("/:id", async (req, res) => {
   try {
-    const gathering = await Gathering.findById(req.params.id)
-      .populate("author", ["nickname", "profileImg"])
-      .populate("participants", ["nickname", "profileImg"]);
+    const gathering = await Gathering.findById(req.params.id).populate(
+      "author",
+      ["nickname", "profileImg"],
+    );
     res.status(200).json(gathering);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 //GET ALL GATHERING
 router.get("/", async (req, res) => {
   const nickname = req.query.nickname;
@@ -87,89 +79,13 @@ router.get("/", async (req, res) => {
     if (nickname) {
       gatherings = await Gathering.find({ nickname });
     } else {
-      gatherings = await Gathering.find()
-        .populate("author", ["nickname", "profileImg"])
-        .populate("participants", ["nickname", "profileImg"]);
+      gatherings = await Gathering.find().populate("author", [
+        "nickname",
+        "profileImg",
+      ]);
     }
     res.status(200).json(gatherings);
   } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-// Join(POST) GATHERING
-router.post("/participation", async (req, res) => {
-  try {
-    const { gathering_id, participant_id } = req.body;
-    const gathering_participanted = await Gathering.findById(gathering_id);
-
-    // 파라미터로 입력받은 참가자의 id(participant_id)와 모임 참가자들의 id(participants)를 비교해서 일치하는 id가 있는지 확인
-    const isduplication = (participants) => {
-      for (let el of participants) {
-        // console.log(el.toString());
-        if (el.toString() === participant_id) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    if (!isduplication(gathering_participanted.participants)) {
-      const user_gathering = await User.findByIdAndUpdate(participant_id, {
-        $push: { gatherings: gathering_id },
-      });
-
-      const gathering_participant = await Gathering.findByIdAndUpdate(
-        gathering_id,
-        {
-          $push: { participants: participant_id },
-        }
-      );
-      return res.status(200).json({ message: "모임 참가가 완료됐습니다." });
-    } else {
-      return res.status(401).json({ message: "이미 참가한 모임입니다." });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
-
-// Cancellation(POST) GATHERING
-router.post("/cancellation", async (req, res) => {
-  try {
-    const { gathering_id, participant_id } = req.body;
-    const gathering_participanted = await Gathering.findById(gathering_id);
-
-    const isduplication = (participants) => {
-      for (let el of participants) {
-        // console.log(el.toString());
-        if (el.toString() === participant_id) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    if (isduplication(gathering_participanted.participants)) {
-      const user_gathering = await User.findByIdAndUpdate(participant_id, {
-        $pull: { gatherings: gathering_id },
-      });
-
-      const gathering_participant = await Gathering.findByIdAndUpdate(
-        gathering_id,
-        {
-          $pull: { participants: participant_id },
-        }
-      );
-      return res
-        .status(200)
-        .json({ message: "모임 참가 취소가 완료됐습니다." });
-    } else {
-      return res.status(401).json({ message: "이미 참가 취소한 모임입니다." });
-    }
-  } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });

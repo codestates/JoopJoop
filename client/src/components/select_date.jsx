@@ -26,7 +26,7 @@ const SearchDate = ({ setSearchDate }) => {
 
   return (
     <DatePicker
-      className="border-grey-70 text-center border-[1px] rounded-[3px] h-10 w-80 md:w-[6rem]"
+      className="w-[6rem]"
       locale={ko}
       dateFormat="yy/MM/dd"
       selected={startDate}
