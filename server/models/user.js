@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   oAuthId: String,
@@ -9,14 +9,14 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  profileImg: { type: String, default: '/uploads/joopjoop.png' },
+  profileImg: { type: String, default: "/uploads/joopjoop.png" },
   introduction: String,
   gatherings: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'gathering',
+      ref: "gathering",
     },
   ],
 });
 
-module.exports = mongoose.model('user', UserSchema);
+module.exports = mongoose.model("user", UserSchema);

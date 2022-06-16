@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const GatheringSchema = mongoose.Schema({
   title: {
     type: String,
@@ -30,10 +30,10 @@ const GatheringSchema = mongoose.Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: "user",
     required: true,
   },
-  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
 });
 
-module.exports = mongoose.model('gathering', GatheringSchema);
+module.exports = mongoose.model("gathering", GatheringSchema);

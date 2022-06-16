@@ -30,7 +30,7 @@ router.post("/register", async (req, res) => {
   const user = await User.find();
   if (!user.filter((el) => (el.nickname === newUser.nickname ? false : true))) {
     return res.status(401).json({
-      message: '중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요',
+      message: "중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요",
     });
   }
   // console.log('user!! :', user);
@@ -181,7 +181,7 @@ router.get(
 router.get(
   "/google/callback",
 
-  passport.authenticate('google', {
+  passport.authenticate("google", {
     failureRedirect: process.env.CLIENT_URL,
   }),
   async function (req, res) {

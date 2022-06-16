@@ -15,7 +15,6 @@ const mailRoute = require("./routes/mail");
 const multer = require("multer");
 const kakaoPassportConfig = require("./passport/kakao");
 const googlePassportConfig = require("./passport/google");
-const PORT = 5000;
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
@@ -59,7 +58,11 @@ mongoose
 // });
 
 const corsOptions = {
+<<<<<<< HEAD
   origin: "http://localhost:3000",
+=======
+  origin: process.env.CLIENT_URL,
+>>>>>>> 63216d85 (fix double_quote)
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -71,23 +74,23 @@ app.use(passport.session());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use('/auth', authRoute);
-app.use('/users', usersRoute);
-app.use('/posts', postsRoute);
-app.use('/mail', mailRoute);
-app.use('/posts_comments', poCommentsRoute);
-app.use('/gatherings', gatheringsRoute);
-app.use('/uploads', express.static('uploads'));
+app.use("/auth", authRoute);
+app.use("/users", usersRoute);
+app.use("/posts", postsRoute);
+app.use("/mail", mailRoute);
+app.use("/posts_comments", poCommentsRoute);
+app.use("/gatherings", gatheringsRoute);
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'uploads/');
+    callback(null, "uploads/");
   },
   filename: (req, file, callback) => {
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
 
+<<<<<<< HEAD
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
   upload(req, res, (err) => {
@@ -100,9 +103,19 @@ app.post("/upload", (req, res) => {
       image: res.req.file.path,
       fileName: res.req.file.filename,
     });
+=======
+const upload = multer({ storage: storage }).single("profile_img");
+app.post("/upload", upload, (req, res) => {
+  return res.json({
+    success: true,
+    image: req.file.path,
+    fileName: req.file.filename,
+>>>>>>> 63216d85 (fix double_quote)
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`JoopJoop Server is running. http://localhost:${PORT}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(
+    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`
+  );
 });
