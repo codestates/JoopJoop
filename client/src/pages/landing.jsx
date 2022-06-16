@@ -11,13 +11,13 @@ import Home from "./home";
 
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
   };
 };
 
-const oAuthLoginHandler = async data => {
+const oAuthLoginHandler = async (data) => {
   let request = {
     oAuthId: data.profile.id,
   };
@@ -26,7 +26,7 @@ const oAuthLoginHandler = async data => {
       data: request,
       withCredentials: true,
     })
-    .then(data => {
+    .then((data) => {
       console.log(data);
     });
 };
@@ -54,7 +54,7 @@ const Landing = ({ onLogin, isLogin }) => {
             </div>
             <Button children={"구글 회원가입"}></Button>
             <Button children={"카카오 회원가입"}></Button>
-            {/* <KakaoOauth oAuthLoginHandler={oAuthLoginHandler}></KakaoOauth> */}
+            <KakaoOauth oAuthLoginHandler={oAuthLoginHandler}></KakaoOauth>
             <div className="text-center">또는</div>
             <Button
               className="btn btn-green"
