@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EditProfile from "./editProfile";
-import mockUsers from "../mockData/mock_user.json";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {

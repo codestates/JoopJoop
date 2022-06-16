@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { XIcon, MenuIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userNickname: state.loginNickname,
     profileImg: state.profileImg,

@@ -8,12 +8,17 @@ import ModalLogin from "../modals/modalLogin";
 import ModalSignUp from "../modals/modalSignUp";
 import KakaoOauth from "../components/kakaoOauth";
 import Home from "./home";
-
+import action from "../redux/action";
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
   };
 };
 
@@ -31,7 +36,7 @@ const oAuthLoginHandler = async (data) => {
     });
 };
 
-const Landing = ({ onLogin, isLogin }) => {
+const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
 
@@ -67,7 +72,15 @@ const Landing = ({ onLogin, isLogin }) => {
               children={"로그인"}
               onClick={() => setLoginModalOpen(true)}
             />
-            <Button children={"게스트 로그인"}></Button>
+            <Button
+              children={"게스트 로그인"}
+              onClick={() => {
+                guestRegisterLogin();
+                setTimeout(function () {
+                  window.location.reload();
+                }, 1 * 1000);
+              }}
+            ></Button>
           </div>
           <ModalLogin
             modalOpen={loginModalOpen}
@@ -84,4 +97,4 @@ const Landing = ({ onLogin, isLogin }) => {
   );
 };
 
-export default connect(mapStateToProps, null)(Landing);
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);

@@ -25,8 +25,6 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
 
   const onSubmit = (data) => {
     const { email, password, nickname } = data;
-    // console.log(data);
-    console.log(verifyEmail);
     axios
       .post(
         `${localURL}/auth/register`,
@@ -97,6 +95,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             onClick={() => {
               const email = getValues("email");
               verifyEmail(email);
+              alert("인증 번호가 발송되었습니다.");
             }}
           >
             이메일 인증
