@@ -58,11 +58,7 @@ mongoose
 // });
 
 const corsOptions = {
-<<<<<<< HEAD
-  origin: "http://localhost:3000",
-=======
-  origin: process.env.CLIENT_URL,
->>>>>>> 63216d85 (fix double_quote)
+  origin: true,
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -90,7 +86,6 @@ const storage = multer.diskStorage({
   },
 });
 
-<<<<<<< HEAD
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
   upload(req, res, (err) => {
@@ -103,14 +98,6 @@ app.post("/upload", (req, res) => {
       image: res.req.file.path,
       fileName: res.req.file.filename,
     });
-=======
-const upload = multer({ storage: storage }).single("profile_img");
-app.post("/upload", upload, (req, res) => {
-  return res.json({
-    success: true,
-    image: req.file.path,
-    fileName: req.file.filename,
->>>>>>> 63216d85 (fix double_quote)
   });
 });
 

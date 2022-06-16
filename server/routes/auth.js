@@ -54,7 +54,7 @@ router.post("/login", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json("등록되지않은 이메일입니다.");
+      return res.status(401).json({ message: "등록되지않은 이메일입니다." });
     }
 
     const hashedPassword = CryptoJS.AES.decrypt(
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
     // console.log(`original :" ${originalPassword} input :" ${inputPassword}`);
 
     if (originalPassword != inputPassword) {
-      return res.status(401).json("패스워드를 다시 확인해주세요.");
+      return res.status(401).json({ message: "패스워드를 다시 확인해주세요." });
     }
 
     const accessToken = generateAccessToken(user);
@@ -84,13 +84,13 @@ router.post("/login", async (req, res) => {
   }
 });
 
-//Refresh Login
+// Refresh Login
 router.post("/refresh", async (req, res) => {
   // console.log('리프레쉬');
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    return res.status(400).json("refresh token not provided");
+    return res.status(400).json({ message: "refresh token이 없습니다" });
   }
   const checkRefreshToken = (refreshToken) => {
     return jwt.verify(
@@ -109,7 +109,9 @@ router.post("/refresh", async (req, res) => {
   const refreshTokenData = checkRefreshToken(refreshToken);
 
   if (!refreshTokenData) {
-    return res.json("invalid refresh token, please login again");
+    return res.json({
+      message: "유효하지않은 refresh token 입니다. 다시 로그인하세요.",
+    });
   }
 
   const { id } = refreshTokenData;
@@ -119,10 +121,9 @@ router.post("/refresh", async (req, res) => {
     const newAccessToken = generateAccessToken(user);
     const { password, ...others } = user._doc;
     res.status(200).json({ ...others, accessToken: newAccessToken });
-  } catch {
+  } catch (err) {
     return res.status(400).json({
-      data: null,
-      message: "refresh token has been tempered",
+      message: "refresh token과 일치하는 유저가 없습니다.",
     });
   }
 });

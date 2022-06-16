@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { XIcon, MenuIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     userNickname: state.loginNickname,
     profileImg: state.profileImg,
@@ -23,21 +23,21 @@ const Navbar = ({ toggle, userNickname, profileImg, logout }) => {
           </Link>
           <ul className="hidden md:flex space-x-6">
             <li className="text-white text-xl">
-              <Link to="/home" className="">
+              <Link to="/home" className="text-lg font-semibold">
                 <div className="">홈</div>
               </Link>
             </li>
-            <li className="text-white text-xl">
+            <li className="text-white text-lg font-semibold">
               <Link to="/schedule" className="">
                 <div className="">일정</div>
               </Link>
             </li>
-            <li className="text-white text-xl">
+            <li className="text-white text-lg font-semibold">
               <Link to="/chat" className="">
                 <div className="">채팅</div>
               </Link>
             </li>
-            <li className="text-white text-xl">
+            <li className="text-white text-lg font-semibold">
               <Link to="/community" className="">
                 <div className="">커뮤니티</div>
               </Link>
@@ -45,15 +45,11 @@ const Navbar = ({ toggle, userNickname, profileImg, logout }) => {
           </ul>
         </nav>
         <div
-          className="hidden md:flex items-center space-x-2 pr-4"
+          className="hidden md:flex items-center space-x-2 mr-4 p-1 px-2"
           onClick={toggle}
         >
-          <img
-            src={profileImg}
-            className="w-5 h-5 cursor-pointer"
-            alt="error"
-          />
-          <div className="cursor-pointer" onClick={toggle}>
+          <img src={profileImg} className="w-5 h-5 rounded-full" alt="error" />
+          <div className="cursor-pointer text-white" onClick={toggle}>
             {userNickname}
           </div>
         </div>
@@ -68,50 +64,45 @@ const Navbar = ({ toggle, userNickname, profileImg, logout }) => {
           )}
         </button>
       </header>
+
       <div className={classNames("md:hidden", { hidden: !menuToggle })}>
         <ul className="flex flex-col md:hidden bg-green-90 text-white border-t-[1px] border-white pr-5 space-y-2 py-4 items-end text-xl">
-          <div className="flex flex-row py-2">
+          <div className="flex flex-row items-center py-2 px-2 border-b-2 space-x-2">
             <img
               src={profileImg}
-              className="w-6 h-5 cursor-pointer"
+              className="w-6 h-6 bg-white rounded-full"
               alt="error"
             />
-            <div className="">{userNickname}</div>
+            <div className="text-2xl font-semibold">{userNickname}</div>
           </div>
-          <li className="">
+          <li className="px-2">
             <Link to="/home" className="">
-              <div className="" onClick={() => setMenuToggle(false)}>
+              <div
+                className="mt-2 font-semibold"
+                onClick={() => setMenuToggle(false)}
+              >
                 홈
               </div>
             </Link>
           </li>
-          <li className="">
+          <li className="px-2 font-semibold">
             <Link to="/schedule" className="">
               <div className="" onClick={() => setMenuToggle(false)}>
                 일정
               </div>
             </Link>
           </li>
-          <li className="">
+          <li className="px-2 font-semibold">
             <Link to="/mypage" className="">
               <div className="" onClick={() => setMenuToggle(false)}>
                 마이페이지
               </div>
             </Link>
           </li>
-          <button onClick={() => logout()}>로그아웃</button>
+          <button className="px-2 font-semibold" onClick={() => logout()}>
+            로그아웃
+          </button>
         </ul>
-      </nav>
-
-      <div className="flex absolute right-12 p-4" onClick={toggle}>
-        <img
-          src={profileImg}
-          className="w-5 h-5 mr-4 cursor-pointer"
-          alt="error"
-        />
-        <div className="cursor-pointer" onClick={toggle}>
-          {userNickname}
-        </div>
       </div>
     </div>
   );
