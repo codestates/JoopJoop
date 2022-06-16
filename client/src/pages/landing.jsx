@@ -74,7 +74,12 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
             />
             <Button
               children={"게스트 로그인"}
-              onClick={guestRegisterLogin}
+              onClick={() => {
+                guestRegisterLogin();
+                setTimeout(function () {
+                  window.location.reload();
+                }, 1 * 1000);
+              }}
             ></Button>
           </div>
           <ModalLogin

@@ -66,8 +66,8 @@ function App({
       })
       .then((res) => {
         onLoginSuccess(res);
-        console.log(res);
       })
+      .then((res) => console.log(res))
       .catch((err) => {
         console.log(err);
       });
@@ -81,8 +81,7 @@ function App({
     setNickname(nickname);
     setUserId(_id);
     setAccessToken(accessToken);
-    setProfileImg(`${process.env.REACT_APP_LOCALSERVER_URL}/${profileImg}`);
-    console.log(profileImg);
+    setProfileImg(`${process.env.REACT_APP_LOCALSERVER_URL}${profileImg}`);
   };
 
   const guestRegister = () => {
@@ -90,7 +89,6 @@ function App({
       email: Math.random().toString(36).substring(2, 12),
       nickname: Math.random().toString(36).substring(2, 12),
     };
-
     axios
       .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/register", data, {
         headers: {
@@ -100,14 +98,14 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then(async (data) => {
-        const loginData = await guestLogin(data);
-        console.log(loginData);
+      .then((result) => {
+        guestLogin(result);
       });
   };
-  const guestLogin = (req) => {
+
+  const guestLogin = (res) => {
     const data = {
-      email: req.data.message.split(".")[0],
+      email: res.data.message.split(".")[0],
     };
     axios
       .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/guest-login", data, {
@@ -122,20 +120,9 @@ function App({
         return res;
       })
       .catch((err) => {
-        return "err";
+        console.log(err);
       });
   };
-
-  // const onGuestLoginSuccess = (res) => {
-  //   const { accessToken, email, nickname, _id, profileImg } = res.data;
-  //   getGatherings();
-  //   setIsLogin(true);
-  //   setEmail(email);
-  //   setNickname(nickname);
-  //   setUserId(_id);
-  //   setAccessToken(accessToken);
-  //   setProfileImg(process.env.REACT_APP_LOCALSERVER_URL + "/" + profileImg);
-  // };
 
   const onLogout = (e) => {
     axios
@@ -173,14 +160,6 @@ function App({
         setIsLogin(false);
       });
   };
-
-  // const guestLoginSuccess = (res) => {
-  //   const { accessToken, setProfileImg } = res.data;
-
-  //   setNickname("Guest");
-  //   setAccessToken(accessToken);
-  //   setProfileImg("img/default.png");
-  // };
 
   const getGatherings = () => {
     axios
@@ -230,7 +209,11 @@ function App({
             <Route path="/mypage" component={Mypage} />
           </Switch>
         ) : (
-          <Landing onLogin={onLogin} guestRegisterLogin={guestRegister} />
+          <Landing
+            onLogin={onLogin}
+            guestRegisterLogin={guestRegister}
+            onSilentRefresh={onSilentRefresh}
+          />
         )}
         <Footer></Footer>
       </BrowserRouter>
