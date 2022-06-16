@@ -24,14 +24,19 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 //! props로 위에 작성한 setIsLogin props로 내려주기
-const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
+const ModalLogin = ({
+  modalOpen,
+  closeModal,
+  onLogin,
+  setIsLogin,
+  isLogin,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const loginHandler = () => {
     if (email && password) {
       onLogin(email, password);
-      setIsLogin(true);
     }
   };
 

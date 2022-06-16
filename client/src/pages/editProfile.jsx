@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import action, { setIsLogin } from "../redux/action";
 import axios from "axios";
 import ModalConfirmSignOut from "../modals/modalConfirmSignOut";
+import { useHistory } from "react-router-dom";
 
 const localURL = "http://localhost:5000";
 
@@ -39,7 +40,7 @@ const EditProfile = ({
   userId,
   token,
 }) => {
-  // const history = useHistory();
+  const history = useHistory();
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [files, setFiles] = useState("");
@@ -66,9 +67,10 @@ const EditProfile = ({
       )
       .then((res) => {
         alert("계정이 삭제 되었습니다.");
-        // history.push("/");
         setIsLogin(false);
-      });
+        return history.push("/");
+      })
+      .catch((err) => console.log(err));
   };
 
   const onLoadFile = (e) => {
