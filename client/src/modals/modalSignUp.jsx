@@ -25,7 +25,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
 
   const onSubmit = (data) => {
     const { email, password, nickname } = data;
-    console.log(data);
+    // console.log(data);
     console.log(verifyEmail);
     axios
       .post(

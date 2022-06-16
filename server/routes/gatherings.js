@@ -1,14 +1,14 @@
-const router = require('express').Router();
-const User = require('../models/user');
-const Gathering = require('../models/gathering');
+const router = require("express").Router();
+const User = require("../models/user");
+const Gathering = require("../models/gathering");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require('./tokenfunction');
+} = require("./tokenfunction");
 
 //CREATE GATHERING
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
@@ -19,11 +19,11 @@ router.post('/', async (req, res) => {
 });
 
 //UPDATE GATHERING
-router.put('/:id', async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id)
-      .populate('author', ['nickname', 'profileImg'])
-      .populate('participants', ['nickname', 'profileImg']);
+      .populate("author", ["nickname", "profileImg"])
+      .populate("participants", ["nickname", "profileImg"]);
     // console.log(gathering.author._id.toString());
     if (gathering.author._id.toString() === req.body.author) {
       try {
@@ -34,15 +34,15 @@ router.put('/:id', async (req, res) => {
           },
           { new: true }
         )
-          .populate('author', ['nickname', 'profileImg'])
-          .populate('participants', ['nickname', 'profileImg']);
+          .populate("author", ["nickname", "profileImg"])
+          .populate("participants", ["nickname", "profileImg"]);
         res.status(200).json(updatedGathering);
       } catch (err) {
         console.log(err);
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자신이 만든 모임만 수정할 수 있습니다');
+      res.status(401).json("자신이 만든 모임만 수정할 수 있습니다");
     }
   } catch (err) {
     res.status(500).json(err);
@@ -50,29 +50,29 @@ router.put('/:id', async (req, res) => {
 });
 
 //DELETE GATHERING
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
     if (gathering.creator.nickname === req.body.nickname) {
       try {
         await gathering.delete();
-        res.status(200).json('모임이 삭제 되었습니다.');
+        res.status(200).json("모임이 삭제 되었습니다.");
       } catch (err) {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자신이 만든 모임만 삭제할 수 있습니다');
+      res.status(401).json("자신이 만든 모임만 삭제할 수 있습니다");
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 //GET GATHERING
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id)
-      .populate('author', ['nickname', 'profileImg'])
-      .populate('participants', ['nickname', 'profileImg']);
+      .populate("author", ["nickname", "profileImg"])
+      .populate("participants", ["nickname", "profileImg"]);
     res.status(200).json(gathering);
   } catch (err) {
     res.status(500).json(err);
@@ -80,7 +80,7 @@ router.get('/:id', async (req, res) => {
 });
 
 //GET ALL GATHERING
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   const nickname = req.query.nickname;
   try {
     let gatherings;
@@ -88,8 +88,8 @@ router.get('/', async (req, res) => {
       gatherings = await Gathering.find({ nickname });
     } else {
       gatherings = await Gathering.find()
-        .populate('author', ['nickname', 'profileImg'])
-        .populate('participants', ['nickname', 'profileImg']);
+        .populate("author", ["nickname", "profileImg"])
+        .populate("participants", ["nickname", "profileImg"]);
     }
     res.status(200).json(gatherings);
   } catch (err) {
@@ -98,7 +98,7 @@ router.get('/', async (req, res) => {
 });
 
 // Join(POST) GATHERING
-router.post('/participation', async (req, res) => {
+router.post("/participation", async (req, res) => {
   try {
     const { gathering_id, participant_id } = req.body;
     const gathering_participanted = await Gathering.findById(gathering_id);
@@ -125,9 +125,9 @@ router.post('/participation', async (req, res) => {
           $push: { participants: participant_id },
         }
       );
-      return res.status(200).json({ message: '모임 참가가 완료됐습니다.' });
+      return res.status(200).json({ message: "모임 참가가 완료됐습니다." });
     } else {
-      return res.status(401).json({ message: '이미 참가한 모임입니다.' });
+      return res.status(401).json({ message: "이미 참가한 모임입니다." });
     }
   } catch (err) {
     console.log(err);
@@ -136,7 +136,7 @@ router.post('/participation', async (req, res) => {
 });
 
 // Cancellation(POST) GATHERING
-router.post('/cancellation', async (req, res) => {
+router.post("/cancellation", async (req, res) => {
   try {
     const { gathering_id, participant_id } = req.body;
     const gathering_participanted = await Gathering.findById(gathering_id);
@@ -164,9 +164,9 @@ router.post('/cancellation', async (req, res) => {
       );
       return res
         .status(200)
-        .json({ message: '모임 참가 취소가 완료됐습니다.' });
+        .json({ message: "모임 참가 취소가 완료됐습니다." });
     } else {
-      return res.status(401).json({ message: '이미 참가 취소한 모임입니다.' });
+      return res.status(401).json({ message: "이미 참가 취소한 모임입니다." });
     }
   } catch (err) {
     console.log(err);

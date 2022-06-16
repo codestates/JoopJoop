@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const PostCommentSchema = mongoose.Schema(
   {
     text: {
@@ -8,11 +8,11 @@ const PostCommentSchema = mongoose.Schema(
     post_id: { type: String, required: true },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: "user",
       required: true,
     },
   },
   { timestamp: true }
 );
 
-module.exports = mongoose.model('post_comment', PostCommentSchema);
+module.exports = mongoose.model("post_comment", PostCommentSchema);

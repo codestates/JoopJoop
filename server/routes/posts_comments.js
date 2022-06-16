@@ -1,10 +1,10 @@
-const router = require('express').Router();
-const User = require('../models/user');
-const Post = require('../models/post');
-const PoComment = require('../models/post_comment');
+const router = require("express").Router();
+const User = require("../models/user");
+const Post = require("../models/post");
+const PoComment = require("../models/post_comment");
 
 //CREATE POST COMMENT
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   const newPoComment = new PoComment(req.body);
   try {
     const savedPoComment = await newPoComment.save();
@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
   }
 });
 //UPDATE POST COMMENT
-router.put('/:id', async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const poComment = await PoComment.findById(req.params.id);
     if (poComment.content.email === req.body.content.email) {
@@ -31,32 +31,32 @@ router.put('/:id', async (req, res) => {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자신이 만든 댓글만 수정할 수 있습니다');
+      res.status(401).json("자신이 만든 댓글만 수정할 수 있습니다");
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 //DELETE POST COMMENT
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const poComment = await PoComment.findById(req.params.id);
     if (poComment.content.email === req.body.email) {
       try {
         await poComment.delete();
-        res.status(200).json('댓글이 삭제 되었습니다.');
+        res.status(200).json("댓글이 삭제 되었습니다.");
       } catch (err) {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자신이 만든 댓글만 삭제할 수 있습니다');
+      res.status(401).json("자신이 만든 댓글만 삭제할 수 있습니다");
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
 //GET POST COMMENT
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const poComment = await PoComment.findById(req.params.id);
     res.status(200).json(poComment);
@@ -65,16 +65,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 //GET ALL POST COMMENT
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   const email = req.query.email;
   try {
     let poComments;
     if (email) {
       poComments = await PoComment.find({ email });
     } else {
-      poComments = await PoComment.find().populate('author', [
-        'nickname',
-        'email',
+      poComments = await PoComment.find().populate("author", [
+        "nickname",
+        "email",
       ]);
     }
     res.status(200).json(poComments);

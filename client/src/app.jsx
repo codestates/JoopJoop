@@ -14,43 +14,21 @@ import { connect } from "react-redux";
 import action from "./redux/action";
 import Mypage from "./pages/mypage";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
-    userId: state.userId,
-    token: state.accessToken,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setUserId: (id) => dispatch(action.setUserId(id)),
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
-    setEmail: (email) => dispatch(action.setEmail(email)),
-    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
-    setAccessToken: (accessToken) =>
-      dispatch(action.setAccessToken(accessToken)),
-    setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
-    setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
-    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
-function App({
-  isLogin,
-  setIsLogin,
-  setEmail,
-  setNickname,
-  setUserId,
-  setAccessToken,
-  userId,
-  token,
-  setIsLoading,
-  setGatherings,
-  profileImg,
-  setProfileImg,
-}) {
+function App({ isLogin, setIsLogin }) {
   const onLogin = (email, password) => {
+    console.log("로그인요청");
     const data = {
       email,
       password,
@@ -64,16 +42,15 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
-        console.log(res);
       })
       .catch((error) => {
         console.log("onLogin 함수");
       });
   };
 
-  const onLogout = e => {
+  const onLogout = (e) => {
     axios
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
         headers: {
@@ -84,25 +61,27 @@ function App({
         samesite: "Secure",
       })
       .then((res) => {
-        console.log("로그아웃 완료");
         setIsLogin(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   };
 
   const onSilentRefresh = () => {
+    console.log(process.env.REACT_APP_LOCALSERVER_URL);
     axios
       .post(
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
         { data: "refresh" },
         {
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
+        console.log(res);
         onLoginSuccess(res);
+        console.log("resfresh 성공");
       })
       .catch((error) => {
         console.log("refresh 실패");
@@ -110,40 +89,33 @@ function App({
       });
   };
 
-  const onLoginSuccess = res => {
-    const { accessToken, email, nickname, _id, profileImg } = res.data;
-
-    getGatherings();
+  const onLoginSuccess = (res) => {
+    const { accessToken } = res.data;
+    // console.log("onloginsuccess");
+    // console.log(accessToken);
+    //login state true
     setIsLogin(true);
-    setEmail(email);
-    setNickname(nickname);
-    setUserId(_id);
-    setAccessToken(accessToken);
-    setProfileImg(process.env.REACT_APP_LOCALSERVER_URL + "/" + profileImg);
+    // accessToken 설정
+    axios.defaults.headers.common["token"] = accessToken;
+    // accessToken 만료하기 1분 전에 로그인 연장
+    // setTimeout(onSilentRefresh, JWT_EXPIRRY_TIME - 60000);
+    // getGatherings(accessToken);
   };
 
-  const getGatherings = () => {
-    axios
-      .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
-        withCredentials: true,
-      })
-      .then(data => {
-        data.data
-          .filter(gathering => gathering.author !== null)
-          .forEach(
-            gathering =>
-              (gathering.author.profileImg =
-                process.env.REACT_APP_LOCALSERVER_URL +
-                "/" +
-                gathering.author.profileImg),
-          );
-        setGatherings([...data.data]);
-      });
-  };
-  useEffect(() => {
-    setIsLogin(false);
+  //! gatherings 정보가져오기, 분리 필요
+  // const getGatherings = () => {
+  //   axios
+  //     .get("http://localhost:80/gatherings", {
+  //       withCredentials: true,
+  //       token: accessToken,
+  //     })
+  //     .then(data => console.log(data));
+  // };
+
+  const componentDidMount = () => {
     onSilentRefresh();
-  }, []);
+  };
+  componentDidMount();
 
   const [isOpen, setIsOpen] = useState(false);
 

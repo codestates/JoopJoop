@@ -10,16 +10,16 @@ import { connect } from "react-redux";
 import action from "../redux/action";
 
 //! redux state 받아오기
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
   };
 };
 
 //! redux dispatch 받아오기
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
   };
 };
 
@@ -38,7 +38,7 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
   const google = () => {
     window.open(
       process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
-      "_self",
+      "_self"
     );
   };
 
@@ -60,16 +60,17 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
           type="email"
           className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
-          onChange={event => setEmail(event.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <div className="">
           <input
             type="password"
             className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
             placeholder="비밀번호를 입력하세요."
-            onChange={event => setPassword(event.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
+
         <div className="">
           <Button
             className="w-[8.4rem] h-[2.9rem] btn-green rounded-3xl text-center outline text-white"
@@ -114,7 +115,7 @@ const ModalLogin = ({ modalOpen, closeModal, onLogin, setIsLogin }) => {
       </div>
     </div>,
 
-    document.getElementById("modal"),
+    document.getElementById("modal")
   );
 };
 
