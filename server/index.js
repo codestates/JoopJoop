@@ -26,7 +26,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },
-  })
+  }),
 );
 
 mongoose
@@ -35,7 +35,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 const corsOptions = {
   origin: true,
@@ -43,6 +43,7 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
+app.use("/uploads", express.static("uploads"));
 kakaoPassportConfig(app);
 app.use(express());
 app.use(passport.initialize());
@@ -70,7 +71,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
-  upload(req, res, (err) => {
+  upload(req, res, err => {
     if (err) {
       console.log(err);
       return res.json({ success: false, err });

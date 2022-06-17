@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import action from "./redux/action";
 import Mypage from "./pages/mypage";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isLogin: state.isLogin,
     userId: state.userId,
@@ -22,17 +22,16 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setUserId: (id) => dispatch(action.setUserId(id)),
-    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
-    setEmail: (email) => dispatch(action.setEmail(email)),
-    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
-    setAccessToken: (accessToken) =>
-      dispatch(action.setAccessToken(accessToken)),
-    setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
-    setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
-    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
+    setUserId: id => dispatch(action.setUserId(id)),
+    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+    setEmail: email => dispatch(action.setEmail(email)),
+    setNickname: nickname => dispatch(action.setNickname(nickname)),
+    setAccessToken: accessToken => dispatch(action.setAccessToken(accessToken)),
+    setIsLoading: boolean => dispatch(action.setIsLoading(boolean)),
+    setGatherings: gathering => dispatch(action.setGatherings(gathering)),
+    setProfileImg: profileImg => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
@@ -64,16 +63,15 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then((res) => {
+      .then(res => {
         onLoginSuccess(res);
       })
-      .then((res) => console.log(res))
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
-  const onLoginSuccess = (res) => {
+  const onLoginSuccess = res => {
     const { accessToken, email, nickname, _id, profileImg } = res.data;
     getGatherings();
     setIsLogin(true);
@@ -98,12 +96,12 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then((result) => {
+      .then(result => {
         guestLogin(result);
       });
   };
 
-  const guestLogin = (res) => {
+  const guestLogin = res => {
     const data = {
       email: res.data.message.split(".")[0],
     };
@@ -116,15 +114,15 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then((res) => {
+      .then(res => {
         return res;
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
-  const onLogout = (e) => {
+  const onLogout = e => {
     axios
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
         headers: {
@@ -134,11 +132,11 @@ function App({
         HttpOnly: true,
         samesite: "Secure",
       })
-      .then((res) => {
+      .then(res => {
         console.log("로그아웃 완료");
         setIsLogin(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err);
       });
   };
@@ -148,15 +146,14 @@ function App({
       .post(
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
         { data: "refresh" },
-
         {
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         onLoginSuccess(res);
       })
-      .catch((error) => {
+      .catch(error => {
         setIsLogin(false);
       });
   };
@@ -166,10 +163,19 @@ function App({
       .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
         withCredentials: true,
       })
-      .then((data) => {
+      .then(data => {
+        data.data
+          .filter(gathering => gathering.author !== null)
+          .forEach(
+            gathering =>
+              (gathering.author.profileImg =
+                process.env.REACT_APP_LOCALSERVER_URL +
+                gathering.author.profileImg),
+          );
         setGatherings([...data.data]);
       });
   };
+
   useEffect(() => {
     setIsLogin(false);
     onSilentRefresh();

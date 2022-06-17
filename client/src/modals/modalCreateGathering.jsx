@@ -238,9 +238,10 @@ const ModalCreateGathering = ({ modalOpen, closeModal, userId }) => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       })
-      .then(res => closeModal())
-      .catch(error => console.log("모임 생성 실패"));
+      .then(res => window.location.reload())
+      .catch(err => console.log("모임 생성 실패"));
   };
+  // TODO :242 모임 생성 실패시 모달에 메시지 띄우기
 
   if (!modalOpen) return null;
   return ReactDom.createPortal(

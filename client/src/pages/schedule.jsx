@@ -1,24 +1,62 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ModalViewGathering from "../modals/modalViewGathering";
 import Card from "../components/card_gathering";
 import mockGatherings from "../mockData/mock_gather.json";
-import { format } from "date-fns";
+import { connect } from "react-redux";
 
-const Schedule = () => {
+const mapStateToProps = state => {
+  return {
+    gatherings: state.gatherings,
+    userId: state.userId,
+  };
+};
+
+const Schedule = ({ gatherings, userId }) => {
   const [gatherModalOpen, setGatherModalOpen] = useState(false);
-  const [selectedIdx, setSelectedIdx] = useState(0);
   const [selectedGathering, setSelectedGathering] = useState(mockGatherings[0]);
   const [preOrPost, setPreOrPost] = useState(true);
 
-  let filteredGatherings = mockGatherings;
+  let filteredGatherings = gatherings;
 
-  useEffect(() => {
-    setSelectedGathering(mockGatherings[selectedIdx]);
-  }, [selectedIdx]);
+  const filter = gatherings => {
+    gatherings = gatherings.filter(
+      gathering =>
+        !!gathering.title &&
+        !!gathering.town &&
+        !!gathering.place &&
+        !!gathering.date &&
+        !!gathering.time &&
+        !!gathering.longitude &&
+        !!gathering.latitude &&
+        !!gathering.author,
+    );
+    gatherings = gatherings.filter(gathering => {
+      if (!!gathering.participants) {
+        let idArr = [];
+        const filtered = gathering.participants.map(user => {
+          return user._id;
+        });
+        idArr = [...filtered];
+        return idArr.includes(userId) || gathering.author._id === userId;
+      } else {
+        return null;
+      }
+    });
 
-  useEffect(() => {
-    // console.log(preOrPost);
-  }, [preOrPost]);
+    gatherings.sort(function (a, b) {
+      a = new Date(a.date);
+      b = new Date(b.date);
+      return a - b;
+    });
+    return gatherings;
+  };
+
+  filteredGatherings = filter(gatherings);
+
+  const setGatherToModal = idx => {
+    setSelectedGathering(filteredGatherings[idx]);
+    setGatherModalOpen(true);
+  };
 
   return (
     <div>
@@ -32,24 +70,26 @@ const Schedule = () => {
       </div>
       <hr className="w-full border-[1px] border-grey-50" />
       <div className="grid grid-cols-4 gap-4">
-        {filteredGatherings
-          .filter(gather => {
-            if (preOrPost) {
-              return gather.date > format(new Date(), "yyyy-MM-dd").toString();
-            } else {
-              return gather.date < format(new Date(), "yyyy-MM-dd").toString();
-            }
-          })
-          .map(gather => (
-            <Card
-              key={gather.id}
-              props={gather}
-              onClick={() => {
-                setSelectedIdx(gather.id - 1);
-                setGatherModalOpen(true);
-              }}
-            ></Card>
-          ))}
+        {filteredGatherings.length > 0 ? (
+          filteredGatherings
+            .filter(gather => {
+              if (preOrPost) {
+                console.log(gather.date + gather.time);
+                return new Date(gather.date + gather.time) > new Date();
+              } else {
+                return new Date(gather.date) < new Date();
+              }
+            })
+            .map((gather, idx) => (
+              <Card
+                key={idx}
+                props={gather}
+                onClick={() => setGatherToModal(idx)}
+              ></Card>
+            ))
+        ) : (
+          <div>표시할 컨텐츠가 없습니다.</div>
+        )}
       </div>
       <ModalViewGathering
         modalOpen={gatherModalOpen}
@@ -60,4 +100,4 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default connect(mapStateToProps)(Schedule);
