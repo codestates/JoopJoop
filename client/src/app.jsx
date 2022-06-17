@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import action from "./redux/action";
 import Mypage from "./pages/mypage";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
     userId: state.userId,
@@ -22,16 +22,17 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setUserId: id => dispatch(action.setUserId(id)),
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
-    setEmail: email => dispatch(action.setEmail(email)),
-    setNickname: nickname => dispatch(action.setNickname(nickname)),
-    setAccessToken: accessToken => dispatch(action.setAccessToken(accessToken)),
-    setIsLoading: boolean => dispatch(action.setIsLoading(boolean)),
-    setGatherings: gathering => dispatch(action.setGatherings(gathering)),
-    setProfileImg: profileImg => dispatch(action.setProfileImg(profileImg)),
+    setUserId: (id) => dispatch(action.setUserId(id)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setEmail: (email) => dispatch(action.setEmail(email)),
+    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
+    setAccessToken: (accessToken) =>
+      dispatch(action.setAccessToken(accessToken)),
+    setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
+    setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
+    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
@@ -56,8 +57,8 @@ function App({
     };
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/login",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/auth/login",
         data,
         {
           headers: {
@@ -68,15 +69,15 @@ function App({
           samesite: "Secure",
         },
       )
-      .then(res => {
+      .then((res) => {
         console.log(res);
         window.location.reload();
         onLoginSuccess(res);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
-  const onLoginSuccess = res => {
+  const onLoginSuccess = (res) => {
     let { accessToken, email, nickname, _id, profileImg } = res.data;
     if (profileImg[0] !== "/") {
       profileImg = "/" + profileImg;
@@ -97,11 +98,12 @@ function App({
     const data = {
       email: Math.random().toString(36).substring(2, 12),
       nickname: Math.random().toString(36).substring(2, 12),
+      password: Math.random().toString(36).substring(2, 12),
     };
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/signup",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/auth/guest-login",
         data,
         {
           headers: {
@@ -112,13 +114,13 @@ function App({
           samesite: "Secure",
         },
       )
-      .then(result => {
-        guestLogin(result);
+      .then((result) => {
+        onLoginSuccess(result);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
-  const guestLogin = res => {
+  const guestLogin = (res) => {
     const data = {
       email: res.data.message.split(".")[0],
     };
@@ -136,13 +138,13 @@ function App({
           samesite: "Secure",
         },
       )
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
-  const onLogout = e => {
+  const onLogout = (e) => {
     axios
       .get(
         process.env.REACT_APP_DEPLOYSERVER_URL ||
@@ -156,10 +158,10 @@ function App({
           samesite: "Secure",
         },
       )
-      .then(res => {
+      .then((res) => {
         setIsLogin(false);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
   const onSilentRefresh = () => {
@@ -172,10 +174,10 @@ function App({
           withCredentials: true,
         },
       )
-      .then(res => {
+      .then((res) => {
         onLoginSuccess(res);
       })
-      .catch(err => {
+      .catch((err) => {
         setIsLogin(false);
       });
   };
@@ -189,10 +191,10 @@ function App({
           withCredentials: true,
         },
       )
-      .then(data => {
+      .then((data) => {
         data.data
-          .filter(gathering => gathering.author !== null)
-          .forEach(gathering => {
+          .filter((gathering) => gathering.author !== null)
+          .forEach((gathering) => {
             if (gathering.author.profileImg[0] !== "/") {
               gathering.author.profileImg = "/" + gathering.author.profileImg;
             }
@@ -203,7 +205,7 @@ function App({
           });
         setGatherings([...data.data]);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
   useEffect(() => {
@@ -212,25 +214,46 @@ function App({
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [menuToggle, setMenuToggle] = useState(false);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleResize = () => {
+    setMenuToggle(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} logout={onLogout} />
-        {isLogin ? <Navbar toggle={toggle} logout={onLogout} /> : null}
         {isLogin ? (
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/home" component={Home} />
-            <Route path="/schedule" component={Schedule} />
-            <Route path="/chat" component={Chat} />
-            <Route path="/community" component={Community} />
-            <Route path="/mypage" component={Mypage} />
-          </Switch>
+          <Navbar
+            toggle={toggle}
+            logout={onLogout}
+            menuToggle={menuToggle}
+            setMenuToggle={setMenuToggle}
+          />
+        ) : null}
+        {isLogin ? (
+          menuToggle ? null : (
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/home" component={Home} />
+              <Route path="/schedule" component={Schedule} />
+              <Route path="/chat" component={Chat} />
+              <Route path="/community" component={Community} />
+              <Route path="/mypage" component={Mypage} />
+            </Switch>
+          )
         ) : (
           <Landing
             onLogin={onLogin}
@@ -238,7 +261,7 @@ function App({
             onSilentRefresh={onSilentRefresh}
           />
         )}
-        <Footer></Footer>
+        {menuToggle ? null : <Footer></Footer>}
       </BrowserRouter>
     </>
   );

@@ -38,7 +38,7 @@ const ModalViewGathering = ({
   const [isJoin, setIsJoin] = useState(false);
 
   useEffect(() => {
-    if (selectedGathering.length > 0) {
+    if (!!selectedGathering.author) {
       if (userId === author._id) {
         setIsCreator(true);
       } else {

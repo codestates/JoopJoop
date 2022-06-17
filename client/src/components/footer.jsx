@@ -4,9 +4,8 @@ import Logo from "../img/Logo.png";
 function Footer() {
   return (
     <>
-      <div className="flex flex-row justify-start p-6 border-y-2 border-grey-50 text-grey-80">
-        <img className="w-[139px] h-[7rem] mx-3 mr-8" src={Logo} alt="err" />
-        <div className="flex flex-col justify-between">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 border-t-2 border-grey-50 text-grey-80">
+        <div className="flex flex-col">
           <div className="flex flex-col">
             <div>줍깅 = 줍다 + 조깅</div>
             <div>조깅을 하며 쓰레기를 주우면 그것이 바로 줍깅!</div>
@@ -18,7 +17,7 @@ function Footer() {
         </div>
         <div className="pl-24 font-semibold">
           Member
-          <ul className="flex flex-col font-normal">
+          <ul className="flex font-normal">
             <li>김민성</li>
             <li>배현우</li>
             <li>이정윤</li>

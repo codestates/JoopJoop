@@ -21,7 +21,7 @@
   }
 
   .btn-grey {
-    @apply bg-grey-70 text-white;
+    @apply bg-grey-80 text-white hover:bg-grey-70;
   }
 
   .container-modal {
@@ -38,6 +38,10 @@
 
   .input-ring-green {
     @apply bg-white outline outline-grey-50 focus:outline-none focus:ring ring-green-50;
+  }
+
+  .erase-hover {
+    @apply ease-in-out hover:scale-105 duration-200;
   }
 }
 

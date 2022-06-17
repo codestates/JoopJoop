@@ -18,7 +18,7 @@ const cookieOption = {
 
 //REGISTER
 router.post("/signup", async (req, res) => {
-  const newUser = new User({
+  const newUser = await new User({
     nickname: req.body.nickname,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
@@ -28,7 +28,7 @@ router.post("/signup", async (req, res) => {
   });
 
   const user = await User.find();
-  if (!user.filter(el => (el.nickname === newUser.nickname ? false : true))) {
+  if (!user.filter((el) => (el.nickname === newUser.nickname ? false : true))) {
     return res.status(401).json({
       message: "중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요",
     });
@@ -85,17 +85,18 @@ router.post("/login", async (req, res) => {
 //GUEST LOGIN
 router.post("/guest-login", async (req, res) => {
   try {
-    const user = await User.findOne({
+    const newUser = new User({
+      nickname: req.body.nickname,
       email: req.body.email,
+      password: CryptoJS.AES.encrypt(
+        req.body.password,
+        process.env.PASS_SEC,
+      ).toString(),
     });
-    console.log(user);
-    if (!user) {
-      return res.status(401).json("등록되지않은 이메일입니다.");
-    }
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
-    const { password, ...others } = user._doc;
+    const accessToken = generateAccessToken(newUser);
+    const refreshToken = generateRefreshToken(newUser);
+    const { password, ...others } = newUser._doc;
 
     res
       .cookie("refreshToken", refreshToken, cookieOption)
@@ -114,7 +115,7 @@ router.post("/refresh", async (req, res) => {
   if (!refreshToken) {
     return res.status(400).json({ message: "refresh token이 없습니다" });
   }
-  const checkRefreshToken = refreshToken => {
+  const checkRefreshToken = (refreshToken) => {
     return jwt.verify(
       refreshToken,
       process.env.REFRESH_SECRET,

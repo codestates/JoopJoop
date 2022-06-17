@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ModalViewGathering from "../modals/modalViewGathering";
 import Card from "../components/card_gathering";
-import mockGatherings from "../mockData/mock_gather.json";
 import { connect } from "react-redux";
+import NullGathering from "../components/null_gathering";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     gatherings: state.gatherings,
     userId: state.userId,
@@ -13,14 +13,14 @@ const mapStateToProps = state => {
 
 const Schedule = ({ gatherings, userId }) => {
   const [gatherModalOpen, setGatherModalOpen] = useState(false);
-  const [selectedGathering, setSelectedGathering] = useState(mockGatherings[0]);
+  const [selectedGathering, setSelectedGathering] = useState(gatherings[0]);
   const [preOrPost, setPreOrPost] = useState(true);
 
   let filteredGatherings = gatherings;
 
-  const filter = gatherings => {
+  const filter = (gatherings) => {
     gatherings = gatherings.filter(
-      gathering =>
+      (gathering) =>
         !!gathering.title &&
         !!gathering.town &&
         !!gathering.place &&
@@ -30,10 +30,10 @@ const Schedule = ({ gatherings, userId }) => {
         !!gathering.latitude &&
         !!gathering.author,
     );
-    gatherings = gatherings.filter(gathering => {
+    gatherings = gatherings.filter((gathering) => {
       if (!!gathering.participants) {
         let idArr = [];
-        const filtered = gathering.participants.map(user => {
+        const filtered = gathering.participants.map((user) => {
           return user._id;
         });
         idArr = [...filtered];
@@ -53,59 +53,80 @@ const Schedule = ({ gatherings, userId }) => {
 
   filteredGatherings = filter(gatherings);
 
-  const setGatherToModal = idx => {
+  const preGatherings = filteredGatherings.filter((gather) => {
+    const date = gather.date.split("-");
+    const year = date[0];
+    let monthIndex = date[1];
+    monthIndex--;
+    const day = date[2];
+    let hour = Number(gather.time.split(":")[0]);
+    if (gather.time.split(" ")[1] === "PM") {
+      hour = hour + 12;
+    }
+    const minute = gather.time.slice(2, 4);
+    return new Date(year, monthIndex, day, String(hour), minute) > new Date();
+  });
+
+  const postGatherings = filteredGatherings.filter((gather) => {
+    const date = gather.date.split("-");
+    const year = date[0];
+    let monthIndex = date[1];
+    monthIndex--;
+    const day = date[2];
+    let hour = Number(gather.time.split(":")[0]);
+    if (gather.time.split(" ")[1] === "PM") {
+      hour = hour + 12;
+    }
+    const minute = gather.time.slice(2, 4);
+    return new Date(year, monthIndex, day, String(hour), minute) < new Date();
+  });
+
+  const setGatherToModal = (idx) => {
     setSelectedGathering(filteredGatherings[idx]);
     setGatherModalOpen(true);
   };
 
   return (
-    <div>
-      <div className="flex flex-row">
-        <button className="btn" onClick={() => setPreOrPost(true)}>
+    <div className="flex flex-col items-center">
+      <div className="w-full h-[6rem] flex flex-row justify-center align-center space-x-8 pt-6 mb-5 bg-grey-10 bg-opacity-30 border-b-[1px] border-grey-50">
+        <button className="btn btn-green" onClick={() => setPreOrPost(true)}>
           다가오는 일정
         </button>
-        <button className="btn" onClick={() => setPreOrPost(false)}>
+        <button className="btn btn-grey" onClick={() => setPreOrPost(false)}>
           종료된 일정
         </button>
       </div>
-      <hr className="w-full border-[1px] border-grey-50" />
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        {filteredGatherings.length > 0 ? (
-          filteredGatherings
-            .filter(gather => {
-              const date = gather.date.split("-");
-              const year = date[0];
-              let monthIndex = date[1];
-              monthIndex--;
-              const day = date[2];
-              let hour = Number(gather.time.split(":")[0]);
-              if (gather.time.split(" ")[1] === "PM") {
-                hour = hour + 12;
-              }
-              const minute = gather.time.slice(2, 4);
-              if (preOrPost) {
-                return (
-                  new Date(year, monthIndex, day, String(hour), minute) >
-                  new Date()
-                );
-              } else {
-                return (
-                  new Date(year, monthIndex, day, String(hour), minute) <
-                  new Date()
-                );
-              }
-            })
-            .map((gather, idx) => (
+      {filteredGatherings.length > 0 ? (
+        preOrPost ? (
+          preGatherings.length > 0 ? (
+            preGatherings.map((gather, idx) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+                <Card
+                  key={idx}
+                  props={gather}
+                  onClick={() => setGatherToModal(idx)}
+                ></Card>
+              </div>
+            ))
+          ) : (
+            <NullGathering />
+          )
+        ) : postGatherings.length > 0 ? (
+          postGatherings.map((gather, idx) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
               <Card
                 key={idx}
                 props={gather}
                 onClick={() => setGatherToModal(idx)}
               ></Card>
-            ))
+            </div>
+          ))
         ) : (
-          <div>표시할 컨텐츠가 없습니다.</div>
-        )}
-      </div>
+          <NullGathering />
+        )
+      ) : (
+        <NullGathering />
+      )}
       <ModalViewGathering
         modalOpen={gatherModalOpen}
         closeModal={() => setGatherModalOpen(false)}

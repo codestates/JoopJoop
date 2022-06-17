@@ -5,7 +5,7 @@ const card_gathering = ({ props, onClick }) => {
   return (
     <>
       <div
-        className="w-80 h-60 m-2 rounded-2xl border-2 border-grey-50 bg-white shadow-lg flex flex-col"
+        className="w-80 h-60 m-2 rounded-2xl border-2 border-grey-50 bg-white hover:border-grey-70 hover:bg-grey-30 shadow-lg flex flex-col erase-hover cursor-pointer"
         onClick={onClick}
       >
         <div className="pt-3 pl-5 flex flex-row">
