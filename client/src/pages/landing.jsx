@@ -25,14 +25,16 @@ const mapDispatchToProps = (dispatch) => {
 const oAuthLoginHandler = async (data) => {
   let request = {
     oAuthId: data.profile.id,
+    nickname: data.profile.properties.nickname,
+    profileImg: data.profile.properties.profile_image,
   };
   await axios
     .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao", {
       data: request,
       withCredentials: true,
     })
-    .then((data) => {
-      console.log(data);
+    .then((req, res) => {
+      console.log(res);
     });
 };
 

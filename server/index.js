@@ -13,6 +13,7 @@ const poCommentsRoute = require("./routes/posts_comments");
 const gatheringsRoute = require("./routes/gatherings");
 const mailRoute = require("./routes/mail");
 const multer = require("multer");
+const googlePassportConfig = require("./passport/google");
 const kakaoPassportConfig = require("./passport/kakao");
 const cookieParser = require("cookie-parser");
 
@@ -48,7 +49,8 @@ mongoose
 const corsOptions = {
   origin: true,
   credentials: true,
-  optionSuccessStatus: 200,
+  // optionSuccessStatus: 200,
+  method: ["GET", "POST", "DELETE", "PATCH"],
 };
 
 app.use("/uploads", express.static("uploads"));
