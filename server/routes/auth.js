@@ -37,7 +37,7 @@ router.post("/signup", async (req, res) => {
   try {
     const savedUser = await newUser.save();
     res.status(201).json({
-      message: `${savedUser.email}.You successfully registered as a JoopJoop member`,
+      message: `환영합니다 ${savedUser.nickname}님. JoopJoop 멤버로 성공적으로 등록되었습니다.`,
     });
   } catch (err) {
     console.log(err);
@@ -63,7 +63,6 @@ router.post("/login", async (req, res) => {
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
     const inputPassword = req.body.password;
-    // console.log(`original :" ${originalPassword} input :" ${inputPassword}`);
 
     if (originalPassword != inputPassword) {
       return res.status(401).json({ message: "패스워드를 다시 확인해주세요." });
@@ -110,7 +109,6 @@ router.post("/guest-login", async (req, res) => {
 
 //Refresh Login
 router.post("/refresh", async (req, res) => {
-  // console.log('리프레쉬');
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
@@ -178,16 +176,6 @@ router.post("/kakao", (req, res) => {
     return;
   }
 });
-// router.get('/google/login/success', (req, res) => {
-//   if (req.user) {
-//     res.status(200).json({
-//       success: true,
-//       message: 'successfull',
-//       user: req.user,
-//       //   cookies: req.cookies
-//     });
-//   }
-// });
 
 // Oauth2 Goggle Login
 router.get(
@@ -195,13 +183,6 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-// router.get(
-//   '/google/callback',
-//   passport.authenticate('google', {
-//     successRedirect: 'login/success',
-//     failureRedirect: CLIENT_URL,
-//   })
-// );
 router.get(
   "/google/callback",
 
@@ -212,15 +193,8 @@ router.get(
     const { oAuthId, nickname, isAdmin } = req.user._doc;
     // Successful authentication, redirect home.\
     const userGoogle = await User.findOne({ oAuthId });
-    console.log(userGoogle);
-
     const refreshToken = generateRefreshToken(userGoogle);
-    // const accessToken = jwt.sign(
-    //   { userId: userGoogle._doc.oAuthId },
-    //   process.env.JWT_SEC
-    // );
-    // res.cookie('refreshToken', token);
-    // res.status(200).json(accessToken);
+
     res
       .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
@@ -232,7 +206,6 @@ router.get("/logout", (req, res) => {
   try {
     res.clearCookie("refreshToken");
     res.clearCookie("x_auth");
-    // res.redirect('/');
     return res.status(200).json({ message: "로그아웃에 성공했습니다" });
   } catch (err) {
     res.status(500).json(err);
