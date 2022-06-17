@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   oAuthId: String,
   nickname: { type: String, unique: true },
-  email: { type: String, unique: true },
+  email: { type: String },
   password: { type: String },
   isAdmin: {
     type: Boolean,

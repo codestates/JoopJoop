@@ -15,7 +15,6 @@ const mailRoute = require("./routes/mail");
 const multer = require("multer");
 const kakaoPassportConfig = require("./passport/kakao");
 const googlePassportConfig = require("./passport/google");
-const PORT = 5000;
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
@@ -92,6 +91,8 @@ app.post("/upload", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`JoopJoop Server is running. http://localhost:${PORT}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(
+    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`
+  );
 });
