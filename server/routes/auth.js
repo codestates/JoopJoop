@@ -18,7 +18,7 @@ const cookieOption = {
 };
 
 //REGISTER
-router.post("/register", async (req, res) => {
+router.post("/signup", async (req, res) => {
   const newUser = new User({
     nickname: req.body.nickname,
     email: req.body.email,

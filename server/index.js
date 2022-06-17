@@ -26,15 +26,15 @@ app.use(
     secret: "somethingsecretgoeshere",
     resave: false,
     saveUninitialized: true, // oauth를 위해 false로 수정해야할수있음
-    // cookie: { secure: true }, // 기존 쿠키 옵션 Oauth 수정으로 인한 설정 추가하기전
-    proxy: true,
-    cookie: {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 5,
-      sameSite: "strict", // sameSite임을 명시
-      domain: ".joopjoop.site", // 앞에 .을 찍어야함
-      secure: true, // https환경임을 명시
-    },
+    cookie: { secure: true }, // 기존 쿠키 옵션 Oauth 수정으로 인한 설정 추가하기전
+    // proxy: true,
+    // cookie: {
+    //   httpOnly: true,
+    //   maxAge: 1000 * 60 * 60 * 5,
+    //   sameSite: "strict", // sameSite임을 명시
+    //   domain: ".joopjoop.site", // 앞에 .을 찍어야함
+    //   secure: true, // https환경임을 명시
+    // },
   })
 );
 
