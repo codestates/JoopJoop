@@ -27,7 +27,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
     const { email, password, nickname } = data;
     axios
       .post(
-        `${localURL}/auth/register`,
+        `${localURL}/auth/signup`,
         {
           email: email,
           password: password,

@@ -18,7 +18,7 @@ const cookieOption = {
 };
 
 //REGISTER
-router.post("/register", async (req, res) => {
+router.post("/signup", async (req, res) => {
   const newUser = new User({
     nickname: req.body.nickname,
     email: req.body.email,
@@ -215,7 +215,7 @@ router.get(
     const userGoogle = await User.findOne({ oAuthId });
     console.log(userGoogle);
 
-    const accessToken = generateAccessToken(userGoogle);
+    const refreshToken = generateRefreshToken(userGoogle);
     // const accessToken = jwt.sign(
     //   { userId: userGoogle._doc.oAuthId },
     //   process.env.JWT_SEC
@@ -223,7 +223,7 @@ router.get(
     // res.cookie('refreshToken', token);
     // res.status(200).json(accessToken);
     res
-      .cookie("refreshToken", accessToken, cookieOption)
+      .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
       .redirect(CLIENT_URL);
   }
