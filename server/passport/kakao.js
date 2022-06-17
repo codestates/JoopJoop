@@ -2,16 +2,15 @@ const KakaoStrategy = require("passport-kakao").Strategy;
 const passport = require("passport");
 const dotenv = require("dotenv");
 const User = require("../models/user");
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
+const KAKAO_URL = process.env.KAKAO_URL;
 dotenv.config();
 
 passport.use(
   new KakaoStrategy(
     {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      clientID: KAKAO_CLIENT_ID,
+      callbackURL: KAKAO_URL,
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log(profile);

@@ -178,49 +178,25 @@ router.post("/kakao", (req, res) => {
     return;
   }
 });
-// router.get('/google/login/success', (req, res) => {
-//   if (req.user) {
-//     res.status(200).json({
-//       success: true,
-//       message: 'successfull',
-//       user: req.user,
-//       //   cookies: req.cookies
-//     });
-//   }
-// });
 
-// Oauth2 Goggle Login
+// Oauth 구글 로그인
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-// router.get(
-//   '/google/callback',
-//   passport.authenticate('google', {
-//     successRedirect: 'login/success',
-//     failureRedirect: CLIENT_URL,
-//   })
-// );
 router.get(
   "/google/callback",
 
   passport.authenticate("google", {
     failureRedirect: process.env.CLIENT_URL,
   }),
+
   async function (req, res) {
     const { oAuthId, nickname, isAdmin } = req.user._doc;
-    // Successful authentication, redirect home.\
     const userGoogle = await User.findOne({ oAuthId });
-    console.log(userGoogle);
-
     const refreshToken = generateRefreshToken(userGoogle);
-    // const accessToken = jwt.sign(
-    //   { userId: userGoogle._doc.oAuthId },
-    //   process.env.JWT_SEC
-    // );
-    // res.cookie('refreshToken', token);
-    // res.status(200).json(accessToken);
+
     res
       .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
