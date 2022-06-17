@@ -23,12 +23,12 @@ router.post("/signup", async (req, res) => {
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     ).toString(),
   });
 
   const user = await User.find();
-  if (!user.filter((el) => (el.nickname === newUser.nickname ? false : true))) {
+  if (!user.filter(el => (el.nickname === newUser.nickname ? false : true))) {
     return res.status(401).json({
       message: "중복되는 닉네임이 있습니다. 다른 닉네임을 사용해주세요",
     });
@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
 
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     );
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
@@ -114,7 +114,7 @@ router.post("/refresh", async (req, res) => {
   if (!refreshToken) {
     return res.status(400).json({ message: "refresh token이 없습니다" });
   }
-  const checkRefreshToken = (refreshToken) => {
+  const checkRefreshToken = refreshToken => {
     return jwt.verify(
       refreshToken,
       process.env.REFRESH_SECRET,
@@ -124,7 +124,7 @@ router.post("/refresh", async (req, res) => {
           return null;
         }
         return decoded;
-      }
+      },
     );
   };
 
@@ -198,7 +198,7 @@ router.post("/kakao", async (req, res) => {
 // Oauth 구글 로그인
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }),
 );
 
 router.get(
@@ -217,13 +217,12 @@ router.get(
       .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
       .redirect(process.env.CLIENT_URL);
-  }
+  },
 );
 
 router.get("/logout", (req, res) => {
   try {
     res.clearCookie("refreshToken");
-    res.clearCookie("x_auth");
     return res.status(200).json({ message: "로그아웃에 성공했습니다" });
   } catch (err) {
     res.status(500).json(err);

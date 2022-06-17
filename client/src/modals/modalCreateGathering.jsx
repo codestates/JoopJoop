@@ -234,14 +234,21 @@ const ModalCreateGathering = ({ modalOpen, closeModal, userId }) => {
 
   const createGathering = data => {
     axios
-      .post(`${process.env.REACT_APP_LOCALSERVER_URL}/gatherings`, data, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      })
+      .post(
+        `${
+          process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL
+        }/gatherings`,
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        },
+      )
       .then(res => window.location.reload())
-      .catch(err => console.log("모임 생성 실패"));
+      .catch(err => alert("모임 생성에 실패했습니다."));
   };
-  // TODO :242 모임 생성 실패시 모달에 메시지 띄우기
+  // TODO :249 모임 생성 실패시 모달에 메시지 띄우기
 
   if (!modalOpen) return null;
   return ReactDom.createPortal(

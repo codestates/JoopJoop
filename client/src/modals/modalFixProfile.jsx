@@ -8,8 +8,6 @@ import { XIcon } from "@heroicons/react/solid";
 const ModalFixProfile = ({ modalOpen, closeModal }) => {
   const [introduct, setIntroduct] = useState("");
 
-  // 자기소개 수정 axios 추가 필요
-
   if (!modalOpen) return null;
   return ReactDom.createPortal(
     <div className="container-modal">

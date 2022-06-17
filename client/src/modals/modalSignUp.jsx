@@ -8,8 +8,6 @@ import { useForm } from "react-hook-form";
 import { lightFormat } from "date-fns";
 import KakaoLogin from "react-kakao-login";
 
-const localURL = "http://localhost:5000";
-
 const ModalSignUp = ({ modalOpen, closeModal }) => {
   const [verifyNumber, setVerifyNumber] = useState("");
 
@@ -23,11 +21,14 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     const { email, password, nickname } = data;
     axios
       .post(
-        `${localURL}/auth/signup`,
+        `${
+          process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL
+        }/auth/signup`,
         {
           email: email,
           password: password,
@@ -36,37 +37,41 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         alert("회원가입 되었습니다! 로그인하세요");
         closeModal();
-      });
+      })
+      .catch(err => err);
   };
 
-  const verifyEmail = (email) => {
+  const verifyEmail = email => {
     axios
       .post(
-        `${localURL}/mail`,
+        `${
+          process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL
+        }/mail`,
         {
           email: email,
         },
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         const verifyNumber = res.data.authnum;
         setVerifyNumber(verifyNumber);
       })
-      .catch((err) => console.log(err));
+      .catch(err => err);
   };
 
   if (!modalOpen) return null;
   return ReactDom.createPortal(
     <div className="container-modal">
-      <div className="modal-normal gap-3" onSubmit={(e) => e.preventDefault()}>
+      <div className="modal-normal gap-3" onSubmit={e => e.preventDefault()}>
         <div className="relative w-full">
           <button
             className="absolute left-[91.5%] bottom-2"
@@ -148,7 +153,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             placeholder="비밀번호를 다시 입력하세요."
             {...register("passwordConfirm", {
               required: true,
-              validate: (value) => value === password.current,
+              validate: value => value === password.current,
             })}
           />
           {errors.passwordConfirm &&
@@ -181,7 +186,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         </form>
       </div>
     </div>,
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 

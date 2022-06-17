@@ -7,7 +7,7 @@ import MapContainer from "../components/container_map";
 import { connect } from "react-redux";
 import axios from "axios";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userId: state.userId,
     loginNickname: state.loginNickname,
@@ -50,7 +50,7 @@ const ModalViewGathering = ({
   useEffect(() => {
     let idArr = [];
     if (participants) {
-      const filtered = participants.map((user) => {
+      const filtered = participants.map(user => {
         return user._id;
       });
       idArr = [...filtered];
@@ -65,14 +65,15 @@ const ModalViewGathering = ({
   const joinGathering = async () => {
     try {
       const join = axios.post(
-        process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/participation",
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/participation",
         {
           gathering_id: _id,
           participant_id: userId,
         },
         {
           withCredentials: true,
-        }
+        },
       );
       window.location.reload();
     } catch (err) {
@@ -83,14 +84,15 @@ const ModalViewGathering = ({
   const cancellateGathering = async () => {
     try {
       const cancellation = axios.post(
-        process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/cancellation",
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/cancellation",
         {
           gathering_id: _id,
           participant_id: userId,
         },
         {
           withCredentials: true,
-        }
+        },
       );
       window.location.reload();
     } catch (err) {
@@ -101,13 +103,14 @@ const ModalViewGathering = ({
   const deleteGathering = async () => {
     try {
       const remove = axios.delete(
-        process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/" + _id,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/" + _id,
         {
           nickname: loginNickname,
         },
         {
           withCredentials: true,
-        }
+        },
       );
       window.location.reload();
     } catch (err) {
@@ -204,7 +207,7 @@ const ModalViewGathering = ({
       </div>
     </div>,
 
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 
