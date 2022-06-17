@@ -31,7 +31,9 @@ router.put('/:id', async (req, res) => {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자신이 만든 댓글만 수정할 수 있습니다');
+      res
+        .status(401)
+        .json({ message: "자신이 만든 댓글만 수정할 수 있습니다" });
     }
   } catch (err) {
     res.status(500).json(err);
@@ -44,12 +46,14 @@ router.delete('/:id', async (req, res) => {
     if (poComment.content.email === req.body.email) {
       try {
         await poComment.delete();
-        res.status(200).json('댓글이 삭제 되었습니다.');
+        res.status(200).json({ message: "댓글이 삭제 되었습니다." });
       } catch (err) {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자신이 만든 댓글만 삭제할 수 있습니다');
+      res
+        .status(401)
+        .json({ message: "자신이 만든 댓글만 삭제할 수 있습니다" });
     }
   } catch (err) {
     res.status(500).json(err);

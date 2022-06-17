@@ -35,7 +35,9 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json("자신이 만든 모임만 수정할 수 있습니다");
+      res
+        .status(401)
+        .json({ message: "자신이 만든 모임만 수정할 수 있습니다" });
     }
   } catch (err) {
     res.status(500).json(err);
@@ -45,20 +47,23 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
 router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const gathering = await Gathering.findById(req.params.id);
-    if (gathering.creator.nickname === req.body.nickname) {
+    if (gathering.author.nickname === req.body.nickname) {
       try {
         await gathering.delete();
-        res.status(200).json("모임이 삭제 되었습니다.");
+        res.status(200).json({ message: "모임이 삭제 되었습니다." });
       } catch (err) {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json("자신이 만든 모임만 삭제할 수 있습니다");
+      res
+        .status(401)
+        .json({ message: "자신이 만든 모임만 삭제할 수 있습니다" });
     }
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
 //GET GATHERING
 router.get("/:id", async (req, res) => {
   try {

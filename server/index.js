@@ -38,7 +38,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: true,
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -66,6 +66,8 @@ const storage = multer.diskStorage({
     callback(null, `${Date.now()}_${file.originalname}`);
   },
 });
+
+
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
   upload(req, res, (err) => {

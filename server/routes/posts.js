@@ -41,7 +41,9 @@ router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자기 자신의 포스팅글만 수정할수 있습니다');
+      res
+        .status(401)
+        .json({ message: "자기 자신의 포스팅글만 수정할수 있습니다" });
     }
   } catch (err) {
     res.status(500).json(err);
@@ -55,12 +57,14 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
     if (post.email === req.body.email) {
       try {
         await post.delete();
-        res.status(200).json('포스팅 글이 삭제 되었습니다.');
+        res.status(200).json({ message: "포스팅 글이 삭제 되었습니다." });
       } catch (err) {
         res.status(500).json(err);
       }
     } else {
-      res.status(401).json('자기 자신의 포스팅글만 삭제할 수 있습니다');
+      res
+        .status(401)
+        .json({ message: "자기 자신의 포스팅글만 삭제할 수 있습니다" });
     }
   } catch (err) {
     res.status(500).json(err);
