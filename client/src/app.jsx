@@ -55,31 +55,42 @@ function App({
       password,
     };
     axios
-      .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/login", data, {
-        headers: {
-          "Content-Type": "application/json",
+      .post(
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/auth/login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+          HttpOnly: true,
+          samesite: "Secure",
         },
-        withCredentials: true,
-        HttpOnly: true,
-        samesite: "Secure",
-      })
+      )
       .then(res => {
+        console.log(res);
+        window.location.reload();
         onLoginSuccess(res);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => console.log(err));
   };
 
   const onLoginSuccess = res => {
-    const { accessToken, email, nickname, _id, profileImg } = res.data;
+    let { accessToken, email, nickname, _id, profileImg } = res.data;
+    if (profileImg[0] !== "/") {
+      profileImg = "/" + profileImg;
+    }
     getGatherings();
     setIsLogin(true);
     setEmail(email);
     setNickname(nickname);
     setUserId(_id);
     setAccessToken(accessToken);
-    setProfileImg(`${process.env.REACT_APP_LOCALSERVER_URL}${profileImg}`);
+    setProfileImg(
+      process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL + profileImg,
+    );
   };
 
   const guestRegister = () => {
@@ -88,17 +99,23 @@ function App({
       nickname: Math.random().toString(36).substring(2, 12),
     };
     axios
-      .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/register", data, {
-        headers: {
-          "Content-Type": "application/json",
+      .post(
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/auth/signup",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+          HttpOnly: true,
+          samesite: "Secure",
         },
-        withCredentials: true,
-        HttpOnly: true,
-        samesite: "Secure",
-      })
+      )
       .then(result => {
         guestLogin(result);
-      });
+      })
+      .catch(err => err);
   };
 
   const guestLogin = res => {
@@ -106,45 +123,50 @@ function App({
       email: res.data.message.split(".")[0],
     };
     axios
-      .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/guest-login", data, {
-        headers: {
-          "Content-Type": "application/json",
+      .post(
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/auth/guest-login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+          HttpOnly: true,
+          samesite: "Secure",
         },
-        withCredentials: true,
-        HttpOnly: true,
-        samesite: "Secure",
-      })
+      )
       .then(res => {
-        return res;
+        onLoginSuccess(res);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => err);
   };
 
   const onLogout = e => {
     axios
-      .get(process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout", {
-        headers: {
-          "Content-Type": "application/json",
+      .get(
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+          HttpOnly: true,
+          samesite: "Secure",
         },
-        withCredentials: true,
-        HttpOnly: true,
-        samesite: "Secure",
-      })
+      )
       .then(res => {
-        console.log("로그아웃 완료");
         setIsLogin(false);
       })
-      .catch(err => {
-        console.error(err);
-      });
+      .catch(err => err);
   };
 
   const onSilentRefresh = () => {
     axios
       .post(
-        process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
         { data: "refresh" },
         {
           withCredentials: true,
@@ -153,27 +175,35 @@ function App({
       .then(res => {
         onLoginSuccess(res);
       })
-      .catch(error => {
+      .catch(err => {
         setIsLogin(false);
       });
   };
 
   const getGatherings = () => {
     axios
-      .get(process.env.REACT_APP_LOCALSERVER_URL + "/gatherings", {
-        withCredentials: true,
-      })
+      .get(
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
+        {
+          withCredentials: true,
+        },
+      )
       .then(data => {
         data.data
           .filter(gathering => gathering.author !== null)
-          .forEach(
-            gathering =>
-              (gathering.author.profileImg =
-                process.env.REACT_APP_LOCALSERVER_URL +
-                gathering.author.profileImg),
-          );
+          .forEach(gathering => {
+            if (gathering.author.profileImg[0] !== "/") {
+              gathering.author.profileImg = "/" + gathering.author.profileImg;
+            }
+            gathering.author.profileImg =
+              process.env.REACT_APP_DEPLOYSERVER_URL ||
+              process.env.REACT_APP_LOCALSERVER_URL +
+                gathering.author.profileImg;
+          });
         setGatherings([...data.data]);
-      });
+      })
+      .catch(err => err);
   };
 
   useEffect(() => {
@@ -187,27 +217,14 @@ function App({
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    const hideMenu = () => {
-      if (window.innerWidth > 768 && isOpen) {
-        setIsOpen(false);
-        console.log("i resized");
-      }
-    };
-    window.addEventListener("resize", hideMenu);
-    return () => {
-      window.removeEventListener("resize", hideMenu);
-    };
-  });
-
   return (
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} logout={onLogout} />
-        {isLogin ? <Navbar toggle={toggle} /> : null}
+        {isLogin ? <Navbar toggle={toggle} logout={onLogout} /> : null}
         {isLogin ? (
           <Switch>
-            <Route path="/" exact component={Landing} />
+            <Route path="/" exact component={Home} />
             <Route path="/home" component={Home} />
             <Route path="/schedule" component={Schedule} />
             <Route path="/chat" component={Chat} />

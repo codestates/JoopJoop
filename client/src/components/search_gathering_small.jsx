@@ -3,7 +3,6 @@ import SearchTown from "./select_town";
 import SearchDate from "./select_date";
 import SearchTime from "./select_time";
 import { RefreshIcon } from "@heroicons/react/solid";
-import Button from "./button";
 
 const location = [
   { value: "종로구", label: "종로구" },

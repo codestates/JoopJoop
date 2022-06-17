@@ -99,7 +99,13 @@ const Navbar = ({ toggle, userNickname, profileImg, logout }) => {
               </div>
             </Link>
           </li>
-          <button className="px-2 font-semibold" onClick={() => logout()}>
+          <button
+            className="px-2 font-semibold"
+            onClick={e => {
+              e.preventDefault();
+              logout();
+            }}
+          >
             로그아웃
           </button>
         </ul>

@@ -7,9 +7,7 @@ import axios from "axios";
 import ModalConfirmSignOut from "../modals/modalConfirmSignOut";
 import { useHistory } from "react-router-dom";
 
-const localURL = "http://localhost:5000";
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userEmail: state.loginEmail,
     userNickname: state.loginNickname,
@@ -19,13 +17,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
-    setEmail: (email) => dispatch(action.setEmail(email)),
-    setNickname: (nickname) => dispatch(action.setNickname(nickname)),
-    setPassword: (password) => dispatch(action.setPassword(password)),
-    setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
+    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+    setEmail: email => dispatch(action.setEmail(email)),
+    setNickname: nickname => dispatch(action.setNickname(nickname)),
+    setPassword: password => dispatch(action.setPassword(password)),
+    setProfileImg: profileImg => dispatch(action.setProfileImg(profileImg)),
   };
 };
 
@@ -58,29 +56,33 @@ const EditProfile = ({
   const onDeleteAccount = () => {
     axios
       .delete(
-        `${localURL}/users/${userId}`,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
 
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         alert("계정이 삭제 되었습니다.");
         setIsLogin(false);
         return history.push("/");
       })
-      .catch((err) => console.log(err));
+      .catch(err => err);
   };
 
-  const onLoadFile = (e) => {
+  const onLoadFile = e => {
     const file = e.target.files[0];
     setFiles(file);
   };
 
-  const handleClick = (e) => {
+  const handleClick = e => {
+    console.log(
+      process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL + "/upload",
+    );
     const formData = new FormData();
-    console.log("click");
     formData.append("file", files);
 
     const config = {
@@ -89,19 +91,24 @@ const EditProfile = ({
       },
     };
     axios
-      .post(`http://localhost:5000/upload`, formData, config)
-      .then((res) => updateProfileImg(res.data.image))
-      .catch((error) => {
-        console.error("Error", error);
-      });
+      .post(
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/upload",
+        formData,
+        config,
+      )
+      .then(res => {
+        updateProfileImg(res.data.image);
+      })
+      .catch(err => console.log(err));
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     const { nickname, password } = data;
-    console.log(data);
     axios
       .put(
-        `${localURL}/users/${userId}`,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + /users/ + userId,
         {
           nickname: nickname,
           password: password,
@@ -109,34 +116,37 @@ const EditProfile = ({
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
+      .then(res => {
         setNickname(nickname);
         setPassword(password);
         alert("변경 되었습니다!");
       })
-      .catch((err) => console.log(err));
+      .catch(err => err);
   };
 
-  const updateProfileImg = (res) => {
-    console.log(res);
+  const updateProfileImg = res => {
     axios
       .put(
-        `${localURL}/users/${userId}`,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
         { profileImg: res },
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        }
+        },
       )
-      .then((res) => {
-        console.log(res);
+      .then(res => {
+        if (res.data.profileImg[0] !== "/") {
+          res.data.profileImg = "/" + res.data.profileImg;
+        }
         setProfileImg(
-          process.env.REACT_APP_LOCALSERVER_URL + "/" + res.data.profileImg
+          process.env.REACT_APP_DEPLOYSERVER_URL ||
+            process.env.REACT_APP_LOCALSERVER_URL + res.data.profileImg,
         );
       })
-      .catch((err) => console.log(err));
+      .catch(err => err);
   };
 
   function previewFile() {
@@ -149,7 +159,7 @@ const EditProfile = ({
       function () {
         preview.src = reader.result;
       },
-      false
+      false,
     );
 
     if (file) {
@@ -172,7 +182,7 @@ const EditProfile = ({
           type="file"
           name="file"
           accept="img/*"
-          onChange={(e) => {
+          onChange={e => {
             onLoadFile(e);
             previewFile();
           }}
@@ -230,7 +240,7 @@ const EditProfile = ({
             placeholder="비밀번호를 다시 입력하세요."
             {...register("passwordConfirm", {
               required: true,
-              validate: (value) => value === password.current,
+              validate: value => value === password.current,
             })}
           />
           {errors.passwordConfirm &&

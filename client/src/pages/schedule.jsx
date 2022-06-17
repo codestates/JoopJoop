@@ -69,15 +69,30 @@ const Schedule = ({ gatherings, userId }) => {
         </button>
       </div>
       <hr className="w-full border-[1px] border-grey-50" />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {filteredGatherings.length > 0 ? (
           filteredGatherings
             .filter(gather => {
+              const date = gather.date.split("-");
+              const year = date[0];
+              let monthIndex = date[1];
+              monthIndex--;
+              const day = date[2];
+              let hour = Number(gather.time.split(":")[0]);
+              if (gather.time.split(" ")[1] === "PM") {
+                hour = hour + 12;
+              }
+              const minute = gather.time.slice(2, 4);
               if (preOrPost) {
-                console.log(gather.date + gather.time);
-                return new Date(gather.date + gather.time) > new Date();
+                return (
+                  new Date(year, monthIndex, day, String(hour), minute) >
+                  new Date()
+                );
               } else {
-                return new Date(gather.date) < new Date();
+                return (
+                  new Date(year, monthIndex, day, String(hour), minute) <
+                  new Date()
+                );
               }
             })
             .map((gather, idx) => (

@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import logo from "../img/Logo.png";
 import { XIcon } from "@heroicons/react/solid";
 
 const ModalFixProfile = ({ modalOpen, closeModal }) => {
-  const [introduct, setIntroduct] = useState("");
-
-  // 자기소개 수정 axios 추가 필요
+  // const [introduct, setIntroduct] = useState("");
 
   if (!modalOpen) return null;
   return ReactDom.createPortal(

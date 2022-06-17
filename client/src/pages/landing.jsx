@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import Button from "../components/button";
 import axios from "axios";
 import Carousel from "../components/carousel";
@@ -11,36 +11,48 @@ import Home from "./home";
 import action from "../redux/action";
 import { connect } from "react-redux";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isLogin: state.isLogin,
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
   };
-};
-
-const oAuthLoginHandler = async (data) => {
-  let request = {
-    oAuthId: data.profile.id,
-    nickname: data.profile.properties.nickname,
-    profileImg: data.profile.properties.profile_image,
-  };
-  await axios
-    .post(process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao", {
-      data: request,
-      withCredentials: true,
-    })
-    .then((req, res) => {
-      console.log(res);
-    });
 };
 
 const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
+  const history = useHistory();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
+
+  const google = () => {
+    window.open(
+      process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
+      "_self",
+    );
+  };
+
+  const oAuthLoginHandler = async data => {
+    let request = {
+      oAuthId: data.profile.id,
+    };
+    await axios
+      .post(
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao",
+        {
+          data: request,
+          withCredentials: true,
+        },
+      )
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => err);
+  };
 
   return (
     <BrowserRouter>
@@ -59,9 +71,10 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
             <div className="font-normal text-center text-3xl">
               지금 시작하세요!
             </div>
-            <Button children={"구글 회원가입"}></Button>
+            <button onClick={google} className="btn btn-green">
+              구글 회원가입
+            </button>
             <Button children={"카카오 회원가입"}></Button>
-            <KakaoOauth oAuthLoginHandler={oAuthLoginHandler}></KakaoOauth>
             <div className="text-center">또는</div>
             <Button
               className="btn btn-green"
@@ -78,9 +91,6 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
               children={"게스트 로그인"}
               onClick={() => {
                 guestRegisterLogin();
-                setTimeout(function () {
-                  window.location.reload();
-                }, 1 * 1000);
               }}
             ></Button>
           </div>
@@ -88,6 +98,8 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
             modalOpen={loginModalOpen}
             closeModal={() => setLoginModalOpen(false)}
             onLogin={onLogin}
+            google={google}
+            setSignUpModalOpen={setSignUpModalOpen}
           />
           <ModalSignUp
             modalOpen={signUpModalOpen}
