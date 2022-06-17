@@ -1,15 +1,15 @@
-const router = require('express').Router();
-const User = require('../models/user');
-const Post = require('../models/post');
-const Comment = require('../models/post_comment');
+const router = require("express").Router();
+const User = require("../models/user");
+const Post = require("../models/post");
+const Comment = require("../models/post_comment");
 const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
-} = require('./tokenfunction');
+} = require("./tokenfunction");
 
 //CREATE POST
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
   const author = new User({});
   try {
@@ -19,12 +19,9 @@ router.post('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
-//CREATE POST COMMENT /:id
-//UPDATE POST COMMENT /:id
-//DELETE POST COMMENT /:id
 
 //UPDATE POST
-router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.email === req.body.email) {
@@ -51,7 +48,7 @@ router.put('/:id', verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //DELETE POST
-router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
+router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (post.email === req.body.email) {
@@ -72,9 +69,9 @@ router.delete('/:id', verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET POST
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate('comments');
+    const post = await Post.findById(req.params.id).populate("comments");
     res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err);
@@ -82,14 +79,13 @@ router.get('/:id', async (req, res) => {
 });
 
 //GET ALL POSTS
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    let comments = await Comment.find().populate('author', 'nickname');
+    let comments = await Comment.find().populate("author", "nickname");
     let posts = await Post.find()
-      .populate('author', 'nickname')
-      .populate('comments', ['author', 'text']);
+      .populate("author", "nickname")
+      .populate("comments", ["author", "text"]);
 
-    // console.log(comments);
     res.status(200).json(posts);
   } catch (err) {
     console.log(err);

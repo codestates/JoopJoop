@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const PostSchema = mongoose.Schema(
   {
     title: {
@@ -16,21 +16,13 @@ const PostSchema = mongoose.Schema(
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
+      ref: "user",
       required: true,
     },
 
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'post_comment' }],
-
-    // comments: [{
-    //   text: String,
-    //   author: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'user'
-    //   }
-    // }]
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "post_comment" }],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('post', PostSchema);
+module.exports = mongoose.model("post", PostSchema);
