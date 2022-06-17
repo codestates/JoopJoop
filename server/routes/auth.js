@@ -37,7 +37,7 @@ router.post("/signup", async (req, res) => {
   try {
     const savedUser = await newUser.save();
     res.status(201).json({
-      message: `${savedUser.email}.You successfully registered as a JoopJoop member`,
+      message: `환영합니다 ${savedUser.nickname}님. JoopJoop 멤버로 성공적으로 등록되었습니다.`,
     });
   } catch (err) {
     console.log(err);
@@ -63,7 +63,6 @@ router.post("/login", async (req, res) => {
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
     const inputPassword = req.body.password;
-    // console.log(`original :" ${originalPassword} input :" ${inputPassword}`);
 
     if (originalPassword != inputPassword) {
       return res.status(401).json({ message: "패스워드를 다시 확인해주세요." });
@@ -110,7 +109,6 @@ router.post("/guest-login", async (req, res) => {
 
 //Refresh Login
 router.post("/refresh", async (req, res) => {
-  // console.log('리프레쉬');
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
@@ -226,7 +224,6 @@ router.get("/logout", (req, res) => {
   try {
     res.clearCookie("refreshToken");
     res.clearCookie("x_auth");
-    // res.redirect('/');
     return res.status(200).json({ message: "로그아웃에 성공했습니다" });
   } catch (err) {
     res.status(500).json(err);

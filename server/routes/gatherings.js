@@ -1,11 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/user");
 const Gathering = require("../models/gathering");
-const {
-  verifyToken,
-  verifyTokenAndAuthorization,
-  verifyTokenAndAdmin,
-} = require("./tokenfunction");
 
 //CREATE GATHERING
 router.post("/", async (req, res) => {
@@ -24,7 +19,7 @@ router.put("/:id", async (req, res) => {
     const gathering = await Gathering.findById(req.params.id)
       .populate("author", ["nickname", "profileImg"])
       .populate("participants", ["nickname", "profileImg"]);
-    // console.log(gathering.author._id.toString());
+
     if (gathering.author._id.toString() === req.body.author) {
       try {
         const updatedGathering = await Gathering.findByIdAndUpdate(
@@ -32,7 +27,7 @@ router.put("/:id", async (req, res) => {
           {
             $set: req.body,
           },
-          { new: true },
+          { new: true }
         )
           .populate("author", ["nickname", "profileImg"])
           .populate("participants", ["nickname", "profileImg"]);
@@ -90,7 +85,9 @@ router.get("/", async (req, res) => {
   try {
     let gatherings;
     if (nickname) {
-      gatherings = await Gathering.find({ nickname });
+      gatherings = await Gathering.find({ nickname })
+        .populate("author", ["nickname", "profileImg"])
+        .populate("participants", ["nickname", "profileImg"]);
     } else {
       gatherings = await Gathering.find()
         .populate("author", ["nickname", "profileImg"])
@@ -110,9 +107,8 @@ router.post("/participation", async (req, res) => {
     const gathering_participanted = await Gathering.findById(gathering_id);
 
     // 파라미터로 입력받은 참가자의 id(participant_id)와 모임 참가자들의 id(participants)를 비교해서 일치하는 id가 있는지 확인
-    const isduplication = participants => {
+    const isduplication = (participants) => {
       for (let el of participants) {
-        // console.log(el.toString());
         if (el.toString() === participant_id) {
           return true;
         }
@@ -129,7 +125,7 @@ router.post("/participation", async (req, res) => {
         gathering_id,
         {
           $push: { participants: participant_id },
-        },
+        }
       );
       return res.status(200).json({ message: "모임 참가가 완료됐습니다." });
     } else {
@@ -147,9 +143,8 @@ router.post("/cancellation", async (req, res) => {
     const { gathering_id, participant_id } = req.body;
     const gathering_participanted = await Gathering.findById(gathering_id);
 
-    const isduplication = participants => {
+    const isduplication = (participants) => {
       for (let el of participants) {
-        // console.log(el.toString());
         if (el.toString() === participant_id) {
           return true;
         }
@@ -166,7 +161,7 @@ router.post("/cancellation", async (req, res) => {
         gathering_id,
         {
           $pull: { participants: participant_id },
-        },
+        }
       );
       return res
         .status(200)
