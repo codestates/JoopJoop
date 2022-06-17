@@ -69,10 +69,11 @@ function App({
         },
       )
       .then(res => {
+        console.log(res);
         window.location.reload();
         onLoginSuccess(res);
       })
-      .catch(err => err);
+      .catch(err => console.log(err));
   };
 
   const onLoginSuccess = res => {
@@ -87,10 +88,8 @@ function App({
     setUserId(_id);
     setAccessToken(accessToken);
     setProfileImg(
-      `${
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL
-      }${profileImg}`,
+      process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL + profileImg,
     );
   };
 
@@ -222,7 +221,7 @@ function App({
     <>
       <BrowserRouter>
         <Dropdown isOpen={isOpen} toggle={toggle} logout={onLogout} />
-        {isLogin ? <Navbar toggle={toggle} /> : null}
+        {isLogin ? <Navbar toggle={toggle} logout={onLogout} /> : null}
         {isLogin ? (
           <Switch>
             <Route path="/" exact component={Home} />

@@ -56,10 +56,8 @@ const EditProfile = ({
   const onDeleteAccount = () => {
     axios
       .delete(
-        `${
-          process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL
-        }/users/${userId}`,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
 
         {
           headers: { "Content-Type": "application/json", token: token },
@@ -80,6 +78,10 @@ const EditProfile = ({
   };
 
   const handleClick = e => {
+    console.log(
+      process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL + "/upload",
+    );
     const formData = new FormData();
     formData.append("file", files);
 
@@ -90,26 +92,23 @@ const EditProfile = ({
     };
     axios
       .post(
-        `${
-          process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL
-        }
-      /upload`,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/upload",
         formData,
         config,
       )
-      .then(res => updateProfileImg(res.data.image))
-      .catch(err => err);
+      .then(res => {
+        updateProfileImg(res.data.image);
+      })
+      .catch(err => console.log(err));
   };
 
   const onSubmit = data => {
     const { nickname, password } = data;
     axios
       .put(
-        `${
-          process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL
-        }/users/${userId}`,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + /users/ + userId,
         {
           nickname: nickname,
           password: password,
@@ -130,10 +129,8 @@ const EditProfile = ({
   const updateProfileImg = res => {
     axios
       .put(
-        `${
-          process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL
-        }/users/${userId}`,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
         { profileImg: res },
         {
           headers: { "Content-Type": "application/json", token: token },
@@ -141,9 +138,12 @@ const EditProfile = ({
         },
       )
       .then(res => {
+        if (res.data.profileImg[0] !== "/") {
+          res.data.profileImg = "/" + res.data.profileImg;
+        }
         setProfileImg(
           process.env.REACT_APP_DEPLOYSERVER_URL ||
-            process.env.REACT_APP_LOCALSERVER_URL + "/" + res.data.profileImg,
+            process.env.REACT_APP_LOCALSERVER_URL + res.data.profileImg,
         );
       })
       .catch(err => err);

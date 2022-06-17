@@ -35,7 +35,7 @@ app.use(
     //   domain: ".joopjoop.site", // 앞에 .을 찍어야함
     //   secure: true, // https환경임을 명시
     // },
-  })
+  }),
 );
 
 mongoose
@@ -44,7 +44,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 const corsOptions = {
   origin: true,
@@ -53,7 +53,6 @@ const corsOptions = {
   method: ["GET", "POST", "DELETE", "PATCH"],
 };
 
-app.use("/uploads", express.static("uploads"));
 // kakaoPassportConfig(app);
 app.use(express());
 app.use(passport.initialize());
@@ -80,7 +79,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
-  upload(req, res, (err) => {
+  upload(req, res, err => {
     if (err) {
       console.log(err);
       return res.json({ success: false, err });
@@ -95,6 +94,6 @@ app.post("/upload", (req, res) => {
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(
-    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`
+    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`,
   );
 });
