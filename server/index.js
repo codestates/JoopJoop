@@ -20,13 +20,22 @@ const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
+app.set("trust proxy", 1); // 서버가 프록시 뒤에 있음을 명서
 app.use(
   session({
     secret: "somethingsecretgoeshere",
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
-  }),
+    saveUninitialized: true, // oauth를 위해 false로 수정해야할수있음
+    // cookie: { secure: true }, // 기존 쿠키 옵션 Oauth 수정으로 인한 설정 추가하기전
+    proxy: true,
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 5,
+      sameSite: "strict", // sameSite임을 명시
+      domain: ".joopjoop.site", // 앞에 .을 찍어야함
+      secure: true, // https환경임을 명시
+    },
+  })
 );
 
 mongoose
@@ -35,7 +44,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 const corsOptions = {
   origin: true,
@@ -68,10 +77,9 @@ const storage = multer.diskStorage({
   },
 });
 
-
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
-  upload(req, res, err => {
+  upload(req, res, (err) => {
     if (err) {
       console.log(err);
       return res.json({ success: false, err });
