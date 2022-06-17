@@ -14,18 +14,18 @@ const gatheringsRoute = require("./routes/gatherings");
 const mailRoute = require("./routes/mail");
 const multer = require("multer");
 const kakaoPassportConfig = require("./passport/kakao");
-const googlePassportConfig = require("./passport/google");
 const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
-app.set("trust proxy", 1); // 서버가 프록시 뒤에 있음을 명서
+app.set("trust proxy", 1); // 서버가 프록시 뒤에 있음을 명시
 app.use(
   session({
     secret: "somethingsecretgoeshere",
     resave: false,
-    saveUninitialized: true, // oauth를 위해 false로 수정해야할수있음
-    cookie: { secure: true }, // 기존 쿠키 옵션 Oauth 수정으로 인한 설정 추가하기전
+    saveUninitialized: true, // 배포했을 때 false로 수정해야함
+    cookie: { secure: true }, // 배포했을 때 지워 줘야함
+    // 배포시 추가할 코드
     // proxy: true,
     // cookie: {
     //   httpOnly: true,
@@ -52,7 +52,7 @@ const corsOptions = {
 };
 
 app.use("/uploads", express.static("uploads"));
-kakaoPassportConfig(app);
+// kakaoPassportConfig(app);
 app.use(express());
 app.use(passport.initialize());
 app.use(passport.session());
