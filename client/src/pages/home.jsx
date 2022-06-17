@@ -7,7 +7,7 @@ import ModalViewGathering from "../modals/modalViewGathering";
 import ModalCreateGathering from "../modals/modalCreateGathering";
 import { format } from "date-fns";
 import { connect } from "react-redux";
-import { SearchIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
+import { SearchIcon, XIcon } from "@heroicons/react/solid";
 
 const mapStateToProps = state => {
   return {

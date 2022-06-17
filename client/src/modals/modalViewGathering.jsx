@@ -188,13 +188,12 @@ const ModalViewGathering = ({
                 <Button
                   className={"btn btn-red text-lg w-40"}
                   children={"모임삭제"}
-                  onClick={() => {}}
+                  onClick={() => deleteGathering()}
                 ></Button>
               ) : (
                 <Button
                   className={"btn btn-grey text-lg w-40"}
                   children={"모임삭제"}
-                  onClick={() => deleteGathering()}
                 ></Button>
               )}
             </div>
