@@ -7,7 +7,7 @@ import MapContainer from "../components/container_map";
 import { connect } from "react-redux";
 import axios from "axios";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     userId: state.userId,
     loginNickname: state.loginNickname,
@@ -38,17 +38,19 @@ const ModalViewGathering = ({
   const [isJoin, setIsJoin] = useState(false);
 
   useEffect(() => {
-    if (userId === author._id) {
-      setIsCreator(true);
-    } else {
-      setIsCreator(false);
+    if (selectedGathering.length > 0) {
+      if (userId === author._id) {
+        setIsCreator(true);
+      } else {
+        setIsCreator(false);
+      }
     }
   }, [selectedGathering]);
 
   useEffect(() => {
     let idArr = [];
     if (participants) {
-      const filtered = participants.map(user => {
+      const filtered = participants.map((user) => {
         return user._id;
       });
       idArr = [...filtered];
@@ -70,7 +72,7 @@ const ModalViewGathering = ({
         },
         {
           withCredentials: true,
-        },
+        }
       );
       window.location.reload();
     } catch (err) {
@@ -88,7 +90,7 @@ const ModalViewGathering = ({
         },
         {
           withCredentials: true,
-        },
+        }
       );
       window.location.reload();
     } catch (err) {
@@ -105,7 +107,7 @@ const ModalViewGathering = ({
         },
         {
           withCredentials: true,
-        },
+        }
       );
       window.location.reload();
     } catch (err) {
@@ -202,7 +204,7 @@ const ModalViewGathering = ({
       </div>
     </div>,
 
-    document.getElementById("modal"),
+    document.getElementById("modal")
   );
 };
 
