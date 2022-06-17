@@ -9,7 +9,7 @@ import { format } from "date-fns";
 import { connect } from "react-redux";
 import { SearchIcon, XIcon } from "@heroicons/react/solid";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     searchTown: state.searchTown,
     searchDate: state.searchDate,
@@ -34,7 +34,7 @@ const Home = ({
   let filteredGatherings = gatherings;
   const filter = (gatherings, searchTown, searchDate, searchTime) => {
     gatherings = gatherings.filter(
-      gathering =>
+      (gathering) =>
         !!gathering.title &&
         !!gathering.town &&
         !!gathering.place &&
@@ -45,25 +45,25 @@ const Home = ({
         !!gathering.author,
     );
     if (searchTown.length > 0 && searchTown.length < 25) {
-      gatherings = gatherings.filter(gathering =>
+      gatherings = gatherings.filter((gathering) =>
         searchTown.includes(gathering.town),
       );
     }
     if (searchDate !== "") {
       const convertedSearchDate = format(searchDate, "yyyy-M-dd").toString();
-      gatherings = gatherings.filter(gathering => {
+      gatherings = gatherings.filter((gathering) => {
         return gathering.date === convertedSearchDate;
       });
     }
     if (searchTime.length === 1) {
-      searchTime.forEach(filterTime => {
+      searchTime.forEach((filterTime) => {
         if (filterTime === "오전") {
-          gatherings = gatherings.filter(gathering => {
+          gatherings = gatherings.filter((gathering) => {
             return gathering.time.split(" ")[1] === "AM";
           });
         }
         if (filterTime === "오후") {
-          gatherings = gatherings.filter(gathering => {
+          gatherings = gatherings.filter((gathering) => {
             return gathering.time.split(" ")[1] === "PM";
           });
         }
@@ -79,14 +79,14 @@ const Home = ({
 
   filteredGatherings = filter(gatherings, searchTown, searchDate, searchTime);
 
-  const setGatherToModal = idx => {
+  const setGatherToModal = (idx) => {
     setSelectedGathering(filteredGatherings[idx]);
     setGatherModalOpen(true);
   };
 
   return (
-    <div className="flex flex-col items-center gap-5">
-      <div className="w-full flex flex-col items-center gap-5">
+    <div className="flex flex-col items-center gap-5 mb-8">
+      <div className="w-full flex flex-col items-center gap-5 bg-grey-10 bg-opacity-30">
         <div className="h-1 md:h-4"></div>
         <div>주변의 모임을 검색하세요</div>
         <SearchGathering className="flex-row items-center" />
@@ -97,7 +97,7 @@ const Home = ({
             onClick={() => setCreateGatherModalOpen(true)}
           ></Button>
           <button
-            className={"btn btn-dgreen w-[10rem] md:hidden"}
+            className={"btn btn-dgreen w-[10rem] md:hidden erase-hover"}
             onClick={() => setSearchOn(!searchOn)}
           >
             {searchOn ? (
@@ -110,7 +110,7 @@ const Home = ({
         {searchOn ? <SearchGatheringSmall className="flex md:hidden" /> : null}
         <hr className="w-full border-[1px] border-grey-50" />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
         {filteredGatherings.length > 0 ? (
           filteredGatherings.map((gather, idx) => (
             <Card

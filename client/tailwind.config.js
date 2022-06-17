@@ -26,6 +26,8 @@ module.exports = {
         80: "#808080",
         70: "#CCCCCC",
         50: "#DBDDD8",
+        30: "#FBFBFB",
+        10: "#E3DFC8",
       },
       red: "#F55C47",
       blue: "#4285F4",

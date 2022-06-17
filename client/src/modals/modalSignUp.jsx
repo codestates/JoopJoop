@@ -21,7 +21,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const { email, password, nickname } = data;
     axios
       .post(
@@ -37,14 +37,14 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           withCredentials: true,
         },
       )
-      .then(res => {
+      .then((res) => {
         alert("회원가입 되었습니다! 로그인하세요");
         closeModal();
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
-  const verifyEmail = email => {
+  const verifyEmail = (email) => {
     axios
       .post(
         process.env.REACT_APP_DEPLOYSERVER_URL ||
@@ -57,17 +57,17 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           withCredentials: true,
         },
       )
-      .then(res => {
+      .then((res) => {
         const verifyNumber = res.data.authnum;
         setVerifyNumber(verifyNumber);
       })
-      .catch(err => err);
+      .catch((err) => err);
   };
 
   if (!modalOpen) return null;
   return ReactDom.createPortal(
     <div className="container-modal">
-      <div className="modal-normal gap-3" onSubmit={e => e.preventDefault()}>
+      <div className="modal-normal gap-3" onSubmit={(e) => e.preventDefault()}>
         <div className="relative w-full">
           <button
             className="absolute left-[91.5%] bottom-2"
@@ -149,7 +149,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             placeholder="비밀번호를 다시 입력하세요."
             {...register("passwordConfirm", {
               required: true,
-              validate: value => value === password.current,
+              validate: (value) => value === password.current,
             })}
           />
           {errors.passwordConfirm &&

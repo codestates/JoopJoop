@@ -40,7 +40,7 @@ const time = [
 const Search_gathering = () => {
   return (
     <>
-      <div className="hidden md:inline border-[3px] w-[22rem] md:w-[45rem] md:h-[5.2rem] md:border-green-100 rounded-2xl md:rounded-full">
+      <div className="hidden md:inline border-[3px] md:border-grey-50 w-[22rem] md:w-[45rem] md:h-[5.2rem] bg-white rounded-2xl md:rounded-full">
         <div className="flex flex-col md:flex-row items-center place-content-between pt-4 pb-6 md:pt-[0.37rem] gap-1">
           <div className="md:pl-10 w-80 md:w-[24rem]">
             <div className="text-center md:text-left">장소</div>
@@ -54,7 +54,7 @@ const Search_gathering = () => {
             <div className="text-center md:text-left">시간</div>
             <SearchTime options={time} />
           </div>
-          <button className="hidden md:flex items-center place-content-center w-10 h-10 md:w-14 md:h-14 bg-green-100 rounded-full md:mr-3">
+          <button className="hidden md:flex items-center place-content-center w-10 h-10 md:w-14 md:h-14 md:btn-dgreen rounded-full md:mr-3">
             <RefreshIcon
               className="w-5 h-5 text-white mr-0"
               onClick={() => window.location.reload()}
