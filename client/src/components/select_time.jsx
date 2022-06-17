@@ -39,13 +39,12 @@ const Search = ({ options, setSearchTime }) => {
     <div>
       <pre>{JSON.stringify(selected).value}</pre>
       <MultiSelect
-        className=""
+        className="text-center md:text-justify"
         options={options}
         value={selected}
         onChange={setSelected}
         hasSelectAll={true}
         labelledBy="select"
-        ClearSelectedIcon={""}
         overrideStrings={overrideStrings}
       />
     </div>

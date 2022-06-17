@@ -12,8 +12,16 @@
     @apply bg-green-90 text-white hover:bg-green-80;
   }
 
+  .btn-dgreen {
+    @apply bg-green-100 text-white hover:bg-green-95;
+  }
+
   .btn-red {
     @apply bg-red text-white hover:bg-red;
+  }
+
+  .btn-grey {
+    @apply bg-grey-70 text-white;
   }
 
   .container-modal {
@@ -30,5 +38,12 @@
 
   .input-ring-green {
     @apply bg-white outline outline-grey-50 focus:outline-none focus:ring ring-green-50;
+  }
+}
+
+@layer base {
+  @font-face {
+    font-family: "NanumGothic";
+    src: font-rul("NanumGothic") format("truetype");
   }
 }

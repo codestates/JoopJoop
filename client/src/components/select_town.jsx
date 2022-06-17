@@ -39,7 +39,7 @@ const Search = ({ options, setSearchTown }) => {
     <div>
       <pre>{JSON.stringify(selected).value}</pre>
       <MultiSelect
-        className=""
+        className="text-center md:text-left"
         options={options}
         value={selected}
         onChange={setSelected}

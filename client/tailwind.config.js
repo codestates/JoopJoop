@@ -8,7 +8,6 @@ module.exports = {
       md: "768px",
       lg: "1024px",
       xl: "1280px",
-      "2xl": "1536px",
     },
     colors: ({ colors }) => ({
       inherit: colors.inherit,
@@ -18,12 +17,14 @@ module.exports = {
       white: colors.white,
       green: {
         100: "#184A2C",
+        95: "#50755F",
         90: "#9FC044",
         80: "#BBCD71",
         50: "#CAD5A4",
       },
       grey: {
         80: "#808080",
+        70: "#CCCCCC",
         50: "#DBDDD8",
       },
       red: "#F55C47",
@@ -347,6 +348,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        "NanumGothic",
         "ui-sans-serif",
         "system-ui",
         "-apple-system",

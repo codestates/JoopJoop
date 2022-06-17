@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import Button from "../components/button";
 import { XIcon } from "@heroicons/react/solid";
 import Participant from "../components/participant";
 import MapContainer from "../components/container_map";
-import { useEffect } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
 
-const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
+const mapStateToProps = state => {
+  return {
+    userId: state.userId,
+    loginNickname: state.loginNickname,
+  };
+};
+
+const ModalViewGathering = ({
+  modalOpen,
+  closeModal,
+  selectedGathering,
+  userId,
+  loginNickname,
+}) => {
   const {
+    _id,
     title,
     town,
     place,
@@ -18,31 +33,87 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
     author,
     participants,
   } = selectedGathering;
-  // console.log(author);
 
   const [isCreator, setIsCreator] = useState(false);
   const [isJoin, setIsJoin] = useState(false);
 
-  //! redux state로 관리하는 userId와 props로 받아온 author._id 가 같다면 isCreator true
-  // useEffect(() => {
-  //   if (userId === author._id) {
-  //     setIsCreator(true);
-  //   } else {
-  //     setIsCreator(false);
-  //   }
-  // }, [author]);
+  useEffect(() => {
+    if (userId === author._id) {
+      setIsCreator(true);
+    } else {
+      setIsCreator(false);
+    }
+  }, [selectedGathering]);
 
-  //! redux state로 관리하는 userId가 props로 받아온 participants에 포함되어 있다면 isJoin true
-  // useEffect(() => {
-  //   const idArr = participants.map(user => user._id);
-  //   if (idArr.includes(userId)) {
-  //     setIsJoin(true);
-  //   } else {
-  //     setIsJoin(false);
-  //   }
-  // }, [participants]);
+  useEffect(() => {
+    let idArr = [];
+    if (participants) {
+      const filtered = participants.map(user => {
+        return user._id;
+      });
+      idArr = [...filtered];
+    }
+    if (idArr.includes(userId)) {
+      setIsJoin(true);
+    } else {
+      setIsJoin(false);
+    }
+  }, [selectedGathering]);
 
-  //! redux로 로그인한 유저 id를 관리하고 creator.nickname? id? 와 redux의 정보가 같다면 삭제버튼 활성화 기능 추가 필요
+  const joinGathering = async () => {
+    try {
+      const join = axios.post(
+        process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/participation",
+        {
+          gathering_id: _id,
+          participant_id: userId,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      window.location.reload();
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  const cancellateGathering = async () => {
+    try {
+      const cancellation = axios.post(
+        process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/cancellation",
+        {
+          gathering_id: _id,
+          participant_id: userId,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      window.location.reload();
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  const deleteGathering = async () => {
+    try {
+      const remove = axios.delete(
+        process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/" + _id,
+        {
+          nickname: loginNickname,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      window.location.reload();
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  // TODO redux로 로그인한 유저 id를 관리하고 creator.nickname? id? 와 redux의 정보가 같다면 삭제버튼 활성화 기능 추가 필요
   if (!modalOpen) return null;
   return ReactDom.createPortal(
     <div className="container-modal">
@@ -90,11 +161,40 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
                   : null}
               </div>
             </div>
-            <div className="flex flex-col items-center w-full">
-              {isCreator ? null : (
+            <div className="flex flex-row items-center w-full space-x-4">
+              {isCreator ? (
+                <button className="btn btn-grey text-lg w-40">
+                  모임 참가하기
+                </button>
+              ) : isJoin ? (
                 <Button
-                  className={"btn btn-green"}
+                  className={"btn btn-red text-lg w-40"}
+                  children={"탈퇴하기"}
+                  onClick={() => {
+                    cancellateGathering();
+                  }}
+                ></Button>
+              ) : (
+                <Button
+                  className={"btn btn-green text-lg w-40"}
                   children={"참여하기"}
+                  onClick={() => {
+                    joinGathering();
+                  }}
+                ></Button>
+              )}
+
+              {isCreator ? (
+                <Button
+                  className={"btn btn-red text-lg w-40"}
+                  children={"모임삭제"}
+                  onClick={() => {}}
+                ></Button>
+              ) : (
+                <Button
+                  className={"btn btn-grey text-lg w-40"}
+                  children={"모임삭제"}
+                  onClick={() => deleteGathering()}
                 ></Button>
               )}
             </div>
@@ -107,4 +207,4 @@ const ModalViewGathering = ({ modalOpen, closeModal, selectedGathering }) => {
   );
 };
 
-export default ModalViewGathering;
+export default connect(mapStateToProps)(ModalViewGathering);

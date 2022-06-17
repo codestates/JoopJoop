@@ -2,6 +2,7 @@ import React from "react";
 import SearchTown from "./select_town";
 import SearchDate from "./select_date";
 import SearchTime from "./select_time";
+import { RefreshIcon } from "@heroicons/react/solid";
 import Button from "./button";
 
 const location = [
@@ -40,26 +41,26 @@ const time = [
 const Search_gathering = () => {
   return (
     <>
-      <div className="border-2 w-[45rem] border-green-100 rounded-full">
-        <div className="flex place-content-between gap-1">
-          <div className="pl-10 w-[24rem] justify-center">
-            <div className="">장소</div>
-            <SearchTown options={location} />
+      <div className="hidden md:inline border-[3px] w-[22rem] md:w-[45rem] md:h-[5.2rem] md:border-green-100 rounded-2xl md:rounded-full">
+        <div className="flex flex-col md:flex-row items-center place-content-between pt-4 pb-6 md:pt-[0.37rem] gap-1">
+          <div className="md:pl-10 w-80 md:w-[24rem]">
+            <div className="text-center md:text-left">장소</div>
+            <SearchTown className="" options={location} />
           </div>
-          <div className="w-[6rem]">
-            <div>날짜</div>
+          <div className="w-80 md:w-[6rem]">
+            <div className="text-center md:text-left">날짜</div>
             <SearchDate />
           </div>
-          <div className="w-[7rem]">
-            <div>시간</div>
+          <div className="w-80 md:w-[7rem]">
+            <div className="text-center md:text-left">시간</div>
             <SearchTime options={time} />
           </div>
-          <div className="pr-10 w-[3rem]">
-            <Button
-              className="btn btn-green w-10 h-10 text-sm"
-              children={"초기화"}
+          <button className="hidden md:flex items-center place-content-center w-10 h-10 md:w-14 md:h-14 bg-green-100 rounded-full md:mr-3">
+            <RefreshIcon
+              className="w-5 h-5 text-white mr-0"
+              onClick={() => window.location.reload()}
             />
-          </div>
+          </button>
         </div>
       </div>
     </>

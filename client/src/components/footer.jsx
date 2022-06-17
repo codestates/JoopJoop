@@ -1,9 +1,11 @@
 import React from "react";
+import Logo from "../img/Logo.png";
 
 function Footer() {
   return (
     <>
       <div className="flex flex-row justify-start p-6 border-y-2 border-grey-50 text-grey-80">
+        <img className="w-[139px] h-[7rem] mx-3 mr-8" src={Logo} alt="err" />
         <div className="flex flex-col justify-between">
           <div className="flex flex-col">
             <div>줍깅 = 줍다 + 조깅</div>
