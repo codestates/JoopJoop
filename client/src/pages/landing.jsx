@@ -84,6 +84,7 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
             closeModal={() => setLoginModalOpen(false)}
             onLogin={onLogin}
             google={google}
+            kakao={kakao}
             setSignUpModalOpen={setSignUpModalOpen}
           />
           <ModalSignUp
