@@ -14,7 +14,6 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      // console.log(profile);
       const {
         _json: { id, displayName },
       } = profile;
@@ -24,7 +23,6 @@ passport.use(
           oAuthId: profile.id,
         });
         // 이미 가입된 프로필이면 성공
-        // console.log(exUser);
         if (exUser) {
           done(null, exUser); // 로그인 인증 완료
         } else {
@@ -32,10 +30,8 @@ passport.use(
           const newUser = await new User({
             oAuthId: profile.id,
             nickname: profile.displayName,
-            // providerType: 'google',
           });
           await newUser.save();
-          // console.log(newUser);
           done(null, newUser); // 회원가입하고 로그인 인증 완료
         }
       } catch (error) {
