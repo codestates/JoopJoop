@@ -151,6 +151,31 @@ router.post("/refresh", async (req, res) => {
   }
 });
 
+// Oauth 구글 로그인
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/google/callback",
+
+  passport.authenticate("google", {
+    failureRedirect: process.env.CLIENT_URL,
+  }),
+
+  async function (req, res) {
+    const { oAuthId, nickname, isAdmin } = req.user._doc;
+    const userGoogle = await User.findOne({ oAuthId });
+    const refreshToken = generateRefreshToken(userGoogle);
+
+    res
+      .cookie("refreshToken", refreshToken, cookieOption)
+      .status(200)
+      .redirect(process.env.CLIENT_URL);
+  }
+);
+
 // Oauth 카카오 로그인
 router.get(
   "/kakao",
@@ -165,7 +190,6 @@ router.get(
     failureRedirect: process.env.CLIENT_URL,
   }),
   async function (req, res) {
-    console.log(req.user);
     const { oAuthId } = req.user;
     const userKakao = await User.findOne({ oAuthId });
     const refreshToken = generateRefreshToken(userKakao);

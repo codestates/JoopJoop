@@ -91,17 +91,13 @@ const ModalLogin = ({
         </div>
         <div className="flex flex-row justify-center items-start gap-5">
           <button
-            onClick={() => {
-              google();
-            }}
+            onClick={google()}
             className=" w-40 h-[2.9rem] bg-blue text-center rounded-3xl text-white"
           >
             Google 로그인
           </button>
           <button
-            onClick={() => {
-              kakao();
-            }}
+            onClick={kakao()}
             className="w-40 h-[2.9rem] bg-yellow text-center rounded-3xl text-white"
           >
             Kakao 로그인

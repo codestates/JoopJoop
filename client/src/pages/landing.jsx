@@ -36,7 +36,11 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
   };
 
   const kakao = () => {
-    window.open(process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao", "_self");
+    window.open(
+      process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao",
+      "_self"
+    );
   };
 
   return (
@@ -59,7 +63,9 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
             <button onClick={google} className="btn btn-green">
               구글 회원가입
             </button>
-            <Button children={"카카오 회원가입"}></Button>
+            <button onClick={kakao} className="btn btn-green">
+              카카오 회원가입
+            </button>
             <div className="text-center">또는</div>
             <Button
               className="btn btn-green"

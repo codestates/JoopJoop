@@ -4,7 +4,6 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const cors = require("cors");
 const app = express();
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const usersRoute = require("./routes/users");
@@ -16,7 +15,7 @@ const multer = require("multer");
 const googlePassportConfig = require("./passport/google");
 const kakaoPassportConfig = require("./passport/kakao");
 const cookieParser = require("cookie-parser");
-
+const dotenv = require("dotenv");
 dotenv.config();
 
 app.set("trust proxy", 1); // 서버가 프록시 뒤에 있음을 명시
@@ -35,7 +34,7 @@ app.use(
     //   domain: ".joopjoop.site", // 앞에 .을 찍어야함
     //   secure: true, // https환경임을 명시
     // },
-  }),
+  })
 );
 
 mongoose
@@ -44,7 +43,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(console.log("Connected to MongoDB https://cloud.mongodb.com/"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 const corsOptions = {
   origin: true,
@@ -53,7 +52,6 @@ const corsOptions = {
   method: ["GET", "POST", "DELETE", "PATCH"],
 };
 
-// kakaoPassportConfig(app);
 app.use(express());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -79,7 +77,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("file");
 app.post("/upload", (req, res) => {
-  upload(req, res, err => {
+  upload(req, res, (err) => {
     if (err) {
       console.log(err);
       return res.json({ success: false, err });
@@ -94,6 +92,6 @@ app.post("/upload", (req, res) => {
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(
-    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`,
+    `JoopJoop Server is running. http://localhost:${process.env.SERVER_PORT}`
   );
 });
