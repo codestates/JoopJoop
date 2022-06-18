@@ -11,14 +11,14 @@ import Home from "./home";
 import action from "../redux/action";
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
   };
 };
 
@@ -31,27 +31,12 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
     window.open(
       process.env.REACT_APP_DEPLOYSERVER_URL ||
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
-      "_self",
+      "_self"
     );
   };
 
-  const oAuthLoginHandler = async data => {
-    let request = {
-      oAuthId: data.profile.id,
-    };
-    await axios
-      .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao",
-        {
-          data: request,
-          withCredentials: true,
-        },
-      )
-      .then(data => {
-        console.log(data);
-      })
-      .catch(err => err);
+  const kakao = () => {
+    window.open(process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao", "_self");
   };
 
   return (
