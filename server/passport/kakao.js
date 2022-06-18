@@ -14,8 +14,6 @@ passport.use(
       // callbackURL: KAKAO_URL, // 배포시 사용되는 callbackURL
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-
       try {
         const exUser = await User.findOne({
           oAuthId: profile.id,
@@ -28,7 +26,6 @@ passport.use(
           const newUser = await new User({
             oAuthId: profile.id,
             nickname: profile.displayName,
-            profileImg: profile._json.properties.profile_image,
           });
           await newUser.save();
           console.log(newUser);
