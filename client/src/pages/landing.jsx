@@ -60,10 +60,20 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
             <div className="font-normal text-center text-3xl">
               지금 시작하세요!
             </div>
-            <button onClick={google} className="btn btn-green">
+            <button
+              onClick={() => {
+                google();
+              }}
+              className="btn btn-green"
+            >
               구글 회원가입
             </button>
-            <button onClick={kakao} className="btn btn-green">
+            <button
+              onClick={() => {
+                kakao();
+              }}
+              className="btn btn-green"
+            >
               카카오 회원가입
             </button>
             <div className="text-center">또는</div>
