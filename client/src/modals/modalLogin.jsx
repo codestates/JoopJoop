@@ -7,15 +7,15 @@ import { XIcon } from "@heroicons/react/solid";
 import { connect } from "react-redux";
 import action from "../redux/action";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setIsLogin: boolean => dispatch(action.setIsLogin(boolean)),
+    setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
   };
 };
 
@@ -26,6 +26,7 @@ const ModalLogin = ({
   setIsLogin,
   isLogin,
   google,
+  kakao,
   setSignUpModalOpen,
 }) => {
   const history = useHistory();
@@ -57,14 +58,14 @@ const ModalLogin = ({
           type="email"
           className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
           placeholder="Email을 입력하세요."
-          onChange={event => setEmail(event.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <div className="">
           <input
             type="password"
             className="input-ring-green w-[297px] h-[2.9rem] rounded-3xl text-center placeholder:text-grey-70"
             placeholder="비밀번호를 입력하세요."
-            onChange={event => setPassword(event.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div className="">
@@ -90,14 +91,15 @@ const ModalLogin = ({
         </div>
         <div className="flex flex-row justify-center items-start gap-5">
           <button
-            onClick={() => {
-              google();
-            }}
+            onClick={google()}
             className=" w-40 h-[2.9rem] bg-blue text-center rounded-3xl text-white"
           >
             Google 로그인
           </button>
-          <button className="w-40 h-[2.9rem] bg-yellow text-center rounded-3xl text-white">
+          <button
+            onClick={kakao()}
+            className="w-40 h-[2.9rem] bg-yellow text-center rounded-3xl text-white"
+          >
             Kakao 로그인
           </button>
         </div>
@@ -119,7 +121,7 @@ const ModalLogin = ({
       </div>
     </div>,
 
-    document.getElementById("modal"),
+    document.getElementById("modal")
   );
 };
 
