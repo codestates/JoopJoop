@@ -3,6 +3,10 @@ module.exports = {
     type: "SET_ISLOGIN",
     payload: boolean,
   }),
+  setIsOAuthLogin: (boolean) => ({
+    type: "SET_ISOAUTHLOGIN",
+    payload: boolean,
+  }),
   setSearchTown: (town) => ({
     type: "SET_SEARCHTOWN",
     payload: town,

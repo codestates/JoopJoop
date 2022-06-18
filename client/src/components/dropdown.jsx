@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const Dropdown = ({
   isOpen,
@@ -16,7 +15,7 @@ const Dropdown = ({
     <div
       className={
         isOpen
-          ? "absolute top-10 right-10 h-25 w-17 bg-white flex flex-col"
+          ? "absolute top-[3.2rem] right-[2rem] w-[6rem] h-[2rem] bg-white flex flex-col"
           : "hidden"
       }
       onClick={toggle}
@@ -26,14 +25,14 @@ const Dropdown = ({
         {alarm}
       </Link> */}
       <button
-        className="p-4 shadow hover:bg-green-50"
-        onClick={e => history.push("/mypage")}
+        className="hover:bg-green-90 rounded-xl items-center w-[6rem]  h-[2rem] bg-grey-30 text-green-90 hover:text-white border-2 active:bg-green-80 ease-in-out hover:scale-110 duration-200"
+        onClick={(e) => history.push("/mypage")}
       >
         {profileImg}
       </button>
       <button
-        className="p-4 shadow hover:bg-green-50"
-        onClick={e => {
+        className="hover:bg-green-90 rounded-xl items-center w-[6rem]  h-[2rem] bg-grey-30 text-green-90 hover:text-white border-2 active:bg-green-80 ease-in-out hover:scale-110 duration-200"
+        onClick={(e) => {
           e.preventDefault();
           logout();
         }}

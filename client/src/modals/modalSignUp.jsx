@@ -16,6 +16,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
     handleSubmit,
     watch,
     getValues,
+    reset,
     formState: { errors },
   } = useForm();
   const password = useRef();
@@ -35,7 +36,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
         alert("회원가입 되었습니다! 로그인하세요");
@@ -55,7 +56,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
         const verifyNumber = res.data.authnum;
@@ -71,27 +72,33 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
         <div className="relative w-full">
           <button
             className="absolute left-[91.5%] bottom-2"
-            onClick={closeModal}
+            onClick={() => {
+              closeModal();
+              window.location.reload();
+            }}
           >
             <XIcon className="h-5 w-5" />
           </button>
         </div>
-        <img className="w-52 my-3" src={logo} alt="err"></img>
         <form
-          className="flex flex-col justify-center text-center items-center"
+          className="flex flex-col justify-center text-center items-center "
           onSubmit={handleSubmit(onSubmit)}
         >
+          <img className="w-40 mb-1" src={logo}></img>
           <input
             name="email"
             type="email"
-            className="w-72  h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
+            className="w-[340px] h-[36px] input-ring-green rounded-3xl text-center "
             placeholder="Email을 입력하세요."
             {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
           />
-          {errors.email && (
-            <p className="text-xs text-red"> 필수 입력 사항입니다.</p>
-          )}
+          <div className="w-40 h-4 my-1">
+            {errors.email && (
+              <p className="text-xs text-red"> 필수 입력 사항입니다.</p>
+            )}
+          </div>
           <button
+            className="mt-1 bg-grey-10 text-sm rounded-xl w-[6rem] "
             type="button"
             onClick={() => {
               const email = getValues("email");
@@ -104,14 +111,17 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           <input
             name="verifyNumber"
             type="password"
-            className="w-30 h-6   bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
+            className="w-[340px] h-[36px] my-1 input-ring-green rounded-3xl text-center"
             placeholder="인증번호를 입력하세요."
             {...register("verifyNumber", { required: true })}
           />
-          {errors.verifyNumber && (
-            <p className="text-xs text-red"> 필수 입력 사항입니다.</p>
-          )}
+          <div className="w-40 h-4">
+            {errors.verifyNumber && (
+              <p className="text-xs text-red "> 필수 입력 사항입니다.</p>
+            )}
+          </div>
           <button
+            className="my-1 bg-grey-10 text-sm rounded-xl w-[6rem]"
             type="button"
             onClick={() => {
               const inputVerifyNumber = getValues("verifyNumber");
@@ -127,62 +137,73 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             확인
           </button>
           <input
+            name="nickname"
+            type="text"
+            className="w-[340px] h-[36px] my-1 input-ring-green rounded-3xl text-center"
+            placeholder="닉네임을 입력하세요."
+            {...register("nickname", { required: true, maxLength: 10 })}
+          />
+          <div className="w-40 h-4">
+            {errors.nickname && errors.nickname.type === "required" && (
+              <p className="text-xs text-red ">필수 입력 사항입니다.</p>
+            )}
+            {errors.nickname && errors.nickname.type === "maxLength" && (
+              <p className="text-xs text-red">최대 10글자 입니다.</p>
+            )}
+          </div>
+          <input
             disabled
             name="password"
             type="password"
-            className="verified w-367 h-10   bg-white text-center rounded-3xl my-3 outline md:outline-2 placeholder:text-grey-70"
+            className="verified my-1 w-[340px] h-[36px] input-ring-green rounded-3xl text-center"
             placeholder="비밀번호를 입력하세요."
             {...register("password", { required: true, minLength: 6 })}
           />
-          {errors.password && errors.password.type === "required" && (
-            <p className="text-xs text-red">필수 입력 사항입니다.</p>
-          )}
-          {errors.password && errors.password.type === "minLength" && (
-            <p className="text-xs text-red">
-              비밀번호는 6글자 이상이어야 합니다.
-            </p>
-          )}
+          <div className="w-40 h-4">
+            {errors.password && errors.password.type === "required" && (
+              <p className="text-xs text-red">필수 입력 사항입니다.</p>
+            )}
+            {errors.password && errors.password.type === "minLength" && (
+              <p className="text-xs text-red ">
+                비밀번호는 6글자 이상이어야 합니다.
+              </p>
+            )}
+          </div>
           <input
             name="passwordConfirm"
             type="password"
-            className=" w-367 h-10  bg-white text-center rounded-3xl mb-3 outline md:outline-2 placeholder:text-grey-70"
+            className=" w-[340px] h-[36px] my-1 input-ring-green rounded-3xl text-center"
             placeholder="비밀번호를 다시 입력하세요."
             {...register("passwordConfirm", {
               required: true,
               validate: (value) => value === password.current,
             })}
           />
-          {errors.passwordConfirm &&
-            errors.passwordConfirm.type === "required" && (
-              <p className="text-xs text-red">필수 입력 사항입니다.</p>
-            )}
-          {errors.passwordConfirm &&
-            errors.passwordConfirm.type === "validate" && (
-              <p className="text-xs text-red">비밀번호가 일치하지 않습니다.</p>
-            )}
-          <input
-            name="nickname"
-            type="text"
-            className=" w-72  h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70"
-            placeholder="닉네임을 입력하세요."
-            {...register("nickname", { required: true, maxLength: 10 })}
-          />
-          {errors.nickname && errors.nickname.type === "required" && (
-            <p className="text-xs text-red">필수 입력 사항입니다.</p>
-          )}
-          {errors.nickname && errors.nickname.type === "maxLength" && (
-            <p className="text-xs text-red">최대 10글자 입니다.</p>
-          )}
+          <div className="w-40 h-4">
+            {errors.passwordConfirm &&
+              errors.passwordConfirm.type === "required" && (
+                <p className="text-xs text-red">필수 입력 사항입니다.</p>
+              )}
+            {errors.passwordConfirm &&
+              errors.passwordConfirm.type === "validate" && (
+                <p className="text-xs text-red ">
+                  비밀번호가 일치하지 않습니다.
+                </p>
+              )}
+          </div>
+
           <input
             type="submit"
             value="회원가입"
-            className="w-36 h-12 btn-green mx-3 my-3 text-center rounded-3xl  text-white"
-            onClick={onSubmit}
+            className="w-36 h-12 btn-green my-2  text-center rounded-3xl  text-white"
+            onClick={() => {
+              onSubmit();
+            }}
           />
         </form>
       </div>
     </div>,
-    document.getElementById("modal"),
+    document.getElementById("modal")
   );
 };
 
