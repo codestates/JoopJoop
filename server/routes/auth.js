@@ -18,7 +18,7 @@ const cookieOption = {
 
 //REGISTER
 router.post("/signup", async (req, res) => {
-  const newUser = await new User({
+  const newUser = new User({
     nickname: req.body.nickname,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
