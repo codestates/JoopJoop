@@ -171,14 +171,13 @@ const EditProfile = ({
   }
   return (
     <div className="flex flex-col md:flex-row mt-10 items-center w-100% h-auto ">
-      <button
-        className="absolute left-[75%] top-[20%]"
-        onClick={switchEditMode}
-      >
-        <XIcon className="h-5 w-5" />
-      </button>
-
       <div className="flex flex-col items-center ">
+        <button
+          className="mb-3 ml-[20rem] md:absolute top-[20%] left-[50%]  "
+          onClick={switchEditMode}
+        >
+          <XIcon className="h-5 w-5" />
+        </button>
         <img className="w-40 h-40 rounded-full mr-3" id="preview"></img>
         <form>
           <label

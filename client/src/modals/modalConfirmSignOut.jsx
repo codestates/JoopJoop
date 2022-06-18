@@ -31,7 +31,10 @@ const ModalConfirmSignOut = ({ modalOpen, closeModal, onDeleteAccount }) => {
           </button>
           <button
             className="w-44 h-12 bg-grey-50 mx-3 mt-10 text-center rounded-3xl"
-            onClick={onDeleteAccount}
+            onClick={() => {
+              onDeleteAccount();
+              window.location.reload();
+            }}
           >
             그만 할게요...
           </button>

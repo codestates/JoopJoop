@@ -102,8 +102,8 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="button"
             onClick={() => {
               const email = getValues("email");
-              verifyEmail(email);
-              alert("인증 번호가 발송되었습니다.");
+              const verify = new Promise(() => verifyEmail(email));
+              verify.then(() => alert("인증 번호가 발송되었습니다."));
             }}
           >
             이메일 인증
