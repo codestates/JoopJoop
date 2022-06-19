@@ -22,7 +22,7 @@ router.put("/:id", async (req, res) => {
       {
         $set: req.body,
       },
-      { new: true }
+      {new: true}
     );
     res.status(200).json(updatedUser);
   } catch (err) {
@@ -34,7 +34,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "계정 삭제 완료됐습니다." });
+    res.status(200).json({message: "계정 삭제 완료됐습니다."});
   } catch (err) {
     res.status(500).json(err);
   }
@@ -47,7 +47,7 @@ router.get("/:id", async (req, res) => {
       path: "gatherings",
       model: "gathering",
     });
-    const { password, ...others } = user._doc;
+    const {password, ...others} = user._doc;
     res.status(200).json(others);
   } catch (err) {
     console.log(err);
@@ -64,6 +64,9 @@ router.get("/", async (req, res) => {
       "date",
       "time",
     ]);
+    const filteredUser = users.filter((el) =>
+      el.password !== undefined ? (el.password = undefined) : el
+    );
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json(err);
