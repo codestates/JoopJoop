@@ -24,12 +24,6 @@ export const ScrollToTop = () => {
     };
   }, []);
 
-  console.log(
-    classNames(
-      "opacity-0 inline-flex items-center p-3 rounded-full shadow-sm text-white bg-green-95 transition-opacity hover:bg-green-90 focus:outine-none focus:ring-2 focus:ring-offset-2 focus:ring-green-95"
-    )
-  );
-
   return (
     <div className="fixed bottom-2 right-2">
       <button

@@ -18,6 +18,7 @@ const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
     isOAuthLogin: state.isOAuthLogin,
+    isGuest: state.isGuest,
     userId: state.userId,
     token: state.accessToken,
     isMobile: state.isMobile,
@@ -29,6 +30,7 @@ const mapDispatchToProps = (dispatch) => {
     setUserId: (id) => dispatch(action.setUserId(id)),
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
     setIsOAuthLogin: (boolean) => dispatch(action.setIsOAuthLogin(boolean)),
+    setIsGuest: (boolean) => dispatch(action.setIsGuest(boolean)),
     setEmail: (email) => dispatch(action.setEmail(email)),
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setAccessToken: (accessToken) =>
@@ -45,7 +47,9 @@ function App({
   isLogin,
   setIsLogin,
   isOAuthLogin,
+  isGuest,
   setIsOAuthLogin,
+  setIsGuest,
   setEmail,
   setNickname,
   setUserId,
@@ -77,30 +81,30 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        },
+        }
       )
       .then((res) => {
-        console.log(res);
         window.location.reload();
         onLoginSuccess(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => alert(err.response.data.message));
   };
 
   const onLoginSuccess = (res) => {
-    let { accessToken, email, nickname, _id, profileImg } = res.data;
+    let { accessToken, email, nickname, _id, profileImg, isGuest } = res.data;
     if (profileImg[0] !== "/") {
       profileImg = "/" + profileImg;
     }
     getGatherings();
     setIsLogin(true);
+    setIsGuest(isGuest);
     setEmail(email);
     setNickname(nickname);
     setUserId(_id);
     setAccessToken(accessToken);
     setProfileImg(
       process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + profileImg,
+        process.env.REACT_APP_LOCALSERVER_URL + profileImg
     );
   };
 
@@ -122,10 +126,9 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        },
+        }
       )
       .then((result) => {
-        console.log(result);
         onLoginSuccess(result);
       })
       .catch((err) => err);
@@ -143,7 +146,7 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        },
+        }
       )
       .then((res) => {
         setIsLogin(false);
@@ -159,13 +162,11 @@ function App({
         { data: "refresh" },
         {
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
         onLoginSuccess(res);
-        if (res.data.oAuthId) {
-          setIsOAuthLogin(true);
-        }
+        if (res.data.oAuthId) setIsOAuthLogin(true);
       })
       .catch((err) => {
         setIsLogin(false);
@@ -179,7 +180,7 @@ function App({
           process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
         {
           withCredentials: true,
-        },
+        }
       )
       .then((data) => {
         data.data
