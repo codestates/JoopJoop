@@ -15,12 +15,14 @@ const mapStateToProps = (state) => {
     token: state.accessToken,
     profileImg: state.profileImg,
     isOAuthLogin: state.isOAuthLogin,
+    isGuest: state.isGuest,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setIsGuest: (boolean) => dispatch(action.setIsGuest(boolean)),
     setEmail: (email) => dispatch(action.setEmail(email)),
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setPassword: (password) => dispatch(action.setPassword(password)),
@@ -39,6 +41,8 @@ const EditProfile = ({
   userId,
   token,
   isOAuthLogin,
+  isGuest,
+  setIsGuest,
 }) => {
   const history = useHistory();
 
@@ -80,10 +84,6 @@ const EditProfile = ({
   };
 
   const handleClick = (e) => {
-    console.log(
-      process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + "/upload"
-    );
     const formData = new FormData();
     formData.append("file", files);
 
@@ -106,15 +106,14 @@ const EditProfile = ({
   };
 
   const onSubmit = (data) => {
+    console.log(data);
     const { nickname, password } = data;
-
     axios
       .put(
         process.env.REACT_APP_DEPLOYSERVER_URL ||
           process.env.REACT_APP_LOCALSERVER_URL + /users/ + userId,
         {
-          nickname: nickname,
-          password: password,
+          data,
         },
         {
           headers: { "Content-Type": "application/json", token: token },
@@ -123,7 +122,7 @@ const EditProfile = ({
       )
       .then((res) => {
         setNickname(nickname);
-        setPassword(password);
+        if (password) setPassword(password);
         alert("변경 되었습니다!");
       })
       .catch((err) => err);
@@ -182,7 +181,7 @@ const EditProfile = ({
         <form>
           <label
             className="btn w-20 h-5 my-2 text-xs btn-grey"
-            for="file-input"
+            htmlFor="file-input"
           >
             사진 올리기
           </label>
@@ -223,10 +222,13 @@ const EditProfile = ({
             className="w-[340px] h-[46px] input-ring-green rounded-3xl text-center mb-2"
             {...register("nickname", { required: true, maxLength: 10 })}
           />
+          {errors.nickname && errors.nickname.type === "required" && (
+            <p className="text-xs text-red">필수 입력 사항입니다.</p>
+          )}
           {errors.nickname && errors.nickname.type === "maxLength" && (
             <p className="text-xs text-red">최대 10글자 입니다.</p>
           )}
-          {isOAuthLogin ? null : (
+          {isOAuthLogin || isGuest ? null : (
             <>
               <label className="mb-2">비밀번호</label>
               <input
@@ -238,7 +240,7 @@ const EditProfile = ({
               />
               {errors.password && errors.password.type === "required" && (
                 <p className="text-xs text-red">
-                  필수 입력 사항입니다. 비밀번호도 변경도 가능합니다.
+                  본인 확인용입니다. 새로운 비밀번호로 변경도 가능합니다.
                 </p>
               )}
               {errors.password && errors.password.type === "minLength" && (

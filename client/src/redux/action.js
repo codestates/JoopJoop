@@ -7,6 +7,11 @@ module.exports = {
     type: "SET_ISOAUTHLOGIN",
     payload: boolean,
   }),
+  setIsGuest: (boolean) => ({
+    type: "SET_ISGUEST",
+    payload: boolean,
+  }),
+
   setSearchTown: (town) => ({
     type: "SET_SEARCHTOWN",
     payload: town,

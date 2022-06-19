@@ -1,6 +1,7 @@
 const initialState = {
   isLogin: false,
   isOAuthLogin: false,
+  isGuest: false,
   searchTown: [],
   searchDate: "",
   searchTime: [],
@@ -37,6 +38,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, isLogin: action.payload };
     case "SET_ISOAUTHLOGIN":
       return { ...state, isOAuthLogin: action.payload };
+    case "SET_ISGUEST":
+      return { ...state, isGuest: action.payload };
     case "SET_SEARCHTOWN":
       return { ...state, searchTown: action.payload };
     case "SET_SEARCHDATE":
