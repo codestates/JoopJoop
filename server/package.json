@@ -1,0 +1,36 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "localstorage": "^1.0.1",
+    "mongoose": "^6.2.8",
+    "mongoose-deep-populate": "^3.2.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.7.5",
+    "nodemon": "^2.0.16",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-kakao": "^1.0.1"
+  },
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0"
+  }
+}

@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+@layer components {
+  .btn {
+    @apply w-52 h-12 flex flex-row justify-center align-middle items-center rounded-3xl text-xl;
+  }
+
+  .btn-green {
+    @apply bg-green-90 text-white hover:bg-green-80;
+  }
+
+  .btn-dgreen {
+    @apply bg-green-100 text-white hover:bg-green-95;
+  }
+
+  .btn-red {
+    @apply bg-red text-white hover:bg-red;
+  }
+
+  .btn-grey {
+    @apply bg-grey-80 text-white hover:bg-grey-70;
+  }
+
+  .container-modal {
+    @apply bg-grey-50 bg-opacity-70 fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center;
+  }
+
+  .modal-mobile {
+    @apply w-full h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
+  }
+
+  .modal-normal {
+    @apply w-500 h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
+  }
+
+  .modal-large {
+    @apply w-[800px] h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
+  }
+
+  .input-ring-green {
+    @apply bg-white outline outline-grey-50 focus:outline-none focus:ring ring-green-50;
+  }
+
+  .erase-hover {
+    @apply ease-in-out hover:scale-105 duration-200;
+  }
+}
+
+@layer base {
+  @font-face {
+    font-family: "NanumGothic";
+    src: font-rul("NanumGothic") format("truetype");
+  }
+}
