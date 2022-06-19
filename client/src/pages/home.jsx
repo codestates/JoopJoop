@@ -8,6 +8,7 @@ import ModalCreateGathering from "../modals/modalCreateGathering";
 import { format } from "date-fns";
 import { connect } from "react-redux";
 import { SearchIcon, XIcon } from "@heroicons/react/solid";
+import { ScrollToTop } from "../components/scrollToTop";
 
 const mapStateToProps = (state) => {
   return {
@@ -42,11 +43,11 @@ const Home = ({
         !!gathering.time &&
         !!gathering.longitude &&
         !!gathering.latitude &&
-        !!gathering.author,
+        !!gathering.author
     );
     if (searchTown.length > 0 && searchTown.length < 25) {
       gatherings = gatherings.filter((gathering) =>
-        searchTown.includes(gathering.town),
+        searchTown.includes(gathering.town)
       );
     }
     if (searchDate !== "") {
@@ -132,6 +133,7 @@ const Home = ({
         modalOpen={createGatherModalOpen}
         closeModal={() => setCreateGatherModalOpen(false)}
       />
+      <ScrollToTop />
     </div>
   );
 };

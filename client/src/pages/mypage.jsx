@@ -22,27 +22,30 @@ const Mypage = ({ userEmail, userNickname, profileImg }) => {
   };
 
   return (
-    <div className="h-647 flex justify-center ">
+    <div className="h-647 flex justify-center bg-grey-10">
       {editMode ? (
         <EditProfile switchEditMode={switchEditMode} />
       ) : (
-        <div className="flex items-center w-80% h-auto">
+        <div className="flex space-x-4 flex-col md:flex-row items-center mt-10 w-100% h-auto">
           <img
-            className="w-40 h-40 rounded-full "
+            className="w-40 h-40 rounded-full mb-[3.8rem]"
             src={profileImg}
             onError={handleImgError}
           />
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <label>이메일</label>
-            <p className="w-72 h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70">
+            <p className="w-[340px] h-[46px] input-ring-green rounded-3xl text-center my-2 pt-2">
               {userEmail}
             </p>
             <label>닉네임</label>
-            <p className="w-72 h-10 bg-white text-center rounded-3xl outline md:outline-2 placeholder:text-grey-70">
-              {userNickname}
-            </p>
+            <div className="flex-col">
+              <p className="w-[340px] h-[46px] input-ring-green text-center rounded-3xl my-2 pt-[0.6rem]">
+                {userNickname}
+              </p>
+            </div>
+
             <button
-              className="w-36 h-12 btn-green mx-3 my-3 text-center rounded-3xl  text-white"
+              className="w-36 h-12 btn-green my-3 text-center rounded-3xl text-white "
               onClick={switchEditMode}
             >
               회원정보수정
