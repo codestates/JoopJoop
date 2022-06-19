@@ -43,15 +43,15 @@ const Search_gathering = () => {
       <div className="hidden md:inline border-[3px] md:border-grey-50 w-[22rem] md:w-[45rem] md:h-[5.2rem] bg-white rounded-2xl md:rounded-full">
         <div className="flex flex-col md:flex-row items-center place-content-between pt-4 pb-6 md:pt-[0.37rem] gap-1">
           <div className="md:pl-10 w-80 md:w-[24rem]">
-            <div className="text-center md:text-left">장소</div>
+            <div className="text-center md:text-left text-grey-90">장소</div>
             <SearchTown className="" options={location} />
           </div>
           <div className="w-80 md:w-[6rem]">
-            <div className="text-center md:text-left">날짜</div>
+            <div className="text-center md:text-left text-grey-90">날짜</div>
             <SearchDate />
           </div>
           <div className="w-80 md:w-[7rem]">
-            <div className="text-center md:text-left">시간</div>
+            <div className="text-center md:text-left text-grey-90">시간</div>
             <SearchTime options={time} />
           </div>
           <button className="hidden md:flex items-center place-content-center w-10 h-10 md:w-14 md:h-14 md:btn-dgreen rounded-full md:mr-3">

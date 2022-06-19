@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Button from "../components/button";
-import axios from "axios";
 import Carousel from "../components/carousel";
+import MobileCarousel from "../components/carousel_mobile";
 import logo from "../img/Logo.png";
 import ModalLogin from "../modals/modalLogin";
 import ModalSignUp from "../modals/modalSignUp";
-import KakaoOauth from "../components/kakaoOauth";
 import Home from "./home";
 import action from "../redux/action";
 import { connect } from "react-redux";
+import { ScrollToLogin } from "../components/scrollToLogin";
 
 const mapStateToProps = (state) => {
   return {
@@ -23,7 +23,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
-  const history = useHistory();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
 
@@ -50,17 +49,27 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
           <Route path="/home" exact component={Home} />
         </Switch>
       ) : (
-        <div className="flex flex-col md:flex-row justify-start items-center md:justify-end">
-          <div className="relative w-[138.3vh] h-[100vh] md:h-[102vh]">
-            <Carousel className="" />
+        <div className="flex flex-col md:flex-row justify-start items-center md:justify-end bg-grey-10 bg-opacity-25">
+          <div className="relative w-[138.3vh] h-[100vh] md:h-[102vh] bg-white">
+            <div className="hidden md:flex">
+              <Carousel className="" />
+            </div>
+            <div className="flex md:hidden">
+              <MobileCarousel className="" />
+            </div>
           </div>
           <div className="flex w-full h-[100vh]">
-            <div className="w-full md:w-[30rem] h-full flex flex-col justify-center items-center space-y-2 md:space-y-4 py-8">
-              <img src={logo} alt="logo" />
-              <div className="h-1"></div>
-              <div className="font-normal text-center text-3xl">
-                지금 시작하세요!
+            <div
+              id="login"
+              className="w-full md:w-[30rem] h-full flex flex-col justify-center items-center space-y-2 md:space-y-4 py-8"
+            >
+              <div className="space-y-6 mb-2">
+                <img src={logo} alt="logo" />
+                <div className="font-semibold text-green-100 text-center text-3xl">
+                  지금 시작하세요!
+                </div>
               </div>
+
               <button
                 onClick={() => {
                   google();
@@ -95,6 +104,9 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
                   guestRegisterLogin();
                 }}
               ></Button>
+            </div>
+            <div className="flex md:hidden">
+              <ScrollToLogin />
             </div>
           </div>
           <ModalLogin

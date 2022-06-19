@@ -36,6 +36,10 @@
     @apply w-full sm:w-[500px] h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
   }
 
+  .modal-alert {
+    @apply w-[350px] h-[200px] flex flex-col bg-white rounded-3xl justify-center items-center;
+  }
+
   .modal-large {
     @apply w-[800px] h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
   }

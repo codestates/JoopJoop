@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import SearchGatheringSmall from "../components/search_gathering_small";
@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { connect } from "react-redux";
 import { SearchIcon, XIcon } from "@heroicons/react/solid";
 import { ScrollToTop } from "../components/scrollToTop";
+import NullGatheringHome from "../components/null_gathering_home";
 
 const mapStateToProps = (state) => {
   return {
@@ -43,11 +44,11 @@ const Home = ({
         !!gathering.time &&
         !!gathering.longitude &&
         !!gathering.latitude &&
-        !!gathering.author
+        !!gathering.author,
     );
     if (searchTown.length > 0 && searchTown.length < 25) {
       gatherings = gatherings.filter((gathering) =>
-        searchTown.includes(gathering.town)
+        searchTown.includes(gathering.town),
       );
     }
     if (searchDate !== "") {
@@ -103,14 +104,21 @@ const Home = ({
     <div className="flex flex-col items-center gap-5 mb-8">
       <div className="w-full flex flex-col items-center gap-5 bg-grey-10 bg-opacity-30">
         <div className="h-1 md:h-4"></div>
-        <div>주변의 모임을 검색하세요</div>
+        <div className="text-grey-90 text-xl">
+          🌱 주변의 모임을 검색해보세요 🔍
+        </div>
         <SearchGathering className="flex-row items-center" />
-        <div className="flex flex-row space-x-4">
-          <Button
-            className={"btn btn-green w-[10rem] md:btn md:btn-green"}
-            children={"모임 만들기"}
-            onClick={() => setCreateGatherModalOpen(true)}
-          ></Button>
+        <div className="flex flex-row space-x-4 mb-4 pt-4">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="text-grey-90 text-lg">
+              🗓 찾는 모임이 없으신가요? 🏃‍♂️
+            </div>
+            <Button
+              className={"btn btn-green w-[10rem] md:btn md:btn-green"}
+              children={"모임 만들기"}
+              onClick={() => setCreateGatherModalOpen(true)}
+            ></Button>
+          </div>
           <button
             className={"btn btn-dgreen w-[10rem] md:hidden erase-hover"}
             onClick={() => setSearchOn(!searchOn)}
@@ -125,19 +133,19 @@ const Home = ({
         {searchOn ? <SearchGatheringSmall className="flex md:hidden" /> : null}
         <hr className="w-full border-[1px] border-grey-50" />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-        {filteredGatherings.length > 0 ? (
-          filteredGatherings.map((gather, idx) => (
+      {filteredGatherings.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+          {filteredGatherings.map((gather, idx) => (
             <Card
               key={idx}
               props={gather}
               onClick={() => setGatherToModal(idx)}
             ></Card>
-          ))
-        ) : (
-          <div>표시할 컨텐츠가 없습니다.</div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <NullGatheringHome />
+      )}
       <ModalViewGathering
         modalOpen={gatherModalOpen}
         closeModal={() => setGatherModalOpen(false)}

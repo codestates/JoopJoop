@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDom from "react-dom";
-import { XIcon } from "@heroicons/react/solid";
 
-const ModalAlert = ({ modalOpen, closeModal, onDeleteAccount }) => {
+const ModalAlert = ({ modalOpen, closeModal, messege }) => {
   useEffect(() => {
     if (modalOpen) {
       document.body.style.cssText = `
@@ -22,16 +21,15 @@ const ModalAlert = ({ modalOpen, closeModal, onDeleteAccount }) => {
 
   return ReactDom.createPortal(
     <div className="container-modal">
-      <div className="modal-mobile md:modal-large gap-1">
-        <div className="relative w-full">
-          <button
-            className="absolute left-[91.5%] bottom-2"
-            onClick={closeModal}
-          >
-            <XIcon className="h-5 w-5" />
-          </button>
+      <div className="modal-alert gap-1">
+        <div className="flex flex-col space-y-6 pt-4 items-center">
+          <div className="text-md text-center">{messege}</div>
+          <div>
+            <button className="btn btn-red w-[8rem]" onClick={closeModal}>
+              확인
+            </button>
+          </div>
         </div>
-        <div>dkdkdkkdkdkdk</div>
       </div>
     </div>,
     document.getElementById("modal"),

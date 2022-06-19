@@ -1,14 +1,32 @@
-import React, {useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactDom from "react-dom";
 import axios from "axios";
-import Button from "../components/button";
 import logo from "../img/Logo.png";
-import {XIcon} from "@heroicons/react/solid";
-import {useForm} from "react-hook-form";
-import {lightFormat} from "date-fns";
-import KakaoLogin from "react-kakao-login";
+import { XIcon } from "@heroicons/react/solid";
+import { useForm } from "react-hook-form";
+import { connect } from "react-redux";
+import action from "../redux/action";
 
-const ModalSignUp = ({modalOpen, closeModal}) => {
+const mapStateToProps = (state) => {
+  return {
+    alertMessage: state.alertMessage,
+    alertModalOpen: state.alertModalOpen,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAlertModalOpen: (boolean) => dispatch(action.setAlertModalOpen(boolean)),
+    setAlertMessage: (message) => dispatch(action.setAlertMessage(message)),
+  };
+};
+
+const ModalSignUp = ({
+  modalOpen,
+  closeModal,
+  setAlertModalOpen,
+  setAlertMessage,
+}) => {
   const [verifyNumber, setVerifyNumber] = useState("");
 
   useEffect(() => {
@@ -32,13 +50,13 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
     watch,
     getValues,
     reset,
-    formState: {errors},
+    formState: { errors },
   } = useForm();
   const password = useRef();
   password.current = watch("password");
 
   const onSubmit = (data) => {
-    const {email, password, nickname} = data;
+    const { email, password, nickname } = data;
     axios
       .post(
         process.env.REACT_APP_DEPLOYSERVER_URL ||
@@ -49,15 +67,19 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
           nickname: nickname,
         },
         {
-          headers: {"Content-Type": "application/json"},
+          headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
-        alert("회원가입 되었습니다! 로그인하세요");
+        setAlertMessage("🎉 회원가입 되었습니다! 로그인하세요 🎉");
+        setAlertModalOpen(true);
         closeModal();
       })
-      .catch((err) => err);
+      .catch((err) => {
+        setAlertMessage(err.response.data.message);
+        setAlertModalOpen(true);
+      });
   };
 
   const verifyEmail = (email) => {
@@ -69,14 +91,15 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
           email: email,
         },
         {
-          headers: {"Content-Type": "application/json"},
+          headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
         const verifyNumber = res.data.authnum;
         setVerifyNumber(verifyNumber);
-        alert("인증 번호가 발송되었습니다.");
+        setAlertMessage("인증 번호가 발송되었습니다.");
+        setAlertModalOpen(true);
       })
       .catch((err) => err);
   };
@@ -87,26 +110,25 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
       <div className="modal-normal gap-3" onSubmit={(e) => e.preventDefault()}>
         <div className="relative w-full">
           <button
-            className="absolute left-[91.5%] bottom-2"
+            className="absolute right-4 -bottom-2"
             onClick={() => {
               closeModal();
-              window.location.reload();
             }}
           >
             <XIcon className="h-5 w-5" />
           </button>
         </div>
         <form
-          className="flex flex-col justify-center text-center items-center "
+          className="flex flex-col justify-start text-center items-center "
           onSubmit={handleSubmit(onSubmit)}
         >
-          <img className="w-40 mb-1" src={logo}></img>
+          <img className="w-40 mb-8" src={logo} alt="err"></img>
           <input
             name="email"
             type="email"
             className="w-[340px] h-[36px] input-ring-green rounded-3xl text-center "
             placeholder="Email을 입력하세요."
-            {...register("email", {required: true, pattern: /^\S+@\S+$/i})}
+            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
           />
           <div className="w-40 h-4 my-1">
             {errors.email && (
@@ -128,7 +150,7 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
             type="password"
             className="w-[340px] h-[36px] my-1 input-ring-green rounded-3xl text-center"
             placeholder="인증번호를 입력하세요."
-            {...register("verifyNumber", {required: true})}
+            {...register("verifyNumber", { required: true })}
           />
           <div className="w-40 h-4">
             {errors.verifyNumber && (
@@ -143,9 +165,11 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
               if (inputVerifyNumber === verifyNumber) {
                 const target = document.querySelector(".verified");
                 target.disabled = false;
-                alert("인증 번호가 일치합니다. 계속해서 회원가입 진행해주세요");
+                setAlertMessage("인증 번호가 일치합니다.");
+                setAlertModalOpen(true);
               } else {
-                alert("인증번호를 다시 확인해주세요");
+                setAlertMessage("인증번호를 다시 확인해주세요.");
+                setAlertModalOpen(true);
               }
             }}
           >
@@ -156,7 +180,7 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
             type="text"
             className="w-[340px] h-[36px] my-1 input-ring-green rounded-3xl text-center"
             placeholder="닉네임을 입력하세요."
-            {...register("nickname", {required: true, maxLength: 10})}
+            {...register("nickname", { required: true, maxLength: 10 })}
           />
           <div className="w-40 h-4">
             {errors.nickname && errors.nickname.type === "required" && (
@@ -172,7 +196,7 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
             type="password"
             className="verified my-1 w-[340px] h-[36px] input-ring-green rounded-3xl text-center"
             placeholder="비밀번호를 입력하세요."
-            {...register("password", {required: true, minLength: 6})}
+            {...register("password", { required: true, minLength: 6 })}
           />
           <div className="w-40 h-4">
             {errors.password && errors.password.type === "required" && (
@@ -218,8 +242,8 @@ const ModalSignUp = ({modalOpen, closeModal}) => {
         </form>
       </div>
     </div>,
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 
-export default ModalSignUp;
+export default connect(mapStateToProps, mapDispatchToProps)(ModalSignUp);

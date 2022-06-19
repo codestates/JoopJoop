@@ -13,6 +13,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import action from "./redux/action";
 import Mypage from "./pages/mypage";
+import ModalAlert from "./modals/modalAlert";
 
 const mapStateToProps = (state) => {
   return {
@@ -21,7 +22,8 @@ const mapStateToProps = (state) => {
     isGuest: state.isGuest,
     userId: state.userId,
     token: state.accessToken,
-    isMobile: state.isMobile,
+    alertMessage: state.alertMessage,
+    alertModalOpen: state.alertModalOpen,
   };
 };
 
@@ -38,8 +40,8 @@ const mapDispatchToProps = (dispatch) => {
     setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
     setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
     setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
-    setMobile: (boolean) => dispatch(action.setIsMobile(true)),
-    setDesktop: (boolean) => dispatch(action.setIsMobile(false)),
+    setAlertModalOpen: (boolean) => dispatch(action.setAlertModalOpen(boolean)),
+    setAlertMessage: (message) => dispatch(action.setAlertMessage(message)),
   };
 };
 
@@ -60,9 +62,10 @@ function App({
   setGatherings,
   profileImg,
   setProfileImg,
-  setMobile,
-  setDesktop,
-  isMobile,
+  alertMessage,
+  alertModalOpen,
+  setAlertModalOpen,
+  setAlertMessage,
 }) {
   const onLogin = (email, password) => {
     const data = {
@@ -81,13 +84,16 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        }
+        },
       )
       .then((res) => {
         window.location.reload();
         onLoginSuccess(res);
       })
-      .catch((err) => alert(err.response.data.message));
+      .catch((err) => {
+        setAlertMessage(err.response.data.message);
+        setAlertModalOpen(true);
+      });
   };
 
   const onLoginSuccess = (res) => {
@@ -104,7 +110,7 @@ function App({
     setAccessToken(accessToken);
     setProfileImg(
       process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + profileImg
+        process.env.REACT_APP_LOCALSERVER_URL + profileImg,
     );
   };
 
@@ -126,7 +132,7 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        }
+        },
       )
       .then((result) => {
         onLoginSuccess(result);
@@ -146,7 +152,7 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        }
+        },
       )
       .then((res) => {
         setIsLogin(false);
@@ -162,7 +168,7 @@ function App({
         { data: "refresh" },
         {
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
         onLoginSuccess(res);
@@ -180,7 +186,7 @@ function App({
           process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
         {
           withCredentials: true,
-        }
+        },
       )
       .then((data) => {
         data.data
@@ -253,6 +259,11 @@ function App({
           />
         )}
         {menuToggle ? null : <Footer></Footer>}
+        <ModalAlert
+          modalOpen={alertModalOpen}
+          closeModal={() => setAlertModalOpen(false)}
+          messege={alertMessage}
+        />
       </BrowserRouter>
     </>
   );

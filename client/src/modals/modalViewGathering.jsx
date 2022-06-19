@@ -158,7 +158,11 @@ const ModalViewGathering = ({
                 <MapContainer longitude={longitude} latitude={latitude} />
               ) : null}
               <div className="flex flex-row items-center gap-1">
-                <img src={author.profileImg} alt="err" className="w-5 h-5" />
+                <img
+                  src={author.profileImg}
+                  alt="err"
+                  className="w-5 h-5 rounded-full"
+                />
                 <div className="text-[16px]">{author.nickname}</div>
               </div>
             </div>
@@ -240,7 +244,7 @@ const ModalViewGathering = ({
             </button>
           </div>
           <div className="flex flex-col items-center gap-4 w-[669px] h-[379px]">
-            <div className="flex flex-row place-content-between w-[313px] h-[353px]">
+            <div className="flex flex-row place-content-between w-[340px] h-[353px]">
               <div className="flex flex-row items-start gap-2">
                 <img
                   src={author.profileImg}

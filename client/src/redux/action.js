@@ -56,4 +56,12 @@ module.exports = {
     type: "SET_ISLOADING",
     payload: boolean,
   }),
+  setAlertModalOpen: (boolean) => ({
+    type: "SET_MODALOPEN",
+    payload: boolean,
+  }),
+  setAlertMessage: (message) => ({
+    type: "SET_ALERTMESSAGE",
+    payload: message,
+  }),
 };

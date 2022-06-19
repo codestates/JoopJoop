@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { XIcon } from "@heroicons/react/solid";
 import { connect } from "react-redux";
-import action, { setIsLogin } from "../redux/action";
+import action from "../redux/action";
 import axios from "axios";
 import ModalConfirmSignOut from "../modals/modalConfirmSignOut";
 import { useHistory } from "react-router-dom";
@@ -27,6 +27,8 @@ const mapDispatchToProps = (dispatch) => {
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setPassword: (password) => dispatch(action.setPassword(password)),
     setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
+    setAlertModalOpen: (boolean) => dispatch(action.setAlertModalOpen(boolean)),
+    setAlertMessage: (message) => dispatch(action.setAlertMessage(message)),
   };
 };
 
@@ -38,11 +40,15 @@ const EditProfile = ({
   setPassword,
   setProfileImg,
   profileImg,
+  setIsLogin,
   userId,
   token,
   isOAuthLogin,
   isGuest,
   setIsGuest,
+  setAlertModalOpen,
+  setAlertMessage,
+  setEditMode,
 }) => {
   const history = useHistory();
 
@@ -68,10 +74,11 @@ const EditProfile = ({
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
-        alert("계정이 삭제 되었습니다.");
+        setAlertMessage("계정이 삭제 되었습니다.");
+        setAlertModalOpen(true);
         setIsLogin(false);
         return history.push("/");
       })
@@ -97,10 +104,12 @@ const EditProfile = ({
         process.env.REACT_APP_DEPLOYSERVER_URL ||
           process.env.REACT_APP_LOCALSERVER_URL + "/upload",
         formData,
-        config
+        config,
       )
       .then((res) => {
         updateProfileImg(res.data.image);
+        setAlertMessage("변경 되었습니다!");
+        setAlertModalOpen(true);
       })
       .catch((err) => console.log(err));
   };
@@ -118,12 +127,14 @@ const EditProfile = ({
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
         setNickname(nickname);
         if (password) setPassword(password);
-        alert("변경 되었습니다!");
+        setAlertMessage("변경 되었습니다!");
+        setAlertModalOpen(true);
+        setEditMode(false);
       })
       .catch((err) => err);
   };
@@ -137,7 +148,7 @@ const EditProfile = ({
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
         if (res.data.profileImg[0] !== "/") {
@@ -145,7 +156,7 @@ const EditProfile = ({
         }
         setProfileImg(
           process.env.REACT_APP_DEPLOYSERVER_URL ||
-            process.env.REACT_APP_LOCALSERVER_URL + res.data.profileImg
+            process.env.REACT_APP_LOCALSERVER_URL + res.data.profileImg,
         );
       })
       .catch((err) => err);
@@ -161,7 +172,7 @@ const EditProfile = ({
       function () {
         preview.src = reader.result;
       },
-      false
+      false,
     );
 
     if (file) {
