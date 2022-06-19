@@ -25,7 +25,11 @@
   }
 
   .container-modal {
-    @apply bg-grey-50 bg-opacity-70 absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center;
+    @apply bg-grey-50 bg-opacity-70 fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center;
+  }
+
+  .modal-mobile {
+    @apply w-full h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
   }
 
   .modal-normal {

@@ -17,8 +17,10 @@ import Mypage from "./pages/mypage";
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
+    isOAuthLogin: state.isOAuthLogin,
     userId: state.userId,
     token: state.accessToken,
+    isMobile: state.isMobile,
   };
 };
 
@@ -26,6 +28,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setUserId: (id) => dispatch(action.setUserId(id)),
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
+    setIsOAuthLogin: (boolean) => dispatch(action.setIsOAuthLogin(boolean)),
     setEmail: (email) => dispatch(action.setEmail(email)),
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setAccessToken: (accessToken) =>
@@ -33,12 +36,16 @@ const mapDispatchToProps = (dispatch) => {
     setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
     setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
     setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
+    setMobile: (boolean) => dispatch(action.setIsMobile(true)),
+    setDesktop: (boolean) => dispatch(action.setIsMobile(false)),
   };
 };
 
 function App({
   isLogin,
   setIsLogin,
+  isOAuthLogin,
+  setIsOAuthLogin,
   setEmail,
   setNickname,
   setUserId,
@@ -49,6 +56,9 @@ function App({
   setGatherings,
   profileImg,
   setProfileImg,
+  setMobile,
+  setDesktop,
+  isMobile,
 }) {
   const onLogin = (email, password) => {
     const data = {
@@ -115,31 +125,8 @@ function App({
         },
       )
       .then((result) => {
+        console.log(result);
         onLoginSuccess(result);
-      })
-      .catch((err) => err);
-  };
-
-  const guestLogin = (res) => {
-    const data = {
-      email: res.data.message.split(".")[0],
-    };
-    axios
-      .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/guest-login",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-          HttpOnly: true,
-          samesite: "Secure",
-        },
-      )
-      .then((res) => {
-        onLoginSuccess(res);
       })
       .catch((err) => err);
   };
@@ -176,6 +163,9 @@ function App({
       )
       .then((res) => {
         onLoginSuccess(res);
+        if (res.data.oAuthId) {
+          setIsOAuthLogin(true);
+        }
       })
       .catch((err) => {
         setIsLogin(false);

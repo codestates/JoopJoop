@@ -4,7 +4,7 @@ import Logo from "../img/Logo.png";
 function Footer() {
   return (
     <>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 border-t-2 border-grey-50 text-grey-80">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 border-t-2 py-8 md:py-4  px-11 space-y-8 border-grey-50 text-grey-80">
         <div className="flex flex-col">
           <div className="flex flex-col">
             <div>줍깅 = 줍다 + 조깅</div>
@@ -15,9 +15,9 @@ function Footer() {
             © 2022 JoopJoop. All Rights Reserved.
           </div>
         </div>
-        <div className="pl-24 font-semibold">
+        <div className="font-semibold">
           Member
-          <ul className="flex font-normal">
+          <ul className="flex font-normal space-x-4">
             <li>김민성</li>
             <li>배현우</li>
             <li>이정윤</li>

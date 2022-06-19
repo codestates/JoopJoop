@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../components/button";
 import SearchGathering from "../components/search_gathering";
 import SearchGatheringSmall from "../components/search_gathering_small";
@@ -8,6 +8,7 @@ import ModalCreateGathering from "../modals/modalCreateGathering";
 import { format } from "date-fns";
 import { connect } from "react-redux";
 import { SearchIcon, XIcon } from "@heroicons/react/solid";
+import { ScrollToTop } from "../components/scrollToTop";
 
 const mapStateToProps = (state) => {
   return {
@@ -42,11 +43,11 @@ const Home = ({
         !!gathering.time &&
         !!gathering.longitude &&
         !!gathering.latitude &&
-        !!gathering.author,
+        !!gathering.author
     );
     if (searchTown.length > 0 && searchTown.length < 25) {
       gatherings = gatherings.filter((gathering) =>
-        searchTown.includes(gathering.town),
+        searchTown.includes(gathering.town)
       );
     }
     if (searchDate !== "") {
@@ -74,6 +75,20 @@ const Home = ({
       b = new Date(b.date);
       return a - b;
     });
+    gatherings = gatherings.filter((gathering) => {
+      const date = gathering.date.split("-");
+      const year = date[0];
+      let monthIndex = date[1];
+      monthIndex--;
+      const day = date[2];
+      let hour = Number(gathering.time.split(":")[0]);
+      if (gathering.time.split(" ")[1] === "PM") {
+        hour = hour + 12;
+      }
+      const minute = gathering.time.slice(2, 4);
+      return new Date(year, monthIndex, day, String(hour), minute) > new Date();
+    });
+
     return gatherings;
   };
 
@@ -132,6 +147,7 @@ const Home = ({
         modalOpen={createGatherModalOpen}
         closeModal={() => setCreateGatherModalOpen(false)}
       />
+      <ScrollToTop />
     </div>
   );
 };

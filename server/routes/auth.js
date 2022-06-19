@@ -23,7 +23,7 @@ router.post("/signup", async (req, res) => {
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
       req.body.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     ).toString(),
   });
 
@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
 
     const hashedPassword = CryptoJS.AES.decrypt(
       user.password,
-      process.env.PASS_SEC
+      process.env.PASS_SEC,
     );
 
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
@@ -90,9 +90,11 @@ router.post("/guest-login", async (req, res) => {
       email: req.body.email,
       password: CryptoJS.AES.encrypt(
         req.body.password,
-        process.env.PASS_SEC
+        process.env.PASS_SEC,
       ).toString(),
     });
+
+    await newUser.save();
 
     const accessToken = generateAccessToken(newUser);
     const refreshToken = generateRefreshToken(newUser);
@@ -121,11 +123,10 @@ router.post("/refresh", async (req, res) => {
       process.env.REFRESH_SECRET,
       (err, decoded) => {
         if (err) {
-          console.log(err);
           return null;
         }
         return decoded;
-      }
+      },
     );
   };
 
@@ -154,7 +155,7 @@ router.post("/refresh", async (req, res) => {
 // Oauth 구글 로그인
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }),
 );
 
 router.get(
@@ -173,7 +174,7 @@ router.get(
       .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
       .redirect(process.env.CLIENT_URL);
-  }
+  },
 );
 
 // Oauth 카카오 로그인
@@ -181,7 +182,7 @@ router.get(
   "/kakao",
   passport.authenticate("kakao", {
     failureRedirect: process.env.CLIENT_URL,
-  })
+  }),
 );
 
 router.get(
@@ -198,7 +199,7 @@ router.get(
       .cookie("refreshToken", refreshToken, cookieOption)
       .status(200)
       .redirect(process.env.CLIENT_URL);
-  }
+  },
 );
 
 router.get("/logout", (req, res) => {
