@@ -77,7 +77,7 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        }
+        },
       )
       .then((res) => {
         console.log(res);
@@ -100,7 +100,7 @@ function App({
     setAccessToken(accessToken);
     setProfileImg(
       process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + profileImg
+        process.env.REACT_APP_LOCALSERVER_URL + profileImg,
     );
   };
 
@@ -122,34 +122,11 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        }
+        },
       )
       .then((result) => {
+        console.log(result);
         onLoginSuccess(result);
-      })
-      .catch((err) => err);
-  };
-
-  const guestLogin = (res) => {
-    const data = {
-      email: res.data.message.split(".")[0],
-    };
-    axios
-      .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/guest-login",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-          HttpOnly: true,
-          samesite: "Secure",
-        }
-      )
-      .then((res) => {
-        onLoginSuccess(res);
       })
       .catch((err) => err);
   };
@@ -166,7 +143,7 @@ function App({
           withCredentials: true,
           HttpOnly: true,
           samesite: "Secure",
-        }
+        },
       )
       .then((res) => {
         setIsLogin(false);
@@ -182,7 +159,7 @@ function App({
         { data: "refresh" },
         {
           withCredentials: true,
-        }
+        },
       )
       .then((res) => {
         onLoginSuccess(res);
@@ -202,7 +179,7 @@ function App({
           process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
         {
           withCredentials: true,
-        }
+        },
       )
       .then((data) => {
         data.data
