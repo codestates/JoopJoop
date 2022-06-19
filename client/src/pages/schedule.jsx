@@ -81,8 +81,13 @@ const Schedule = ({ gatherings, userId }) => {
     return new Date(year, monthIndex, day, String(hour), minute) < new Date();
   });
 
-  const setGatherToModal = (idx) => {
-    setSelectedGathering(filteredGatherings[idx]);
+  const setPreGatherToModal = (idx) => {
+    setSelectedGathering(preGatherings[idx]);
+    setGatherModalOpen(true);
+  };
+
+  const setPostGatherToModal = (idx) => {
+    setSelectedGathering(postGatherings[idx]);
     setGatherModalOpen(true);
   };
 
@@ -96,37 +101,39 @@ const Schedule = ({ gatherings, userId }) => {
           종료된 일정
         </button>
       </div>
-      {filteredGatherings.length > 0 ? (
-        preOrPost ? (
-          preGatherings.length > 0 ? (
-            preGatherings.map((gather, idx) => (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+        {filteredGatherings.length > 0 ? (
+          preOrPost ? (
+            preGatherings.length > 0 ? (
+              preGatherings.map((gather, idx) => (
                 <Card
                   key={idx}
                   props={gather}
-                  onClick={() => setGatherToModal(idx)}
+                  onClick={() => {
+                    setPreGatherToModal(idx);
+                  }}
                 ></Card>
-              </div>
+              ))
+            ) : (
+              <NullGathering />
+            )
+          ) : postGatherings.length > 0 ? (
+            postGatherings.map((gather, idx) => (
+              <Card
+                key={idx}
+                props={gather}
+                onClick={() => {
+                  setPostGatherToModal(idx);
+                }}
+              ></Card>
             ))
           ) : (
             <NullGathering />
           )
-        ) : postGatherings.length > 0 ? (
-          postGatherings.map((gather, idx) => (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-              <Card
-                key={idx}
-                props={gather}
-                onClick={() => setGatherToModal(idx)}
-              ></Card>
-            </div>
-          ))
         ) : (
           <NullGathering />
-        )
-      ) : (
-        <NullGathering />
-      )}
+        )}
+      </div>
       <ModalViewGathering
         modalOpen={gatherModalOpen}
         closeModal={() => setGatherModalOpen(false)}

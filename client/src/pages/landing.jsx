@@ -31,7 +31,7 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
     window.open(
       process.env.REACT_APP_DEPLOYSERVER_URL ||
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
-      "_self"
+      "_self",
     );
   };
 
@@ -39,7 +39,7 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
     window.open(
       process.env.REACT_APP_DEPLOYSERVER_URL ||
         process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao",
-      "_self"
+      "_self",
     );
   };
 
@@ -51,8 +51,8 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
         </Switch>
       ) : (
         <div className="flex flex-row justify-center items-center">
-          <div>
-            <Carousel className="flex" />
+          <div className="w-full">
+            <Carousel className="" />
           </div>
           <div className="w-full flex flex-col place-content-center items-center gap-4">
             <img src={logo} alt="logo" />

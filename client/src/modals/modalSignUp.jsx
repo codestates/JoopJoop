@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactDom from "react-dom";
 import axios from "axios";
 import Button from "../components/button";
@@ -10,6 +10,21 @@ import KakaoLogin from "react-kakao-login";
 
 const ModalSignUp = ({ modalOpen, closeModal }) => {
   const [verifyNumber, setVerifyNumber] = useState("");
+
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+      return () => {
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = "";
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      };
+    }
+  }, [modalOpen]);
 
   const {
     register,

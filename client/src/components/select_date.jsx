@@ -7,9 +7,9 @@ import action from "../redux/action";
 import { ko } from "date-fns/esm/locale";
 import { useCallback } from "react";
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setSearchDate: date => dispatch(action.setSearchDate(date)),
+    setSearchDate: (date) => dispatch(action.setSearchDate(date)),
   };
 };
 
@@ -30,7 +30,7 @@ const SearchDate = ({ setSearchDate }) => {
       locale={ko}
       dateFormat="yy/MM/dd"
       selected={startDate}
-      onChange={date => setStartDate(date)}
+      onChange={(date) => setStartDate(date)}
       placeholderText="날짜"
     />
   );

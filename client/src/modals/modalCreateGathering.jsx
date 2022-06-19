@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { format } from "date-fns";
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     userId: state.userId,
     token: state.accessToken,
@@ -208,6 +208,21 @@ const ModalCreateGathering = ({ modalOpen, closeModal, userId }) => {
   const [latitude, setLatitude] = useState(33.450701);
 
   useEffect(() => {
+    if (modalOpen) {
+      document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+      return () => {
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = "";
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      };
+    }
+  }, [modalOpen]);
+
+  useEffect(() => {
     setTime(`${hour.value}:${minute.value} ${amPm.value}`);
   }, [hour, minute, amPm]);
 
@@ -232,7 +247,7 @@ const ModalCreateGathering = ({ modalOpen, closeModal, userId }) => {
     author: userId,
   };
 
-  const createGathering = data => {
+  const createGathering = (data) => {
     axios
       .post(
         process.env.REACT_APP_DEPLOYSERVER_URL ||
@@ -243,96 +258,211 @@ const ModalCreateGathering = ({ modalOpen, closeModal, userId }) => {
           withCredentials: true,
         },
       )
-      .then(res => window.location.reload())
-      .catch(err => alert("모임 생성에 실패했습니다."));
+      .then((res) => window.location.reload())
+      .catch((err) => alert("모임 생성에 실패했습니다."));
   };
+
+  const [createIdx, setCreateIdx] = useState(0);
+
+  useEffect(() => {
+    setCreateIdx(0);
+  }, [modalOpen]);
+
   // TODO :249 모임 생성 실패시 모달에 메시지 띄우기
 
   if (!modalOpen) return null;
   return ReactDom.createPortal(
-    <div className="container-modal">
-      <div className="modal-large gap-4">
-        <div className="relative w-full">
-          <button
-            className="absolute left-[93.5%] bottom-[4.5rem]"
-            onClick={closeModal}
-          >
-            <XIcon className="h-5 w-5" />
-          </button>
-        </div>
-        <div className="text-3xl mb-5 felx items-center text-center">
-          모임 만들기
-        </div>
-        <div className="flex felx-row items-start gap-4">
-          <CreateMapContainer
-            longitude={longitude}
-            latitude={latitude}
-            setLongitude={setLongitude}
-            setLatitude={setLatitude}
-          />
-          <div className="flex flex-col items-center gap-4">
-            <input
-              type="text"
-              className=" w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
-              placeholder="모임 제목을 입력하세요."
-              onChange={e => setTitle(e.target.value)}
-            />
-            <Select
-              className="w-[340px] h-[46px] rounded-3xl text-center"
-              options={townOptions}
-              placeholder="지역를 선택해주세요"
-              value={town}
-              onChange={setTown}
-            ></Select>
-            <input
-              type="text"
-              className=" w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
-              placeholder="장소를 입력하세요"
-              onChange={e => setPlace(e.target.value)}
-            />
-            <DatePicker
-              className="w-[340px] h-[46px] input-ring-green rounded-3xl text-center"
-              locale={ko}
-              dateFormat="yy/MM/dd"
-              selected={date}
-              onChange={setDate}
-              placeholderText="날짜를 선택하세요"
-            />
-            <div className="flex flex-row gap-4">
+    <div>
+      <div className="container-modal hidden md:flex">
+        <div className="modal-mobile md:modal-large gap-4">
+          <div className="relative w-full">
+            <button
+              className="absolute right-[2rem] -top-[4rem]"
+              onClick={closeModal}
+            >
+              <XIcon className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="text-3xl mb-5 felx items-center text-center">
+            모임 만들기
+          </div>
+          <div className="flex flex-row items-start gap-4">
+            {createIdx === 0 ? (
+              <CreateMapContainer
+                longitude={longitude}
+                latitude={latitude}
+                setLongitude={setLongitude}
+                setLatitude={setLatitude}
+              />
+            ) : null}
+            <div className="flex flex-col items-center gap-4">
+              <input
+                type="text"
+                className=" w-[340px] h-[46px] input-ring-green rounded-md text-center"
+                placeholder="모임 제목을 입력하세요."
+                onChange={(e) => setTitle(e.target.value)}
+              />
               <Select
-                className="w-[100px] h-[46px] rounded-3xl text-center"
-                options={hourOptions}
-                placeholder="1시"
-                value={hour}
-                onChange={setHour}
+                className="w-[340px] h-[46px] rounded-md text-center"
+                options={townOptions}
+                placeholder="지역를 선택해주세요"
+                value={town}
+                onChange={setTown}
               ></Select>
-              <Select
-                className="w-[100px] h-[46px] rounded-3xl text-center"
-                options={minuteOptions}
-                placeholder="00분"
-                value={minute}
-                onChange={setMinute}
-              ></Select>
-              <Select
-                className="w-[100px] h-[46px] rounded-3xl text-center"
-                options={ampmOptions}
-                placeholder="AM"
-                value={amPm}
-                onChange={setAmPm}
-              ></Select>
+              <input
+                type="text"
+                className=" w-[340px] h-[46px] input-ring-green rounded-md text-center"
+                placeholder="장소를 입력하세요"
+                onChange={(e) => setPlace(e.target.value)}
+              />
+              <DatePicker
+                className="w-[340px] h-[46px] input-ring-green rounded-md text-center"
+                locale={ko}
+                dateFormat="yy/MM/dd"
+                selected={date}
+                onChange={setDate}
+                placeholderText="날짜를 선택하세요"
+              />
+              <div className="flex flex-row gap-4">
+                <Select
+                  className="w-[100px] h-[46px] rounded-3xl text-center"
+                  options={hourOptions}
+                  placeholder="1시"
+                  value={hour}
+                  onChange={setHour}
+                ></Select>
+                <Select
+                  className="w-[100px] h-[46px] rounded-3xl text-center"
+                  options={minuteOptions}
+                  placeholder="00분"
+                  value={minute}
+                  onChange={setMinute}
+                ></Select>
+                <Select
+                  className="w-[100px] h-[46px] rounded-3xl text-center"
+                  options={ampmOptions}
+                  placeholder="AM"
+                  value={amPm}
+                  onChange={setAmPm}
+                ></Select>
+              </div>
+              <Button
+                className="btn btn-green w-[189px] h-[46px]"
+                children={"모임 만들기"}
+                onClick={() => {
+                  createGathering(gatherInfo);
+                }}
+              />
             </div>
-            <Button
-              className="btn btn-green w-[189px] h-[46px]"
-              children={"모임 만들기"}
-              onClick={() => {
-                createGathering(gatherInfo);
-              }}
-            />
+          </div>
+        </div>
+      </div>
+
+      <div className="container-modal flex md:hidden">
+        <div className="modal-mobile md:modal-large gap-4">
+          <div className="relative w-full">
+            <button
+              className="absolute right-[2rem] -top-[4rem]"
+              onClick={closeModal}
+            >
+              <XIcon className="h-5 w-5" />
+            </button>
+          </div>
+          <div className="text-2xl mb-5 felx items-center text-center">
+            {createIdx === 0 ? "모임 정보를 입력하세요" : "위치를 입력하세요"}
+          </div>
+
+          <div className="flex flex-row items-start gap-4">
+            {createIdx === 0 ? (
+              <div className="flex flex-col items-center gap-4">
+                <input
+                  type="text"
+                  className=" w-[20rem] h-[46px] input-ring-green rounded-sm text-center"
+                  placeholder="모임 제목을 입력하세요."
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <Select
+                  className="w-[20rem] h-[46px] rounded-sm text-center"
+                  options={townOptions}
+                  placeholder="지역를 선택해주세요"
+                  value={town}
+                  onChange={setTown}
+                ></Select>
+                <input
+                  type="text"
+                  className=" w-[20rem] h-[46px] input-ring-green rounded-sm text-center"
+                  placeholder="장소를 입력하세요"
+                  onChange={(e) => setPlace(e.target.value)}
+                />
+                <DatePicker
+                  className="w-[20rem] h-[46px] input-ring-green rounded-sm text-center"
+                  locale={ko}
+                  dateFormat="yy/MM/dd"
+                  selected={date}
+                  onChange={setDate}
+                  placeholderText="날짜를 선택하세요"
+                />
+                <div className="flex flex-row gap-4 h-[4.05rem]">
+                  <Select
+                    className="w-[6rem] h-[46px] rounded-3xl text-center"
+                    options={hourOptions}
+                    placeholder="1시"
+                    value={hour}
+                    onChange={setHour}
+                  ></Select>
+                  <Select
+                    className="w-[6rem] h-[46px] rounded-3xl text-center"
+                    options={minuteOptions}
+                    placeholder="00분"
+                    value={minute}
+                    onChange={setMinute}
+                  ></Select>
+                  <Select
+                    className="w-[6rem] h-[46px] rounded-3xl text-center"
+                    options={ampmOptions}
+                    placeholder="AM"
+                    value={amPm}
+                    onChange={setAmPm}
+                  ></Select>
+                </div>
+                <Button
+                  className="btn btn-green w-[189px] h-[46px]"
+                  children={"다음으로"}
+                  onClick={() => {
+                    setCreateIdx(1);
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col items-center gap-4">
+                <CreateMapContainer
+                  longitude={longitude}
+                  latitude={latitude}
+                  setLongitude={setLongitude}
+                  setLatitude={setLatitude}
+                />
+                <div className="flex flex-row space-x-2">
+                  <Button
+                    className="btn btn-grey w-[9rem] h-[46px]"
+                    children={"뒤로가기"}
+                    onClick={() => {
+                      setCreateIdx(0);
+                    }}
+                  />
+                  <Button
+                    className="btn btn-red w-[9rem] h-[46px]"
+                    children={"모임 만들기"}
+                    onClick={() => {
+                      createGathering(gatherInfo);
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>,
-
     document.getElementById("modal"),
   );
 };

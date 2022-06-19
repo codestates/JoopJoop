@@ -40,7 +40,7 @@ const time = [
 const Search_gathering = () => {
   return (
     <>
-      <div className="border-2 w-[22rem] rounded-2xl md:hidden">
+      <div className="border-2 border-grey-50 border-opacity-70 w-[22rem] rounded-2xl md:hidden bg-white">
         <div className="flex flex-col md:flex-row items-center place-content-between pt-4 pb-6 md:pt-[0.37rem] gap-1">
           <div className="md:pl-10 w-80 md:w-[24rem]">
             <div className="text-center text-xl font-semibold mb-4 md:hidden">

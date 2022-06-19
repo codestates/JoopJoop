@@ -29,7 +29,6 @@ const initialState = {
       _id: "",
     },
   ],
-  isLoading: false,
 };
 
 const rootReducer = (state = initialState, action) => {
