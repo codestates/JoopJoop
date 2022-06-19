@@ -49,7 +49,7 @@ const Navbar = ({
           </ul>
         </nav>
         <div
-          className="hidden md:flex hover:bg-green-90 rounded-xl items-center space-x-3 mr-4 py-1 px-4 bg-grey-30 text-green-90 hover:text-white border-2 active:bg-green-80 ease-in-out hover:scale-110 duration-200"
+          className="hidden md:flex hover:bg-green-90 rounded-xl items-center space-x-3 mr-4 py-1 px-4 bg-grey-30 text-green-90 hover:text-white  active:bg-green-80 ease-in-out hover:scale-110 duration-200"
           onClick={toggle}
         >
           <img src={profileImg} className="w-6 h-6 rounded-full" alt="error" />
