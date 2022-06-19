@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect} from "react";
 import ReactDom from "react-dom";
 import axios from "axios";
 import Button from "../components/button";
 import logo from "../img/Logo.png";
-import { XIcon } from "@heroicons/react/solid";
-import { useForm } from "react-hook-form";
-import { lightFormat } from "date-fns";
+import {XIcon} from "@heroicons/react/solid";
+import {useForm} from "react-hook-form";
+import {lightFormat} from "date-fns";
 import KakaoLogin from "react-kakao-login";
 
-const ModalSignUp = ({ modalOpen, closeModal }) => {
+const ModalSignUp = ({modalOpen, closeModal}) => {
   const [verifyNumber, setVerifyNumber] = useState("");
 
   useEffect(() => {
@@ -32,13 +32,13 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
     watch,
     getValues,
     reset,
-    formState: { errors },
+    formState: {errors},
   } = useForm();
   const password = useRef();
   password.current = watch("password");
 
   const onSubmit = (data) => {
-    const { email, password, nickname } = data;
+    const {email, password, nickname} = data;
     axios
       .post(
         process.env.REACT_APP_DEPLOYSERVER_URL ||
@@ -49,7 +49,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           nickname: nickname,
         },
         {
-          headers: { "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json"},
           withCredentials: true,
         }
       )
@@ -69,13 +69,14 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
           email: email,
         },
         {
-          headers: { "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json"},
           withCredentials: true,
         }
       )
       .then((res) => {
         const verifyNumber = res.data.authnum;
         setVerifyNumber(verifyNumber);
+        alert("인증 번호가 발송되었습니다.");
       })
       .catch((err) => err);
   };
@@ -105,7 +106,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="email"
             className="w-[340px] h-[36px] input-ring-green rounded-3xl text-center "
             placeholder="Email을 입력하세요."
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", {required: true, pattern: /^\S+@\S+$/i})}
           />
           <div className="w-40 h-4 my-1">
             {errors.email && (
@@ -118,7 +119,6 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             onClick={() => {
               const email = getValues("email");
               const verify = new Promise(() => verifyEmail(email));
-              verify.then(() => alert("인증 번호가 발송되었습니다."));
             }}
           >
             이메일 인증
@@ -128,7 +128,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="password"
             className="w-[340px] h-[36px] my-1 input-ring-green rounded-3xl text-center"
             placeholder="인증번호를 입력하세요."
-            {...register("verifyNumber", { required: true })}
+            {...register("verifyNumber", {required: true})}
           />
           <div className="w-40 h-4">
             {errors.verifyNumber && (
@@ -156,7 +156,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="text"
             className="w-[340px] h-[36px] my-1 input-ring-green rounded-3xl text-center"
             placeholder="닉네임을 입력하세요."
-            {...register("nickname", { required: true, maxLength: 10 })}
+            {...register("nickname", {required: true, maxLength: 10})}
           />
           <div className="w-40 h-4">
             {errors.nickname && errors.nickname.type === "required" && (
@@ -172,7 +172,7 @@ const ModalSignUp = ({ modalOpen, closeModal }) => {
             type="password"
             className="verified my-1 w-[340px] h-[36px] input-ring-green rounded-3xl text-center"
             placeholder="비밀번호를 입력하세요."
-            {...register("password", { required: true, minLength: 6 })}
+            {...register("password", {required: true, minLength: 6})}
           />
           <div className="w-40 h-4">
             {errors.password && errors.password.type === "required" && (
