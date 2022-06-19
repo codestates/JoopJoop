@@ -104,31 +104,33 @@ const Home = ({
     <div className="flex flex-col items-center gap-5 mb-8">
       <div className="w-full flex flex-col items-center gap-5 bg-grey-10 bg-opacity-30">
         <div className="h-1 md:h-4"></div>
-        <div className="text-grey-90 text-xl">
+        <div className="hidden md:flex text-grey-90 text-xl">
           🌱 주변의 모임을 검색해보세요 🔍
         </div>
         <SearchGathering className="flex-row items-center" />
-        <div className="flex flex-row space-x-4 mb-4 pt-4">
+        <div className="flex flex-row space-x-4 mb-4 md:pt-4">
           <div className="flex flex-col items-center space-y-4">
-            <div className="text-grey-90 text-lg">
+            <div className="hidden md:flex text-grey-90 text-lg">
               🗓 찾는 모임이 없으신가요? 🏃‍♂️
             </div>
-            <Button
-              className={"btn btn-green w-[10rem] md:btn md:btn-green"}
-              children={"모임 만들기"}
-              onClick={() => setCreateGatherModalOpen(true)}
-            ></Button>
+            <div className="flex flex-row space-x-4">
+              <Button
+                className={"btn btn-green w-[10rem] md:btn md:btn-green"}
+                children={"모임 만들기"}
+                onClick={() => setCreateGatherModalOpen(true)}
+              ></Button>
+              <button
+                className={"btn btn-dgreen w-[10rem] md:hidden erase-hover"}
+                onClick={() => setSearchOn(!searchOn)}
+              >
+                {searchOn ? (
+                  <XIcon className="h-6 w-6 text-white" />
+                ) : (
+                  <SearchIcon className="h-6 w-6 text-white" />
+                )}
+              </button>
+            </div>
           </div>
-          <button
-            className={"btn btn-dgreen w-[10rem] md:hidden erase-hover"}
-            onClick={() => setSearchOn(!searchOn)}
-          >
-            {searchOn ? (
-              <XIcon className="h-6 w-6 text-white" />
-            ) : (
-              <SearchIcon className="h-6 w-6 text-white" />
-            )}
-          </button>
         </div>
         {searchOn ? <SearchGatheringSmall className="flex md:hidden" /> : null}
         <hr className="w-full border-[1px] border-grey-50" />
