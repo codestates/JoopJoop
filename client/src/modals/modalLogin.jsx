@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import { useHistory } from "react-router-dom";
 import Button from "../components/button";
@@ -30,9 +30,23 @@ const ModalLogin = ({
   setSignUpModalOpen,
 }) => {
   const history = useHistory();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+      return () => {
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = "";
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      };
+    }
+  }, [modalOpen]);
 
   const loginHandler = () => {
     if (email && password) {

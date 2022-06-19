@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDom from "react-dom";
 import { XIcon } from "@heroicons/react/solid";
 
 const ModalConfirmSignOut = ({ modalOpen, closeModal, onDeleteAccount }) => {
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+      return () => {
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = "";
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      };
+    }
+  }, [modalOpen]);
+
   if (!modalOpen) return null;
 
   return ReactDom.createPortal(
@@ -41,7 +56,7 @@ const ModalConfirmSignOut = ({ modalOpen, closeModal, onDeleteAccount }) => {
         </div>
       </div>
     </div>,
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 

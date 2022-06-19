@@ -20,6 +20,7 @@ const mapStateToProps = (state) => {
     isOAuthLogin: state.isOAuthLogin,
     userId: state.userId,
     token: state.accessToken,
+    isMobile: state.isMobile,
   };
 };
 
@@ -35,6 +36,8 @@ const mapDispatchToProps = (dispatch) => {
     setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
     setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
     setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
+    setMobile: (boolean) => dispatch(action.setIsMobile(true)),
+    setDesktop: (boolean) => dispatch(action.setIsMobile(false)),
   };
 };
 
@@ -53,6 +56,9 @@ function App({
   setGatherings,
   profileImg,
   setProfileImg,
+  setMobile,
+  setDesktop,
+  isMobile,
 }) {
   const onLogin = (email, password) => {
     const data = {
