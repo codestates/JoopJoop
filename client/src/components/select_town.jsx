@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import action from "../redux/action";
 import { useCallback } from "react";
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setSearchTown: town => dispatch(action.setSearchTown(town)),
+    setSearchTown: (town) => dispatch(action.setSearchTown(town)),
   };
 };
 
@@ -27,7 +27,7 @@ const Search = ({ options, setSearchTown }) => {
 
   const set = useCallback(async () => {
     let selectedArray = [];
-    selected.forEach(ele => (selectedArray = [...selectedArray, ele.value]));
+    selected.forEach((ele) => (selectedArray = [...selectedArray, ele.value]));
     setSearchTown(selectedArray);
   }, [selected]);
 

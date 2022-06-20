@@ -92,7 +92,7 @@ const Schedule = ({ gatherings, userId }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mb-4 ">
       <div className="w-full h-[6rem] flex flex-row justify-center align-center space-x-8 pt-6 mb-5 bg-grey-10 bg-opacity-30 border-b-[1px] border-grey-50">
         <button className="btn btn-green" onClick={() => setPreOrPost(true)}>
           다가오는 일정
@@ -101,11 +101,11 @@ const Schedule = ({ gatherings, userId }) => {
           종료된 일정
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-        {filteredGatherings.length > 0 ? (
-          preOrPost ? (
-            preGatherings.length > 0 ? (
-              preGatherings.map((gather, idx) => (
+      {filteredGatherings.length > 0 ? (
+        preOrPost ? (
+          preGatherings.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+              {preGatherings.map((gather, idx) => (
                 <Card
                   key={idx}
                   props={gather}
@@ -113,12 +113,14 @@ const Schedule = ({ gatherings, userId }) => {
                     setPreGatherToModal(idx);
                   }}
                 ></Card>
-              ))
-            ) : (
-              <NullGathering />
-            )
-          ) : postGatherings.length > 0 ? (
-            postGatherings.map((gather, idx) => (
+              ))}
+            </div>
+          ) : (
+            <NullGathering />
+          )
+        ) : postGatherings.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+            {postGatherings.map((gather, idx) => (
               <Card
                 key={idx}
                 props={gather}
@@ -126,14 +128,14 @@ const Schedule = ({ gatherings, userId }) => {
                   setPostGatherToModal(idx);
                 }}
               ></Card>
-            ))
-          ) : (
-            <NullGathering />
-          )
+            ))}
+          </div>
         ) : (
           <NullGathering />
-        )}
-      </div>
+        )
+      ) : (
+        <NullGathering />
+      )}
       <ModalViewGathering
         modalOpen={gatherModalOpen}
         closeModal={() => setGatherModalOpen(false)}
