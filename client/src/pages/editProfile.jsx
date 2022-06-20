@@ -115,15 +115,12 @@ const EditProfile = ({
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     const { nickname, password } = data;
     axios
       .put(
         process.env.REACT_APP_DEPLOYSERVER_URL ||
           process.env.REACT_APP_LOCALSERVER_URL + /users/ + userId,
-        {
-          data,
-        },
+        data,
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
