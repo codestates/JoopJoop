@@ -68,8 +68,10 @@ const EditProfile = ({
   const onDeleteAccount = () => {
     axios
       .delete(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) +
+          "/users/" +
+          userId,
 
         {
           headers: { "Content-Type": "application/json", token: token },
@@ -101,8 +103,8 @@ const EditProfile = ({
     };
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/upload",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/upload",
         formData,
         config,
       )
@@ -118,8 +120,10 @@ const EditProfile = ({
     const { nickname, password } = data;
     axios
       .put(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + /users/ + userId,
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) +
+          /users/ +
+          userId,
         data,
         {
           headers: { "Content-Type": "application/json", token: token },
@@ -139,8 +143,10 @@ const EditProfile = ({
   const updateProfileImg = (res) => {
     axios
       .put(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) +
+          "/users/" +
+          userId,
         { profileImg: res },
         {
           headers: { "Content-Type": "application/json", token: token },
@@ -152,8 +158,8 @@ const EditProfile = ({
           res.data.profileImg = "/" + res.data.profileImg;
         }
         setProfileImg(
-          process.env.REACT_APP_DEPLOYSERVER_URL ||
-            process.env.REACT_APP_LOCALSERVER_URL + res.data.profileImg,
+          (process.env.REACT_APP_DEPLOYSERVER_URL ||
+            process.env.REACT_APP_LOCALSERVER_URL) + res.data.profileImg,
         );
       })
       .catch((err) => err);

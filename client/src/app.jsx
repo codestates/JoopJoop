@@ -109,8 +109,8 @@ function App({
     setUserId(_id);
     setAccessToken(accessToken);
     setProfileImg(
-      process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + profileImg,
+      (process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL) + profileImg,
     );
   };
 
@@ -143,8 +143,8 @@ function App({
   const onLogout = (e) => {
     axios
       .get(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/auth/logout",
         {
           headers: {
             "Content-Type": "application/json",
@@ -163,8 +163,8 @@ function App({
   const onSilentRefresh = () => {
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/auth/refresh",
         { data: "refresh" },
         {
           withCredentials: true,
@@ -182,8 +182,8 @@ function App({
   const getGatherings = () => {
     axios
       .get(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings",
         {
           withCredentials: true,
         },
@@ -196,9 +196,9 @@ function App({
               gathering.author.profileImg = "/" + gathering.author.profileImg;
             }
             gathering.author.profileImg =
-              process.env.REACT_APP_DEPLOYSERVER_URL ||
-              process.env.REACT_APP_LOCALSERVER_URL +
-                gathering.author.profileImg;
+              (process.env.REACT_APP_DEPLOYSERVER_URL ||
+                process.env.REACT_APP_LOCALSERVER_URL) +
+              gathering.author.profileImg;
           });
         setGatherings([...data.data]);
       })

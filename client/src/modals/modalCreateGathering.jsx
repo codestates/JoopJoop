@@ -264,8 +264,8 @@ const ModalCreateGathering = ({
   const createGathering = (data) => {
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings",
         data,
         {
           headers: { "Content-Type": "application/json" },
