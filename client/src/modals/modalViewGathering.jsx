@@ -80,8 +80,8 @@ const ModalViewGathering = ({
   const joinGathering = async () => {
     try {
       const join = axios.post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/participation",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings/participation",
         {
           gathering_id: _id,
           participant_id: userId,
@@ -99,8 +99,8 @@ const ModalViewGathering = ({
   const cancellateGathering = async () => {
     try {
       const cancellation = axios.post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/cancellation",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings/cancellation",
         {
           gathering_id: _id,
           participant_id: userId,
@@ -118,8 +118,10 @@ const ModalViewGathering = ({
   const deleteGathering = async () => {
     try {
       const remove = axios.delete(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/" + _id,
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) +
+          "/gatherings/" +
+          _id,
         {
           nickname: loginNickname,
         },

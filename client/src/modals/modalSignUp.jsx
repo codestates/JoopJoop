@@ -59,8 +59,8 @@ const ModalSignUp = ({
     const { email, password, nickname } = data;
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/signup",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/auth/signup",
         {
           email: email,
           password: password,
@@ -85,8 +85,8 @@ const ModalSignUp = ({
   const verifyEmail = (email) => {
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/mail",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/mail",
         {
           email: email,
         },

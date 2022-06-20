@@ -28,16 +28,16 @@ const Landing = ({ onLogin, isLogin, guestRegisterLogin }) => {
 
   const google = () => {
     window.open(
-      process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + "/auth/google",
+      (process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL) + "/auth/google",
       "_self",
     );
   };
 
   const kakao = () => {
     window.open(
-      process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + "/auth/kakao",
+      (process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL) + "/auth/kakao",
       "_self",
     );
   };

@@ -11,7 +11,10 @@ const Participant = ({ participant }) => {
       <div className="flex flex-row items-center gap-1 rounded-full">
         <img
           className="w-4 h-4 rounded-full"
-          src={`${process.env.REACT_APP_LOCALSERVER_URL}${profileImg}`}
+          src={`${
+            process.env.REACT_APP_DEPLOYSERVER_URL ||
+            process.env.REACT_APP_LOCALSERVER_URL
+          }${profileImg}`}
           alt="err"
         />
         <div className="text-xs">{participant.nickname}</div>
