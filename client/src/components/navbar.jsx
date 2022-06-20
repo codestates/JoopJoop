@@ -113,7 +113,7 @@ const Navbar = ({
             </li>
           </Link>
           <Link
-            to="/schedule"
+            to="/chat"
             className="w-full py-2 hover:bg-white hover:text-green-90 text-center duration-200"
           >
             <li className="px-2 py-2 font-semibold">
