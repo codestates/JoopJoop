@@ -7,6 +7,11 @@ module.exports = {
     type: "SET_ISOAUTHLOGIN",
     payload: boolean,
   }),
+  setIsGuest: (boolean) => ({
+    type: "SET_ISGUEST",
+    payload: boolean,
+  }),
+
   setSearchTown: (town) => ({
     type: "SET_SEARCHTOWN",
     payload: town,
@@ -50,5 +55,13 @@ module.exports = {
   setIsLoading: (boolean) => ({
     type: "SET_ISLOADING",
     payload: boolean,
+  }),
+  setAlertModalOpen: (boolean) => ({
+    type: "SET_MODALOPEN",
+    payload: boolean,
+  }),
+  setAlertMessage: (message) => ({
+    type: "SET_ALERTMESSAGE",
+    payload: message,
   }),
 };

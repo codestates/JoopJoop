@@ -24,20 +24,14 @@ export const ScrollToTop = () => {
     };
   }, []);
 
-  console.log(
-    classNames(
-      "opacity-0 inline-flex items-center p-3 rounded-full shadow-sm text-white bg-green-95 transition-opacity hover:bg-green-90 focus:outine-none focus:ring-2 focus:ring-offset-2 focus:ring-green-95"
-    )
-  );
-
   return (
-    <div className="fixed bottom-2 right-2">
+    <div className="fixed bottom-4 right-4">
       <button
         type="button"
         onClick={scrollToTop}
         className={classNames(
           isVisible ? "opacity-100" : "opacity-0",
-          "inline-flex items-center p-3 rounded-full shadow-sm text-white bg-green-95 transition-opacity hover:bg-green-90 focus:outine-none focus:ring-2 focus:ring-offset-2 focus:ring-green-95 ss"
+          "inline-flex items-center p-3 rounded-full shadow-sm text-white bg-green-100 transition-opacity hover:bg-green-95 focus:outine-none focus:ring-offset-2 focus:ring-green-95 ss",
         )}
       >
         <BiArrowFromBottom className="h-6 w-6" aira-hidden="true" />

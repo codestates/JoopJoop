@@ -59,10 +59,7 @@ const ModalLogin = ({
     <div className="container-modal">
       <div className="modal-normal gap-3">
         <div className="relative w-full">
-          <button
-            className="absolute left-[91.5%] bottom-2"
-            onClick={closeModal}
-          >
+          <button className="absolute right-5 bottom-2" onClick={closeModal}>
             <XIcon className="h-5 w-5" />
           </button>
         </div>
@@ -122,9 +119,6 @@ const ModalLogin = ({
           </button>
         </div>
         <div className="w-10 h-2"></div>
-        <button className="text-xs flex items-center text-center">
-          비밀번호를 잊으셨나요?
-        </button>
         <div className="flex flex-row justify-center items-center gap-5">
           <button className="text-xs flex items-center text-center">
             계정이 없으신가요?
@@ -139,7 +133,7 @@ const ModalLogin = ({
       </div>
     </div>,
 
-    document.getElementById("modal")
+    document.getElementById("modal"),
   );
 };
 

@@ -44,7 +44,7 @@ const Search_gathering = () => {
         <div className="flex flex-col md:flex-row items-center place-content-between pt-4 pb-6 md:pt-[0.37rem] gap-1">
           <div className="md:pl-10 w-80 md:w-[24rem]">
             <div className="text-center text-xl font-semibold mb-4 md:hidden">
-              모임 검색
+              🌱 모임을 검색해보세요 🔍
             </div>
             <div className="text-center md:text-left">장소</div>
             <SearchTown className="" options={location} />

@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useEffect } from "react";
 
-const CreateMapContainer = props => {
+const CreateMapContainer = (props) => {
   let latitude = props.latitude;
   let longitude = props.longitude;
 

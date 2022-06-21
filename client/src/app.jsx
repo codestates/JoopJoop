@@ -13,14 +13,17 @@ import axios from "axios";
 import { connect } from "react-redux";
 import action from "./redux/action";
 import Mypage from "./pages/mypage";
+import ModalAlert from "./modals/modalAlert";
 
 const mapStateToProps = (state) => {
   return {
     isLogin: state.isLogin,
     isOAuthLogin: state.isOAuthLogin,
+    isGuest: state.isGuest,
     userId: state.userId,
     token: state.accessToken,
-    isMobile: state.isMobile,
+    alertMessage: state.alertMessage,
+    alertModalOpen: state.alertModalOpen,
   };
 };
 
@@ -29,6 +32,7 @@ const mapDispatchToProps = (dispatch) => {
     setUserId: (id) => dispatch(action.setUserId(id)),
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
     setIsOAuthLogin: (boolean) => dispatch(action.setIsOAuthLogin(boolean)),
+    setIsGuest: (boolean) => dispatch(action.setIsGuest(boolean)),
     setEmail: (email) => dispatch(action.setEmail(email)),
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setAccessToken: (accessToken) =>
@@ -36,8 +40,8 @@ const mapDispatchToProps = (dispatch) => {
     setIsLoading: (boolean) => dispatch(action.setIsLoading(boolean)),
     setGatherings: (gathering) => dispatch(action.setGatherings(gathering)),
     setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
-    setMobile: (boolean) => dispatch(action.setIsMobile(true)),
-    setDesktop: (boolean) => dispatch(action.setIsMobile(false)),
+    setAlertModalOpen: (boolean) => dispatch(action.setAlertModalOpen(boolean)),
+    setAlertMessage: (message) => dispatch(action.setAlertMessage(message)),
   };
 };
 
@@ -45,7 +49,9 @@ function App({
   isLogin,
   setIsLogin,
   isOAuthLogin,
+  isGuest,
   setIsOAuthLogin,
+  setIsGuest,
   setEmail,
   setNickname,
   setUserId,
@@ -56,9 +62,10 @@ function App({
   setGatherings,
   profileImg,
   setProfileImg,
-  setMobile,
-  setDesktop,
-  isMobile,
+  alertMessage,
+  alertModalOpen,
+  setAlertModalOpen,
+  setAlertMessage,
 }) {
   const onLogin = (email, password) => {
     const data = {
@@ -80,27 +87,30 @@ function App({
         },
       )
       .then((res) => {
-        console.log(res);
         window.location.reload();
         onLoginSuccess(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setAlertMessage(err.response.data.message);
+        setAlertModalOpen(true);
+      });
   };
 
   const onLoginSuccess = (res) => {
-    let { accessToken, email, nickname, _id, profileImg } = res.data;
+    let { accessToken, email, nickname, _id, profileImg, isGuest } = res.data;
     if (profileImg[0] !== "/") {
       profileImg = "/" + profileImg;
     }
     getGatherings();
     setIsLogin(true);
+    setIsGuest(isGuest);
     setEmail(email);
     setNickname(nickname);
     setUserId(_id);
     setAccessToken(accessToken);
     setProfileImg(
-      process.env.REACT_APP_DEPLOYSERVER_URL ||
-        process.env.REACT_APP_LOCALSERVER_URL + profileImg,
+      (process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL) + profileImg,
     );
   };
 
@@ -125,7 +135,6 @@ function App({
         },
       )
       .then((result) => {
-        console.log(result);
         onLoginSuccess(result);
       })
       .catch((err) => err);
@@ -134,8 +143,8 @@ function App({
   const onLogout = (e) => {
     axios
       .get(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/logout",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/auth/logout",
         {
           headers: {
             "Content-Type": "application/json",
@@ -154,8 +163,8 @@ function App({
   const onSilentRefresh = () => {
     axios
       .post(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/auth/refresh",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/auth/refresh",
         { data: "refresh" },
         {
           withCredentials: true,
@@ -163,9 +172,7 @@ function App({
       )
       .then((res) => {
         onLoginSuccess(res);
-        if (res.data.oAuthId) {
-          setIsOAuthLogin(true);
-        }
+        if (res.data.oAuthId) setIsOAuthLogin(true);
       })
       .catch((err) => {
         setIsLogin(false);
@@ -175,8 +182,8 @@ function App({
   const getGatherings = () => {
     axios
       .get(
-        process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings",
         {
           withCredentials: true,
         },
@@ -189,9 +196,9 @@ function App({
               gathering.author.profileImg = "/" + gathering.author.profileImg;
             }
             gathering.author.profileImg =
-              process.env.REACT_APP_DEPLOYSERVER_URL ||
-              process.env.REACT_APP_LOCALSERVER_URL +
-                gathering.author.profileImg;
+              (process.env.REACT_APP_DEPLOYSERVER_URL ||
+                process.env.REACT_APP_LOCALSERVER_URL) +
+              gathering.author.profileImg;
           });
         setGatherings([...data.data]);
       })
@@ -252,6 +259,11 @@ function App({
           />
         )}
         {menuToggle ? null : <Footer></Footer>}
+        <ModalAlert
+          modalOpen={alertModalOpen}
+          closeModal={() => setAlertModalOpen(false)}
+          messege={alertMessage}
+        />
       </BrowserRouter>
     </>
   );

@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useEffect } from "react";
 
-const MapContainer = props => {
+const MapContainer = (props) => {
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
