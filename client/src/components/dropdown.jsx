@@ -15,7 +15,7 @@ const Dropdown = ({
     <div
       className={
         isOpen
-          ? "absolute top-[3.5rem] right-[2rem] w-[6rem] flex flex-col border-[1px] border-grey-50 rounded-lg bg-white ease-in-out hover:scale-110 duration-200"
+          ? "absolute top-[3.2rem] right-[2rem] w-[6rem] h-[2rem] bg-white flex flex-col"
           : "hidden"
       }
       onClick={toggle}
@@ -25,13 +25,13 @@ const Dropdown = ({
         {alarm}
       </Link> */}
       <button
-        className="py-1 rounded-t-md hover:bg-green-90 items-center text-green-90 hover:text-white active:bg-green-80"
+        className="hover:bg-green-90 rounded-xl items-center w-[6rem]  h-[2rem] bg-grey-30 text-green-90 hover:text-white border-2 active:bg-green-80 ease-in-out hover:scale-110 duration-200"
         onClick={(e) => history.push("/mypage")}
       >
         {profileImg}
       </button>
       <button
-        className="py-1 rounded-b-md hover:bg-green-90 items-center text-green-90 hover:text-white active:bg-green-80"
+        className="hover:bg-green-90 rounded-xl items-center w-[6rem]  h-[2rem] bg-grey-30 text-green-90 hover:text-white border-2 active:bg-green-80 ease-in-out hover:scale-110 duration-200"
         onClick={(e) => {
           e.preventDefault();
           logout();

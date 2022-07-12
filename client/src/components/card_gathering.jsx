@@ -21,11 +21,7 @@ const card_gathering = ({ props, onClick }) => {
           <div className="text-sm">{title}</div>
         </div>
         <div className="flex flex-row place-content-center gap-4 items-center m-2">
-          <img
-            className="h-8 w-8 rounded-full"
-            src={author.profileImg}
-            alt="err"
-          />
+          <img className="h-8 w-8" src={author.profileImg} alt="err" />
           <div className=" text-lg">{author.nickname}</div>
         </div>
       </div>

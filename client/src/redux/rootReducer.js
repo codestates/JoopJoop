@@ -1,7 +1,6 @@
 const initialState = {
   isLogin: false,
   isOAuthLogin: false,
-  isGuest: false,
   searchTown: [],
   searchDate: "",
   searchTime: [],
@@ -30,8 +29,6 @@ const initialState = {
       _id: "",
     },
   ],
-  alertModalOpen: false,
-  alertMessage: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -40,8 +37,6 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, isLogin: action.payload };
     case "SET_ISOAUTHLOGIN":
       return { ...state, isOAuthLogin: action.payload };
-    case "SET_ISGUEST":
-      return { ...state, isGuest: action.payload };
     case "SET_SEARCHTOWN":
       return { ...state, searchTown: action.payload };
     case "SET_SEARCHDATE":
@@ -64,10 +59,6 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, gatherings: action.payload };
     case "SET_ISLOADING":
       return { ...state, isLoading: action.payload };
-    case "SET_MODALOPEN":
-      return { ...state, alertModalOpen: action.payload };
-    case "SET_ALERTMESSAGE":
-      return { ...state, alertMessage: action.payload };
     default:
       return state;
   }

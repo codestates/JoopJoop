@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { XIcon } from "@heroicons/react/solid";
 import { connect } from "react-redux";
-import action from "../redux/action";
+import action, { setIsLogin } from "../redux/action";
 import axios from "axios";
 import ModalConfirmSignOut from "../modals/modalConfirmSignOut";
 import { useHistory } from "react-router-dom";
@@ -15,20 +15,16 @@ const mapStateToProps = (state) => {
     token: state.accessToken,
     profileImg: state.profileImg,
     isOAuthLogin: state.isOAuthLogin,
-    isGuest: state.isGuest,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setIsLogin: (boolean) => dispatch(action.setIsLogin(boolean)),
-    setIsGuest: (boolean) => dispatch(action.setIsGuest(boolean)),
     setEmail: (email) => dispatch(action.setEmail(email)),
     setNickname: (nickname) => dispatch(action.setNickname(nickname)),
     setPassword: (password) => dispatch(action.setPassword(password)),
     setProfileImg: (profileImg) => dispatch(action.setProfileImg(profileImg)),
-    setAlertModalOpen: (boolean) => dispatch(action.setAlertModalOpen(boolean)),
-    setAlertMessage: (message) => dispatch(action.setAlertMessage(message)),
   };
 };
 
@@ -40,15 +36,9 @@ const EditProfile = ({
   setPassword,
   setProfileImg,
   profileImg,
-  setIsLogin,
   userId,
   token,
   isOAuthLogin,
-  isGuest,
-  setIsGuest,
-  setAlertModalOpen,
-  setAlertMessage,
-  setEditMode,
 }) => {
   const history = useHistory();
 
@@ -68,19 +58,16 @@ const EditProfile = ({
   const onDeleteAccount = () => {
     axios
       .delete(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) +
-          "/users/" +
-          userId,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
 
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
-        setAlertMessage("계정이 삭제 되었습니다.");
-        setAlertModalOpen(true);
+        alert("계정이 삭제 되었습니다.");
         setIsLogin(false);
         return history.push("/");
       })
@@ -93,6 +80,10 @@ const EditProfile = ({
   };
 
   const handleClick = (e) => {
+    console.log(
+      process.env.REACT_APP_DEPLOYSERVER_URL ||
+        process.env.REACT_APP_LOCALSERVER_URL + "/upload"
+    );
     const formData = new FormData();
     formData.append("file", files);
 
@@ -103,39 +94,37 @@ const EditProfile = ({
     };
     axios
       .post(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) + "/upload",
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/upload",
         formData,
-        config,
+        config
       )
       .then((res) => {
         updateProfileImg(res.data.image);
-        setAlertMessage("변경 되었습니다!");
-        setAlertModalOpen(true);
       })
       .catch((err) => console.log(err));
   };
 
   const onSubmit = (data) => {
     const { nickname, password } = data;
+
     axios
       .put(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) +
-          /users/ +
-          userId,
-        data,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + /users/ + userId,
+        {
+          nickname: nickname,
+          password: password,
+        },
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
         setNickname(nickname);
-        if (password) setPassword(password);
-        setAlertMessage("변경 되었습니다!");
-        setAlertModalOpen(true);
-        setEditMode(false);
+        setPassword(password);
+        alert("변경 되었습니다!");
       })
       .catch((err) => err);
   };
@@ -143,23 +132,21 @@ const EditProfile = ({
   const updateProfileImg = (res) => {
     axios
       .put(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) +
-          "/users/" +
-          userId,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/users/" + userId,
         { profileImg: res },
         {
           headers: { "Content-Type": "application/json", token: token },
           withCredentials: true,
-        },
+        }
       )
       .then((res) => {
         if (res.data.profileImg[0] !== "/") {
           res.data.profileImg = "/" + res.data.profileImg;
         }
         setProfileImg(
-          (process.env.REACT_APP_DEPLOYSERVER_URL ||
-            process.env.REACT_APP_LOCALSERVER_URL) + res.data.profileImg,
+          process.env.REACT_APP_DEPLOYSERVER_URL ||
+            process.env.REACT_APP_LOCALSERVER_URL + res.data.profileImg
         );
       })
       .catch((err) => err);
@@ -175,7 +162,7 @@ const EditProfile = ({
       function () {
         preview.src = reader.result;
       },
-      false,
+      false
     );
 
     if (file) {
@@ -195,7 +182,7 @@ const EditProfile = ({
         <form>
           <label
             className="btn w-20 h-5 my-2 text-xs btn-grey"
-            htmlFor="file-input"
+            for="file-input"
           >
             사진 올리기
           </label>
@@ -236,13 +223,10 @@ const EditProfile = ({
             className="w-[340px] h-[46px] input-ring-green rounded-3xl text-center mb-2"
             {...register("nickname", { required: true, maxLength: 10 })}
           />
-          {errors.nickname && errors.nickname.type === "required" && (
-            <p className="text-xs text-red">필수 입력 사항입니다.</p>
-          )}
           {errors.nickname && errors.nickname.type === "maxLength" && (
             <p className="text-xs text-red">최대 10글자 입니다.</p>
           )}
-          {isOAuthLogin || isGuest ? null : (
+          {isOAuthLogin ? null : (
             <>
               <label className="mb-2">비밀번호</label>
               <input
@@ -254,7 +238,7 @@ const EditProfile = ({
               />
               {errors.password && errors.password.type === "required" && (
                 <p className="text-xs text-red">
-                  본인 확인용입니다. 새로운 비밀번호로 변경도 가능합니다.
+                  필수 입력 사항입니다. 비밀번호도 변경도 가능합니다.
                 </p>
               )}
               {errors.password && errors.password.type === "minLength" && (

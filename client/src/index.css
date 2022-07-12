@@ -33,11 +33,7 @@
   }
 
   .modal-normal {
-    @apply w-full sm:w-[500px] h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
-  }
-
-  .modal-alert {
-    @apply w-[350px] h-[200px] flex flex-col bg-white rounded-3xl justify-center items-center;
+    @apply w-500 h-647 flex flex-col bg-white rounded-3xl justify-center items-center;
   }
 
   .modal-large {
@@ -45,7 +41,7 @@
   }
 
   .input-ring-green {
-    @apply bg-white outline outline-grey-50 focus:outline-none focus:ring ring-green-80;
+    @apply bg-white outline outline-grey-50 focus:outline-none focus:ring ring-green-50;
   }
 
   .erase-hover {

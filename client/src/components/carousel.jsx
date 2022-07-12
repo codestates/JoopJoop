@@ -2,35 +2,33 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import img1 from "../img/img_landing1.gif";
-import img2 from "../img/img_landing2.gif";
-import img3 from "../img/img_landing3.gif";
-import img4 from "../img/img_landing4.gif";
+import img1 from "../img/img_landing1.png";
+import img2 from "../img/img_landing2.png";
+import img3 from "../img/img_landing3.png";
+import img4 from "../img/img_landing4.png";
 
 const Carousel = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3500,
   };
   return (
-    <div className="object-cover w-full h-full">
+    <div className="w-[59rem]">
       <Slider {...settings}>
-        <div className="object-cover w-full h-[95vh]">
-          <img className="object-cover w-full h-full" src={img1} alt="err" />
+        <div>
+          <img src={img1} alt="err" />
         </div>
-        <div className="object-cover w-full h-[95vh]">
-          <img className="object-cover w-full h-full" src={img2} alt="err" />
+        <div>
+          <img src={img2} alt="err" />
         </div>
-        <div className="object-cover w-full h-[95vh]">
-          <img className="object-cover w-full h-full" src={img3} alt="err" />
+        <div>
+          <img src={img3} alt="err" />
         </div>
-        <div className="object-cover w-full h-[95vh]">
-          <img className="object-cover w-full h-full" src={img4} alt="err" />
+        <div>
+          <img src={img4} alt="err" />
         </div>
       </Slider>
     </div>

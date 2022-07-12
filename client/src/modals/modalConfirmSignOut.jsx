@@ -22,7 +22,7 @@ const ModalConfirmSignOut = ({ modalOpen, closeModal, onDeleteAccount }) => {
 
   return ReactDom.createPortal(
     <div className="container-modal">
-      <div className="modal-mobile md:modal-large gap-1">
+      <div className="modal-large gap-1">
         <div className="relative w-full">
           <button
             className="absolute left-[91.5%] bottom-2"

@@ -24,10 +24,7 @@ const Mypage = ({ userEmail, userNickname, profileImg }) => {
   return (
     <div className="h-647 flex justify-center bg-grey-10">
       {editMode ? (
-        <EditProfile
-          setEditMode={setEditMode}
-          switchEditMode={switchEditMode}
-        />
+        <EditProfile switchEditMode={switchEditMode} />
       ) : (
         <div className="flex space-x-4 flex-col md:flex-row items-center mt-10 w-100% h-auto">
           <img

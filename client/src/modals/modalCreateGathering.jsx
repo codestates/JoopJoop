@@ -11,19 +11,11 @@ import CreateMapContainer from "../components/container_createmap";
 import { useEffect } from "react";
 import { format } from "date-fns";
 import { connect } from "react-redux";
-import action from "../redux/action";
 
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
     token: state.accessToken,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setAlertModalOpen: (boolean) => dispatch(action.setAlertModalOpen(boolean)),
-    setAlertMessage: (message) => dispatch(action.setAlertMessage(message)),
   };
 };
 
@@ -201,13 +193,7 @@ const ampmOptions = [
   { value: "PM", label: "PM" },
 ];
 
-const ModalCreateGathering = ({
-  modalOpen,
-  closeModal,
-  userId,
-  setAlertModalOpen,
-  setAlertMessage,
-}) => {
+const ModalCreateGathering = ({ modalOpen, closeModal, userId }) => {
   const [title, setTitle] = useState("");
   const [town, setTown] = useState("");
   const [townValue, setTownValue] = useState("");
@@ -264,8 +250,8 @@ const ModalCreateGathering = ({
   const createGathering = (data) => {
     axios
       .post(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings",
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings",
         data,
         {
           headers: { "Content-Type": "application/json" },
@@ -273,10 +259,7 @@ const ModalCreateGathering = ({
         },
       )
       .then((res) => window.location.reload())
-      .catch((err) => {
-        setAlertMessage("모임 생성에 실패했습니다.");
-        setAlertModalOpen(true);
-      });
+      .catch((err) => alert("모임 생성에 실패했습니다."));
   };
 
   const [createIdx, setCreateIdx] = useState(0);
@@ -284,6 +267,8 @@ const ModalCreateGathering = ({
   useEffect(() => {
     setCreateIdx(0);
   }, [modalOpen]);
+
+  // TODO :249 모임 생성 실패시 모달에 메시지 띄우기
 
   if (!modalOpen) return null;
   return ReactDom.createPortal(
@@ -482,7 +467,4 @@ const ModalCreateGathering = ({
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ModalCreateGathering);
+export default connect(mapStateToProps)(ModalCreateGathering);

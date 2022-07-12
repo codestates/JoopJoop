@@ -80,8 +80,8 @@ const ModalViewGathering = ({
   const joinGathering = async () => {
     try {
       const join = axios.post(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings/participation",
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/participation",
         {
           gathering_id: _id,
           participant_id: userId,
@@ -99,8 +99,8 @@ const ModalViewGathering = ({
   const cancellateGathering = async () => {
     try {
       const cancellation = axios.post(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings/cancellation",
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/cancellation",
         {
           gathering_id: _id,
           participant_id: userId,
@@ -118,10 +118,8 @@ const ModalViewGathering = ({
   const deleteGathering = async () => {
     try {
       const remove = axios.delete(
-        (process.env.REACT_APP_DEPLOYSERVER_URL ||
-          process.env.REACT_APP_LOCALSERVER_URL) +
-          "/gatherings/" +
-          _id,
+        process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL + "/gatherings/" + _id,
         {
           nickname: loginNickname,
         },
@@ -160,11 +158,7 @@ const ModalViewGathering = ({
                 <MapContainer longitude={longitude} latitude={latitude} />
               ) : null}
               <div className="flex flex-row items-center gap-1">
-                <img
-                  src={author.profileImg}
-                  alt="err"
-                  className="w-5 h-5 rounded-full"
-                />
+                <img src={author.profileImg} alt="err" className="w-5 h-5" />
                 <div className="text-[16px]">{author.nickname}</div>
               </div>
             </div>
@@ -246,7 +240,7 @@ const ModalViewGathering = ({
             </button>
           </div>
           <div className="flex flex-col items-center gap-4 w-[669px] h-[379px]">
-            <div className="flex flex-row place-content-between w-[340px] h-[353px]">
+            <div className="flex flex-row place-content-between w-[313px] h-[353px]">
               <div className="flex flex-row items-start gap-2">
                 <img
                   src={author.profileImg}
