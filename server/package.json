@@ -18,7 +18,8 @@
     "nodemon": "^2.0.16",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
-    "passport-kakao": "^1.0.1"
+    "passport-kakao": "^1.0.1",
+    "socket.io": "^4.5.1"
   },
   "name": "server",
   "version": "1.0.0",
