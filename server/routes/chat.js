@@ -4,7 +4,7 @@ const Gathering = require("../models/gathering");
 const Chat = require("../models/chat");
 
 //GET All CHAT
-router.get("/chat", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
 
     socket.on("create-room", (roomName, done) => {
@@ -18,8 +18,8 @@ router.get("/chat", async (req, res) => {
   }
 });
 
-//CREATE ROOM
-router.post("/", async (req, res) => {
+// SAVE CHAT
+router.post("/:id", async (req, res) => {
   const newGathering = new Gathering(req.body);
   try {
     const savedGathering = await newGathering.save();
