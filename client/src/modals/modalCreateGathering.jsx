@@ -12,11 +12,15 @@ import { useEffect } from "react";
 import { format } from "date-fns";
 import { connect } from "react-redux";
 import action from "../redux/action";
+import io from "socket.io-client";
+
+const socket = io.connect("/");
 
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
     token: state.accessToken,
+    loginNickname: state.loginNickname,
   };
 };
 
@@ -207,6 +211,7 @@ const ModalCreateGathering = ({
   userId,
   setAlertModalOpen,
   setAlertMessage,
+  loginNickname,
 }) => {
   const [title, setTitle] = useState("");
   const [town, setTown] = useState("");
@@ -272,7 +277,20 @@ const ModalCreateGathering = ({
           withCredentials: true,
         },
       )
-      .then((res) => window.location.reload())
+      .then((res) => {
+        //! 모임 생성시 socket.io create-room, message
+        socket.emit("create-room", res.data._id, () =>
+          socket.emit(
+            "message",
+            userId,
+            `${loginNickname}님이 모임을 개설했습니다.`,
+            res.data._id,
+            () => {
+              window.location.reload();
+            },
+          ),
+        );
+      })
       .catch((err) => {
         setAlertMessage("모임 생성에 실패했습니다.");
         setAlertModalOpen(true);

@@ -1,18 +1,15 @@
 const router = require("express").Router();
 const User = require("../models/user");
-const Gathering = require("../models/gathering");
 const Chat = require("../models/chat");
 
-//GET All CHAT
+//GET ALL CHAT
 router.get("/", async (req, res) => {
   try {
-
-    socket.on("create-room", (roomName, done) => {
-      socket.join(roomName);
-      done();
-      updateRoomList();
-    });
-  
+    let Chats = await Chat.find().populate("author", [
+      "nickname",
+      "profileImg",
+    ]);
+    res.status(200).json(Chats);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -20,10 +17,10 @@ router.get("/", async (req, res) => {
 
 // SAVE CHAT
 router.post("/:id", async (req, res) => {
-  const newGathering = new Gathering(req.body);
+  const newChat = new Chat(req.body);
   try {
-    const savedGathering = await newGathering.save();
-    res.status(200).json(savedGathering);
+    const savedChat = await newChat.save();
+    res.status(200).json(savedChat);
   } catch (err) {
     res.status(500).json(err);
   }
