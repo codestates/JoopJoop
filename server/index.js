@@ -11,14 +11,15 @@ const postsRoute = require("./routes/posts");
 const poCommentsRoute = require("./routes/posts_comments");
 const gatheringsRoute = require("./routes/gatherings");
 const mailRoute = require("./routes/mail");
-const Chat = require("./models/chat")
+const Chat = require("./models/chat");
+const User = require("./models/user");
 const multer = require("multer");
 const googlePassportConfig = require("./passport/google");
 const kakaoPassportConfig = require("./passport/kakao");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 
-const http = require("http")
+const http = require("http");
 
 const SocketIO = require("socket.io");
 
@@ -106,38 +107,6 @@ httpServer.listen(process.env.SERVER_PORT, () => {
 
 const io = SocketIO(httpServer);
 
-const getSids = () => {
-  const ids = [];
-  const { sids, rooms } = io.of("/").adapter;
-
-  rooms.forEach((_, key) => {
-    if (sids.get(key)) {
-      ids.push(key);
-    }
-  });
-
-  return ids;
-};
-
-const getUserRooms = () => {
-  const userRooms = [];
-  const { sids, rooms } = io.of("/").adapter;
-  rooms.forEach((_, key) => {
-    if (sids.get(key) === undefined) {
-      userRooms.push(key);
-    }
-  });
-
-  return userRooms;
-};
-
-const updateRoomList = () => {
-  const ids = getSids();
-  const userRooms = getUserRooms();
-
-  ids.forEach((id) => io.to(id).emit("updateRooms", userRooms));
-};
-
 io.on("connection", (socket) => {
   socket.on("leave-room", (connected_gathering_id, done) => {
     socket.leave(connected_gathering_id);
@@ -149,24 +118,32 @@ io.on("connection", (socket) => {
   });
 
   socket.on("message", async (author, msg, connected_gathering_id, done) => {
+    console.log(author);
+    console.log(msg);
+    console.log(connected_gathering_id);
+
     const newChat = await new Chat({
       author: author,
       message: msg,
-      connected_gathering_id: connected_gathering_id
+      connected_gathering: connected_gathering_id,
     });
-    
-    try {
-      const savedChat = await newChat.save();
-      res.status(200).json(savedChat);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-    
+
+    console.log(newChat._doc);
+
+    // try {
+    const savedChat = await newChat.save();
+    // res.status(200).json(savedChat);
+    // } catch (err) {
+    // res.status(500).json(err);
+    // }
+
     done();
+    console.log("# socket.io message!"); //! socket.io message check!
     socket.broadcast.to(connected_gathering_id).emit("message", msg);
   });
 
   socket.on("join-room", (connected_gathering_id, done) => {
+    console.log("# socket.io join-room!"); //! socket.io join-room check!
     socket.join(connected_gathering_id);
     done();
     socket
@@ -174,14 +151,16 @@ io.on("connection", (socket) => {
       .emit("join-msg", `${socket["nickname"]}님께서 입장하셨습니다. !!!`);
   });
 
-  socket.on("login", () => {
-    io.to(socket.id).emit("updateRooms", getUserRooms());
+  socket.on("login", (done) => {
+    console.log("# socket.io login!"); //! socket.io login check!
+    // io.to(socket.id).emit("updateRooms", getUserRooms());
+    done();
   });
 
   socket.on("create-room", (connected_gathering_id, done) => {
+    console.log("# socket.io create-room!"); //! socket.io create-room check!
     socket.join(connected_gathering_id);
     done();
-    updateRoomList();
   });
 
   socket.on("nickname", (nickname, done) => {

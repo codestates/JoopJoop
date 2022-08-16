@@ -24,6 +24,7 @@ const mapStateToProps = (state) => {
     token: state.accessToken,
     alertMessage: state.alertMessage,
     alertModalOpen: state.alertModalOpen,
+    loginNickname: state.loginNickname,
   };
 };
 
@@ -66,6 +67,7 @@ function App({
   alertModalOpen,
   setAlertModalOpen,
   setAlertMessage,
+  loginNickname,
 }) {
   const onLogin = (email, password) => {
     const data = {
