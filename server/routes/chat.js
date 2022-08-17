@@ -4,6 +4,7 @@ const Chat = require("../models/chat");
 
 //GET ALL CHAT
 router.get("/", async (req, res) => {
+  console.log("chat route called!!");
   try {
     let Chats = await Chat.find().populate("author", [
       "nickname",

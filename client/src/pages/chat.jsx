@@ -72,6 +72,8 @@ const Chatpage = ({ loginNickname, isGuest, gatherings, userId }) => {
 
   const onJoin = (roomName) => {
     socket.emit("join-room", roomName, () => setJoin(roomName));
+    //! 채팅방 클릭시 state의 room 변경(어떤 방에 입장했는지)
+    setRooms(roomName);
   };
 
   //! CreateRoom 성공시 함수 => Gathering 생성시 실행해야 할지 고려
