@@ -12,18 +12,20 @@ const Chat = ({ room, socket, userId }) => {
   const [chat, setChat] = useState("");
   const [list, setList] = useState([]); // 채팅 텍스트 list
 
-  // useEffect(() => {
-  //   axios.get(
-  //     (process.env.REACT_APP_DEPLOYSERVER_URL ||
-  //       process.env.REACT_APP_LOCALSERVER_URL) + "/chat",
-  //     {
-  //       withCredentials: true,
-  //     },
-  //   )
-  //   .then((data) => {
-
-  //   })
-  // })
+  useEffect(() => {
+    axios
+      .get(
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/chat",
+        {
+          withCredentials: true,
+        },
+      )
+      .then((data) => {
+        console.log(data);
+      });
+    setList([]);
+  }, [room]);
 
   console.log(room);
 
@@ -58,6 +60,10 @@ const Chat = ({ room, socket, userId }) => {
             setList((prev) => prev.concat({ me: true, text: chat }));
             setChat("");
           });
+          // socket.emit("message", userId, nickname, profileImg, chat, room, () => {
+          //   setList((prev) => prev.concat({ me: true, text: chat }));
+          //   setChat("");
+          // });
         }}
       >
         <input

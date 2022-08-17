@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const usersRoute = require("./routes/users");
 const postsRoute = require("./routes/posts");
+const chatRoute = require("./routes/chat");
 const poCommentsRoute = require("./routes/posts_comments");
 const gatheringsRoute = require("./routes/gatherings");
 const mailRoute = require("./routes/mail");
@@ -69,6 +70,7 @@ app.use("/auth", authRoute);
 app.use("/users", usersRoute);
 app.use("/posts", postsRoute);
 app.use("/mail", mailRoute);
+app.use("/chat", chatRoute);
 app.use("/posts_comments", poCommentsRoute);
 app.use("/gatherings", gatheringsRoute);
 app.use("/uploads", express.static("uploads"));
@@ -139,7 +141,7 @@ io.on("connection", (socket) => {
 
     done();
     console.log("# socket.io message!"); //! socket.io message check!
-    socket.broadcast.to(connected_gathering_id).emit("message", msg);
+    socket.to(connected_gathering_id).emit("message", msg);
   });
 
   socket.on("join-room", (connected_gathering_id, done) => {
