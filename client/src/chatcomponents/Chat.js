@@ -5,10 +5,11 @@ import { connect } from "react-redux";
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
+    loginNickname: state.loginNickname,
   };
 };
 
-const Chat = ({ room, socket, userId }) => {
+const Chat = ({ room, socket, userId, loginNickname }) => {
   const [chat, setChat] = useState("");
   const [list, setList] = useState([]); // 채팅 텍스트 list
 
@@ -22,17 +23,21 @@ const Chat = ({ room, socket, userId }) => {
         },
       )
       .then((data) => {
-        console.log(data);
+        const filteredData = data.data.filter((chat) => {
+          return chat.connected_gathering === room;
+        });
+        console.log(filteredData);
+        setList([...filteredData]);
       });
-    setList([]);
   }, [room]);
 
-  console.log(room);
-
   useEffect(() => {
-    socket.on("message", (msg) => {
-      console.log(msg);
-      setList((prev) => prev.concat({ me: false, text: msg }));
+    socket.on("message", (userId, loginNickname, chat) => {
+      setList((prev) => prev.concat(
+        { 
+          author: {nickname: loginNickname, _id: userId},
+          message: chat }
+        ));
     });
   }, [socket]);
 
@@ -41,23 +46,28 @@ const Chat = ({ room, socket, userId }) => {
       <div className="flex text-2xl font-semibold justify-center p-4">
         {room} 채팅방
       </div>
-      <div className="w-[1000px] h-[500px]">
+      <div className="w-[1000px] h-[500px] overflow-x-hidden scroll-smooth snap-end">
         {list.map((item, index) => (
-          <div
+          <div 
             key={index}
-            className={`${
-              item.me ? "text-right bg-[#9FC044]" : "bg-[#DBDDD8]"
-            } rounded-md m-4 py-1 px-4 w-full h-10`}
+            className="rounded-md m-4 py-1 px-4 w-full"
           >
-            {item.text}
+            {item.author.nickname}
+            <br/>
+            {item.message}
           </div>
         ))}
       </div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          socket.emit("message", userId, chat, room, () => {
-            setList((prev) => prev.concat({ me: true, text: chat }));
+          socket.emit("message", userId, chat, room, loginNickname, () => {
+            setList((prev) => prev.concat(        
+              { 
+                author: { nickname: loginNickname, _id: userId},
+                message: chat 
+              }
+              ));
             setChat("");
           });
           // socket.emit("message", userId, nickname, profileImg, chat, room, () => {
@@ -70,6 +80,7 @@ const Chat = ({ room, socket, userId }) => {
           value={chat}
           onChange={(e) => setChat(e.target.value)}
           className="w-full border-2"
+          placeholder="여기에 채팅을 입력해주세요"
         />
       </form>
     </div>

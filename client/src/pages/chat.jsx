@@ -95,25 +95,36 @@ const Chatpage = ({ loginNickname, isGuest, gatherings, userId }) => {
   }, []);
 
   return (
-    <div className="flex flex-row justify-center">
+    <div id="프레임" className="flex flex-row items-start">
       {isLoading ? (
         <div>
           <NullChat></NullChat>
         </div>
       ) : (
-        <div>
-          <div className="flex gap-4">
-            <div className="flex flex-col gap-4 border-2">
-              <div className="p-4">채팅 목록</div>
-              <div className="flex flex-col">
-                {filteredRooms.map((room, index) => (
-                  <ChatRoom key={index} room={room} onJoin={onJoin} />
-                ))}
+        <div className="flex flex-row items-start">
+          <div
+            id="참여중인 채팅목록"
+            className="flex flex-col items-center px-6 py-12"
+          >
+            <div id="frame47" className="flex flex-col items-center gap-5 pb-3">
+              <div
+                id="list"
+                className="flex flex-row items-center justify-center gap-5 pb-1 border-b-[1px] border-grey-80"
+              >
+                <div className="flex items-center font-normal text-xl">ㅁ</div>
+                <div className="flex items-center font-normal text-xl">
+                  참여중인 채팅 목록
+                </div>
               </div>
             </div>
-            <div>
-              <Chat room={join} socket={socket} />
+            <div className="flex flex-col items-start gap-2">
+              {filteredRooms.map((room, index) => (
+                <ChatRoom key={index} room={room} onJoin={onJoin} />
+              ))}
             </div>
+          </div>
+          <div>
+            <Chat room={join} socket={socket} />
           </div>
         </div>
       )}
