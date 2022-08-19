@@ -3,15 +3,6 @@ const User = require("../models/user");
 const Gathering = require("../models/gathering");
 const Chat = require("../models/chat");
 
-const confirmDuplication = (participants) => {
-  for (let el of participants) {
-    if (el.toString() === participant_id) {
-      return true;
-    }
-  }
-  return false;
-};
-
 //CREATE GATHERING
 router.post("/", async (req, res) => {
   const newGathering = new Gathering(req.body);
@@ -111,14 +102,22 @@ router.get("/", async (req, res) => {
 
 // Join(POST) GATHERING
 router.post("/participation", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const { gathering_id, participant_id } = req.body;
     const gathering_participanted = await Gathering.findById(gathering_id);
 
     // 파라미터로 입력받은 참가자의 id(participant_id)와 모임 참가자들의 id(participants)를 비교해서 일치하는 id가 있는지 확인
+    const isduplication = (participants) => {
+      for (let el of participants) {
+        if (el.toString() === participant_id) {
+          return true;
+        }
+      }
+      return false;
+    };
 
-    if (!confirmDuplication(gathering_participanted.participants)) {
+    if (!isduplication(gathering_participanted.participants)) {
       const user_gathering = await User.findByIdAndUpdate(participant_id, {
         $push: { gatherings: gathering_id },
       });
@@ -145,7 +144,16 @@ router.post("/cancellation", async (req, res) => {
     const { gathering_id, participant_id } = req.body;
     const gathering_participanted = await Gathering.findById(gathering_id);
 
-    if (confirmDuplication(gathering_participanted.participants)) {
+    const isduplication = (participants) => {
+      for (let el of participants) {
+        if (el.toString() === participant_id) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    if (isduplication(gathering_participanted.participants)) {
       const user_gathering = await User.findByIdAndUpdate(participant_id, {
         $pull: { gatherings: gathering_id },
       });
@@ -169,3 +177,4 @@ router.post("/cancellation", async (req, res) => {
 });
 
 module.exports = router;
+

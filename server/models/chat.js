@@ -14,8 +14,9 @@ const ChatSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    loginNickname: String,
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model('chat', ChatSchema);

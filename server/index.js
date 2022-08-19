@@ -119,15 +119,17 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("message", async (author, msg, connected_gathering_id, done) => {
-    console.log(author);
-    console.log(msg);
-    console.log(connected_gathering_id);
+  socket.on("message", async (author, msg, connected_gathering_id, loginNickname, done) => {
+    console.log("author :", author);
+    console.log("msg :", msg);
+    console.log("connected_gathering_id: ",connected_gathering_id);
+    console.log("loginNickname: ",loginNickname);
 
     const newChat = await new Chat({
       author: author,
       message: msg,
       connected_gathering: connected_gathering_id,
+      loginNickname: loginNickname,
     });
 
     console.log(newChat._doc);
@@ -141,7 +143,7 @@ io.on("connection", (socket) => {
 
     done();
     console.log("# socket.io message!"); //! socket.io message check!
-    socket.to(connected_gathering_id).emit("message", msg);
+    socket.broadcast.to(connected_gathering_id).emit("message", author, msg);
   });
 
   socket.on("join-room", (connected_gathering_id, done) => {

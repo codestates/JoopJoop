@@ -401,6 +401,10 @@ module.exports = {
       "8xl": ["6rem", { lineHeight: "1" }],
       "9xl": ["8rem", { lineHeight: "1" }],
     },
+    scroll: {
+      auto: "scroll-behavior: auto",
+      smooth: "scroll-behavior: smooth"
+    },
     fontWeight: {
       thin: "100",
       extralight: "200",
