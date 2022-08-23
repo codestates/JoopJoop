@@ -11,7 +11,6 @@ import { FaRegPaperPlane } from "react-icons/fa";
 //   }
 // };
 
-
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
@@ -20,8 +19,11 @@ const mapStateToProps = (state) => {
 };
 
 const Chat = ({ room, socket, userId, loginNickname }) => {
+  const chatRef = useRef()
   const [chat, setChat] = useState("");
   const [list, setList] = useState([]); // 채팅 텍스트 list
+
+  console.log("chatRef :", chatRef)
 
   useEffect(() => {
     axios
@@ -38,6 +40,7 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
         });
         // console.log(filteredData);
         setList([...filteredData]);
+        chatRef.current.focus()
       });
   }, [room]);
 
@@ -55,8 +58,8 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
   //   scrollToBottom();
   // }, [chat]);
 
-console.log(list[list.length-1])
-console.log(loginNickname)
+// console.log(list[list.length-1])
+// console.log(loginNickname)
 
   return (
     <div id="Frame11" className="flex flex-col items-start">
@@ -132,6 +135,7 @@ console.log(loginNickname)
             <div className="flex flex-row p-2 border-[1px] border-grey-50 rounded-lg ">
             <input
               id="Message"
+              ref={chatRef}
               value={chat}
               onChange={(e) => setChat(e.target.value)}
               className="w-[400px] font-normal text-[16px] text-grey-80"
@@ -139,7 +143,7 @@ console.log(loginNickname)
             />
             {/* <img className="w-[80px]" alt="전송Img"></img> */}
             <FaRegPaperPlane 
-            className=" text-green-90 ml-2 hover:scale-125 duration-200"
+            className=" text-green-90 ml-2 mt-1 hover:scale-125 duration-200"
             />
             </div>
 
