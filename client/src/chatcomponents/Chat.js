@@ -3,14 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import { FaRegPaperPlane } from "react-icons/fa";
 
-// const messageBoxRef = useRef<HTMLUListElement>(null);
-
-// const scrollToBottom = () => {
-//   if (messageBoxRef.current) {
-//     messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
-//   }
-// };
-
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
@@ -23,28 +15,8 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
   const [list, setList] = useState([]); // 채팅 텍스트 list
   const [title, setTitle] = useState([])
   const chatRef = useRef()
-  const messagesRef = useRef(); // 메시지 엘리먼트를 저장
-
-    const messagesEndRef = useRef(null)
+  const messagesEndRef = useRef(null) // chatlist의 가장 아래쪽 div태그를 messagesEndRef.current에 저장
   
-    // const scrollToBottom = () => {
-    //   messagesEndRef.current?.scrollIntoView()
-    // }
-  
-
-  // const scrollToBottom = () => {
-  //   if (messageBoxRef.current) {
-  //     messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
-  //   }
-  // };
-
-  // console.log("chatRef :", chatRef)
-  // console.log("messagesRef :", messagesRef)
-
-  // useEffect(() => {
-  //   messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-  // }, [chat]);
-
   useEffect(() => {
     axios
       .get(
@@ -90,9 +62,18 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
     ).then(data => setTitle(data.data.title))
   }, [room])
 
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [chat]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const focusToBottom = () => {
+    messagesEndRef.current?.focus()
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [list]);
 
 // console.log(list[list.length-1])
 // console.log(gatheringData)
@@ -107,7 +88,7 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
       </div>
 
       <div id="Frame48" className="flex flex-col justify-end items-center py-5 gap-10">
-        <div ref={messagesRef} id="list_message" className="flex flex-col items-center w-[1024px] h-[500px] overflow-x-hidden scroll-smooth snap-end">
+        <div id="list_message" className="flex flex-col items-center w-[1024px] h-[500px] overflow-x-hidden scroll-smooth snap-end">
           {list.map((item, index) => (
             <div 
               key={index}
@@ -144,7 +125,7 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
 
             </div>
           ))}
-
+          <div ref={messagesEndRef} />
 
         </div>
 
@@ -177,7 +158,6 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
               className="w-[400px] font-normal text-[16px] text-grey-80"
               placeholder="여기에 채팅을 입력해주세요"
             />
-            {/* <img className="w-[80px]" alt="전송Img"></img> */}
             <FaRegPaperPlane 
             className=" text-green-90 ml-2 mt-1 hover:scale-125 duration-200"
             />

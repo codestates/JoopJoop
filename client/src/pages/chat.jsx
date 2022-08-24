@@ -21,6 +21,10 @@ const Chatpage = ({ loginNickname, isGuest, gatherings, userId }) => {
   const [join, setJoin] = useState(null); // 내가 join한 room
   const [isLoading, setIsLoading] = useState(false);
 
+  // if(isLoading){
+  //   onJoin(filteredRooms[0]._id)
+  // }
+
   // TODO : 현재 채팅방 내에서 나가기 버튼이 있는데 Gathering 탈퇴 시 DB에서 처리할지 고려
   // const onLeaveRoom = () => {
   //   socket.emit("leave-room", join, () => setJoin(null));
