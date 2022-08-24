@@ -19,11 +19,31 @@ const mapStateToProps = (state) => {
 };
 
 const Chat = ({ room, socket, userId, loginNickname }) => {
-  const chatRef = useRef()
   const [chat, setChat] = useState("");
   const [list, setList] = useState([]); // 채팅 텍스트 list
+  const [title, setTitle] = useState([])
+  const chatRef = useRef()
+  const messagesRef = useRef(); // 메시지 엘리먼트를 저장
 
-  console.log("chatRef :", chatRef)
+    const messagesEndRef = useRef(null)
+  
+    // const scrollToBottom = () => {
+    //   messagesEndRef.current?.scrollIntoView()
+    // }
+  
+
+  // const scrollToBottom = () => {
+  //   if (messageBoxRef.current) {
+  //     messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+  //   }
+  // };
+
+  // console.log("chatRef :", chatRef)
+  // console.log("messagesRef :", messagesRef)
+
+  // useEffect(() => {
+  //   messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  // }, [chat]);
 
   useEffect(() => {
     axios
@@ -40,8 +60,13 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
         });
         // console.log(filteredData);
         setList([...filteredData]);
-        chatRef.current.focus()
+        if(chatRef.current){
+
+          chatRef.current.focus()
+          // messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
       });
+
   }, [room]);
 
   useEffect(() => {
@@ -54,24 +79,35 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
     });
   }, [socket]);
 
+  useEffect(() => {
+    axios
+      .get(
+        (process.env.REACT_APP_DEPLOYSERVER_URL ||
+          process.env.REACT_APP_LOCALSERVER_URL) + "/gatherings/" + room,
+          {
+            withCredentials: true,
+          },
+    ).then(data => setTitle(data.data.title))
+  }, [room])
+
   // useEffect(() => {
   //   scrollToBottom();
   // }, [chat]);
 
 // console.log(list[list.length-1])
-// console.log(loginNickname)
+// console.log(gatheringData)
 
   return (
     <div id="Frame11" className="flex flex-col items-start">
       <div id="TopBar" className="flex flex-row items-start gap-2 py-2 px-4 border-b-[1px] border-grey-70">
         <div id="Other User" className="flex felx-row items-center gap-4 py-2">
           <div id="Avatar" className="bg-red w-10 h-10 rounded-full"></div>
-          <div id="Texts" className="text-xl font-semibold">{room}에 오신걸 환영합니다!</div>
+          <div id="Texts" className="text-xl font-semibold">{title}에 오신걸 환영합니다!</div>
         </div>
       </div>
 
       <div id="Frame48" className="flex flex-col justify-end items-center py-5 gap-10">
-        <div id="list_message" className="flex flex-col items-center w-[1024px] h-[500px] overflow-x-hidden scroll-smooth snap-end">
+        <div ref={messagesRef} id="list_message" className="flex flex-col items-center w-[1024px] h-[500px] overflow-x-hidden scroll-smooth snap-end">
           {list.map((item, index) => (
             <div 
               key={index}
@@ -99,7 +135,7 @@ const Chat = ({ room, socket, userId, loginNickname }) => {
               {item.message}
                 </div>
               <div id="Time" className="flex flex-row justify-end p-0 gap-1 text-white text-[8px]">
-                {item.updatedAt}
+              {item.updatedAt}
               </div>
               </div>
 
