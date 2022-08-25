@@ -25,5 +25,5 @@
 | ------ | --------- | ----------------------------------------- |
 | 김민성 | Front-End | [meanjeful](https://github.com/meanjeful) |
 | 배현우 | Front-End | [woobaeh](https://github.com/woobaeh)     |
-| 이정윤 | Back-End  | [lasags](https://github.com/ensillee)       |
+| 이정윤 | Back-End  | [EnSillee](https://github.com/ensillee)       |
 | 박민혁 | Back-End  | [L9628](https://github.com/L9628)         |
