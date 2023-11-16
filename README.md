@@ -1,3 +1,5 @@
+## JoopJoop 서버는 비용 문제로 2023-02-28일 이후로 비활성화하였습니다.
+
 ## Project
 [JOOPJOOP](https://www.joopjoop.site)
 
